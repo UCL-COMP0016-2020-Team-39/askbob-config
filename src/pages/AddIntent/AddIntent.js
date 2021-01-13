@@ -14,8 +14,8 @@ import { Clear } from "@material-ui/icons";
 import * as yup from "yup";
 
 const validationSchema = yup.object({
-  name: yup.string().required().max(10).min(1),
-  Intents: yup.array().of(yup.string().required().max(10).min(1)),
+  name: yup.string().required().max(25),
+  Intents: yup.array().of(yup.string().required().max(25)),
 });
 
 const AddIntent = () => {
