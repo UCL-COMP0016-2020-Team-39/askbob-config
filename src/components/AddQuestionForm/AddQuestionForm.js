@@ -1,6 +1,9 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { addQuestion } from "../../actions/questionsActions";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addQuestion, updateQuestion } from "../../actions/questionsActions";
+import { switchToAddMode } from "../../actions/formActions";
+import { EDIT_MODE } from "../../actions/types";
+
 import { Formik, useField, Form, FieldArray } from "formik";
 import { TextField, Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
@@ -12,38 +15,57 @@ const validationSchema = yup.object({
   variants: yup.array().of(yup.string().required().max(25)).min(1),
 });
 
+const MyTextField = ({ placeholder, ...props }) => {
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+
+  return (
+    <TextField
+      placeholder={placeholder}
+      {...field}
+      helperText={errorText}
+      error={!!errorText}
+    />
+  );
+};
+
 const AddQuestion = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [name, setName] = useState("");
+  const [variants, setVariants] = useState([""]);
+
+  const { currentQuestion, mode } = useSelector(state => state.form);
+
+  useEffect(() => {
+    if (mode === EDIT_MODE) {
+      setName(currentQuestion.name);
+      setVariants(currentQuestion.variants);
+    }
+  }, [mode, currentQuestion]);
+
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    console.log(data);
-    dispatch(addQuestion(data));
+    if (mode === EDIT_MODE) {
+      dispatch(updateQuestion({ ...data, id: currentQuestion.id }));
+      dispatch(switchToAddMode());
+    } else {
+      dispatch(addQuestion(data));
+    }
     setSubmitting(false);
-    resetForm();
-  };
-
-  const MyTextField = ({ placeholder, ...props }) => {
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-    return (
-      <TextField
-        placeholder={placeholder}
-        {...field}
-        helperText={errorText}
-        error={!!errorText}
-      />
-    );
+    setName("");
+    setVariants([""]);
   };
 
   return (
     <section className='card'>
-      <h2>Add Question</h2>
+      <h2>{mode === EDIT_MODE ? "Edit Question" : "Add Question"}</h2>
       <Formik
         initialValues={{
-          name: "",
-          variants: [""],
+          name,
+          variants,
         }}
+        enableReinitialize={true}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
@@ -76,11 +98,13 @@ const AddQuestion = () => {
                       </div>
                     ))}
                     <Button
+                      variant='contained'
+                      className={classes.addBtn}
                       onClick={() => {
                         arrayHelpers.push("");
                       }}
                     >
-                      Add
+                      Add Variant
                     </Button>
                   </>
                 )}
@@ -91,9 +115,12 @@ const AddQuestion = () => {
               <Button
                 disable={isSubmitting.toString()}
                 type='submit'
-                color='primary'
+                variant='contained'
+                className={
+                  mode === EDIT_MODE ? classes.editBtn : classes.addBtn
+                }
               >
-                submit
+                {mode === EDIT_MODE ? "Edit Question" : "Add Question"}
               </Button>
             </div>
             <br />

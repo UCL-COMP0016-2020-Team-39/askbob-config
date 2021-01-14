@@ -23,7 +23,7 @@ const Question = ({ id, name, variants }) => {
     <div className='card'>
       <header className={classes.header}>
         <h2> {name}</h2>
-        <div className='buttons'>
+        <div className={classes.buttons}>
           <IconButton size='small' onClick={() => deleteThis(id)}>
             <Clear />
           </IconButton>

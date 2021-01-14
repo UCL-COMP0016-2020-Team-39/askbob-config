@@ -21,4 +21,23 @@ export default makeStyles(theme => ({
       flex: 1,
     },
   },
+  addBtn: {
+    margin: "1rem 0rem 1rem 0rem",
+
+    backgroundColor: "#388e3c",
+    color: "white",
+    width: "100%",
+    "&:hover": {
+      backgroundColor: "#6abf69",
+    },
+  },
+  editBtn: {
+    margin: "1rem 0rem 1rem 0rem",
+    backgroundColor: "#3f50b5",
+    color: "white",
+    width: "100%",
+    "&:hover": {
+      backgroundColor: "#757ce8",
+    },
+  },
 }));

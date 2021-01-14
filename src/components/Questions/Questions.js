@@ -21,7 +21,11 @@ const Questions = () => {
   return (
     <ul>
       {questions.map(question => {
-        return <Question key={question.id} {...question} />;
+        return (
+          <li key={question.id}>
+            <Question {...question} />
+          </li>
+        );
       })}
     </ul>
   );
