@@ -1,9 +1,9 @@
 import React from "react";
-import { Items } from "../../components";
+import { Intents } from "../../components";
 
 import { v4 } from "uuid";
 
-const staticItems = [
+const staticIntents = [
   {
     id: v4(),
     name: "Eggs",
@@ -25,7 +25,7 @@ const staticItems = [
 const Home = () => {
   return (
     <div>
-      <Items items={staticItems} />
+      <Intents intents={staticIntents} />
     </div>
   );
 };
