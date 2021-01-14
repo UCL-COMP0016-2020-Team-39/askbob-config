@@ -13,7 +13,9 @@ export default makeStyles(theme => ({
     width: "100%",
     flexDirection: "row",
     alignItems: "baseline",
-    "& button": {},
+    "& button": {
+      marginBottom: "1em",
+    },
 
     "& .MuiTextField-root": {
       flex: 1,

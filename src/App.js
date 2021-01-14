@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Home, About, Contact, Error, AddIntent } from "./pages";
+import { Home, About, Contact, Error, AddQuestion } from "./pages";
 import { Navbar } from "./components";
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <main className='mt-3'>
           <Switch>
             <Route path='/' exact component={Home}></Route>
-            <Route path='/intents' exact component={AddIntent}></Route>
+            <Route path='/questions' exact component={AddQuestion}></Route>
             <Route path='/about' exact component={About}></Route>
             <Route path='/contact' exact component={Contact}></Route>
             <Route path='*' component={Error}></Route>

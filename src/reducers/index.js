@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import intentsReducer from "./intentsReducer";
+import questionsReducer from "./questionsReducer";
 
-const reducer = combineReducers({ intents: intentsReducer });
+const reducer = combineReducers({ questions: questionsReducer });
 
 export default reducer;

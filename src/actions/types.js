@@ -1,4 +1,4 @@
-export const GET_INTENT = "GET_INTENT";
-export const ADD_INTENT = "ADD_INTENT";
-export const DELETE_INTENT = "DELETE_INTENT";
-export const UPDATE_INTENT = "UPDATE_INTENT";
+export const GET_QUESTION = "GET_QUESTION";
+export const ADD_QUESTION = "ADD_QUESTION";
+export const DELETE_QUESTION = "DELETE_QUESTION";
+export const UPDATE_QUESTION = "UPDATE_QUESTION";

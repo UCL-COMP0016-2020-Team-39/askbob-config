@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addQuestion } from "../../actions/questionsActions";
 import { Formik, useField, Form, FieldArray } from "formik";
 import {
   TextField,
@@ -13,15 +15,18 @@ import * as yup from "yup";
 
 const validationSchema = yup.object({
   name: yup.string().required().max(25),
-  Intents: yup.array().of(yup.string().required().max(25)),
+  variants: yup.array().of(yup.string().required().max(25)).min(1),
 });
 
-const AddIntent = () => {
+const AddQuestion = () => {
   const classes = useStyles();
-  const handleSubmit = (data, { setSubmitting }) => {
+  const dispatch = useDispatch();
+  const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     console.log(data);
+    dispatch(addQuestion(data));
     setSubmitting(false);
+    resetForm();
   };
 
   const MyTextField = ({ placeholder, ...props }) => {
@@ -36,37 +41,40 @@ const AddIntent = () => {
       />
     );
   };
+
   return (
     <section className='card'>
-      <h2>Add Intent</h2>
+      <h2>Add Question</h2>
       <Formik
         initialValues={{
           name: "",
-          Intents: [],
+          variants: [""],
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>
-            <label htmlFor='name'>name</label>
+            <label htmlFor='name'>Name</label>
             <div className={classes.formGroup}>
               <MyTextField name='name' id='name' placeholder='name' />
             </div>
             <>
-              <label htmlFor='Intents'>Intents</label>
-              <FieldArray name='Intents'>
+              <label htmlFor='variants'>Variants</label>
+              <FieldArray name='variants'>
                 {arrayHelpers => (
                   <>
-                    {values.Intents.map((intent, index) => (
+                    {values.variants.map((variant, index) => (
                       <div key={index} className={classes.formGroup}>
                         <MyTextField
-                          placeholder="What's your intent?"
-                          name={`Intents.${index}`}
+                          placeholder="What's another way of saying your question?"
+                          name={`variants.${index}`}
                         />
                         <IconButton
                           onClick={() => {
-                            arrayHelpers.remove(index);
+                            if (values.variants.length > 1) {
+                              arrayHelpers.remove(index);
+                            }
                           }}
                         >
                           <Clear />
@@ -86,7 +94,11 @@ const AddIntent = () => {
             </>
 
             <div>
-              <Button disable={isSubmitting} type='submit' color='primary'>
+              <Button
+                disable={isSubmitting.toString()}
+                type='submit'
+                color='primary'
+              >
                 submit
               </Button>
             </div>
@@ -100,4 +112,4 @@ const AddIntent = () => {
     </section>
   );
 };
-export default AddIntent;
+export default AddQuestion;
