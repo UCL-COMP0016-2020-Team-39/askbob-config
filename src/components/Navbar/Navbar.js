@@ -10,7 +10,7 @@ const Navbar = () => {
     { name: "Home", slug: "/" },
     { name: "About", slug: "/about" },
     { name: "Contact", slug: "/contact" },
-    { name: "AddIntent", slug: "/AddIntent" },
+    { name: "Intents", slug: "/intents" },
   ];
 
   return (

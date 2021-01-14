@@ -1,7 +1,9 @@
 import React from "react";
 import Intent from "./Intent/Intent";
+import { useSelector, useDispatch } from "react-redux";
 
-const Intents = ({ intents }) => {
+const Intents = () => {
+  const intents = useSelector(state => state.intents);
   return (
     <ul>
       {intents.map(item => {

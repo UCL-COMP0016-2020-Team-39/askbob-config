@@ -11,7 +11,7 @@ function App() {
         <main className='mt-3'>
           <Switch>
             <Route path='/' exact component={Home}></Route>
-            <Route path='/AddIntent' exact component={AddIntent}></Route>
+            <Route path='/intents' exact component={AddIntent}></Route>
             <Route path='/about' exact component={About}></Route>
             <Route path='/contact' exact component={Contact}></Route>
             <Route path='*' component={Error}></Route>
