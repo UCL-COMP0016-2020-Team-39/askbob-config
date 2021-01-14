@@ -13,6 +13,8 @@ const reducer = (state = initialState, action) => {
           variants: action.payload.question.variants,
         },
       ];
+    case actionTypes.DELETE_QUESTION:
+      return state.filter(question => question.id !== action.payload.id);
     default:
       return state;
   }

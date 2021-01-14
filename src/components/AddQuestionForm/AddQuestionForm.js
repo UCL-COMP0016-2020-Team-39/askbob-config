@@ -2,13 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { addQuestion } from "../../actions/questionsActions";
 import { Formik, useField, Form, FieldArray } from "formik";
-import {
-  TextField,
-  Button,
-  Radio,
-  FormControlLabel,
-  IconButton,
-} from "@material-ui/core";
+import { TextField, Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 import * as yup from "yup";
