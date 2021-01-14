@@ -1,4 +1,10 @@
-import { ADD_QUESTION, DELETE_QUESTION } from "./types";
+import {
+  ADD_QUESTION,
+  DELETE_QUESTION,
+  LOAD_QUESTIONS,
+  STORE_QUESTIONS,
+} from "./types";
+
 export const addQuestion = question => ({
   type: ADD_QUESTION,
   payload: { question },
@@ -8,3 +14,7 @@ export const deleteQuestion = id => ({
   type: DELETE_QUESTION,
   payload: { id },
 });
+
+export const loadQuestions = () => ({ type: LOAD_QUESTIONS });
+
+export const storeQuestions = () => ({ type: STORE_QUESTIONS });
