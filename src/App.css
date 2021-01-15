@@ -11,7 +11,7 @@
   --focus-dark: #f84;
 
   --max-width: 90%;
-  --transistion: all linear 300ms;
+  --transition: all linear 300ms;
 }
 
 * {
@@ -70,7 +70,7 @@ li {
 button {
   border: none;
   padding: 1em;
-  transition: var(--transistion);
+  transition: var(--transition);
   border-radius: 999px;
   display: flex;
   align-items: center;
@@ -86,13 +86,13 @@ button {
 .btn {
   color: var(--secondary);
   background-color: var(--primary);
-  transition: var(--transistion);
+  transition: var(--transition);
 }
 
 .btn:hover {
   color: var(--focus);
   cursor: pointer;
-  transition: var(--transistion);
+  transition: var(--transition);
   background-color: var(--primary-light);
 }
 

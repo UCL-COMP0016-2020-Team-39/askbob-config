@@ -8,10 +8,10 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const links = [
     { name: "Home", slug: "/" },
-    { name: "About", slug: "/about" },
-    { name: "Contact", slug: "/contact" },
     { name: "Questions", slug: "/questions" },
     { name: "Responses", slug: "/responses" },
+    { name: "About", slug: "/about" },
+    { name: "Contact", slug: "/contact" },
   ];
 
   return (
