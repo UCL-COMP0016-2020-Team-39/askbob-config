@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AddQuestionForm } from "../../components";
 import { Questions } from "../../components";
 
