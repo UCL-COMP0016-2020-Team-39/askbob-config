@@ -15,10 +15,27 @@ const Navbar = () => {
   ];
 
   return (
-    <header className={styles.container}>
+    <header
+      className={styles.container}
+      onMouseLeave={() => {
+        setOpen(false);
+      }}
+      onBlurCapture={e => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          setOpen(false);
+          console.log("hit");
+        }
+      }}
+    >
       <nav className={styles.navbar}>
         <h1>
-          <Link to='/' className={styles.logo}>
+          <Link
+            to='/'
+            className={styles.logo}
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
             AskBob
           </Link>
         </h1>
@@ -32,7 +49,7 @@ const Navbar = () => {
                 <Link
                   to={slug}
                   onClick={() => {
-                    setOpen(prev => !prev);
+                    setOpen(false);
                   }}
                 >
                   {name}
