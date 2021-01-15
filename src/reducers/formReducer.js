@@ -2,20 +2,36 @@ import * as actionTypes from "../actions/types";
 
 const initialState = {
   currentQuestion: null,
-  mode: actionTypes.ADD_MODE,
+  currentResponse: null,
+  responseFormMode: actionTypes.RESPONSE_ADD_MODE,
+  questionFormMode: actionTypes.QUESTION_ADD_MODE,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.ADD_MODE:
+    case actionTypes.QUESTION_ADD_MODE:
       return {
+        ...state,
         currentQuestion: null,
-        mode: actionTypes.ADD_MODE,
+        questionFormMode: actionTypes.QUESTION_ADD_MODE,
       };
-    case actionTypes.EDIT_MODE:
+    case actionTypes.QUESTION_EDIT_MODE:
       return {
+        ...state,
         currentQuestion: { ...action.payload.question },
-        mode: actionTypes.EDIT_MODE,
+        questionFormMode: actionTypes.QUESTION_EDIT_MODE,
+      };
+    case actionTypes.RESPONSE_ADD_MODE:
+      return {
+        ...state,
+        currentResponse: null,
+        responseFormMode: actionTypes.RESPONSE_ADD_MODE,
+      };
+    case actionTypes.RESPONSE_EDIT_MODE:
+      return {
+        ...state,
+        currentResponse: { ...action.payload.response },
+        responseFormMode: actionTypes.RESPONSE_EDIT_MODE,
       };
     default:
       return state;

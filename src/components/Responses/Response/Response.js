@@ -2,21 +2,21 @@ import React from "react";
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
-import { deleteQuestion } from "../../../actions/questionsActions";
-import { switchToQuestionEditMode } from "../../../actions/formActions";
+import { deleteResponse } from "../../../actions/responsesActions";
+import { switchToResponseEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Question = ({ id, name, variants }) => {
+const Response = ({ id, name, variants }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
   const deleteThis = id => {
-    dispatch(deleteQuestion(id));
+    dispatch(deleteResponse(id));
   };
 
   const editThis = () => {
-    dispatch(switchToQuestionEditMode({ id, name, variants }));
+    dispatch(switchToResponseEditMode({ id, name, variants }));
   };
 
   return (
@@ -39,4 +39,4 @@ const Question = ({ id, name, variants }) => {
   );
 };
 
-export default Question;
+export default Response;

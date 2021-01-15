@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addQuestion, updateQuestion } from "../../actions/questionsActions";
-import { switchToQuestionAddMode } from "../../actions/formActions";
-import { QUESTION_EDIT_MODE } from "../../actions/types";
+import { addResponse, updateResponse } from "../../actions/responsesActions";
+import { switchToResponseAddMode } from "../../actions/formActions";
+import { RESPONSE_EDIT_MODE } from "../../actions/types";
 
 import { Formik, useField, Form, FieldArray } from "formik";
 import { TextField, Button, IconButton } from "@material-ui/core";
@@ -29,30 +29,30 @@ const MyTextField = ({ placeholder, ...props }) => {
   );
 };
 
-const AddQuestion = () => {
+const AddResponse = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [variants, setVariants] = useState([""]);
 
-  const { currentQuestion, questionFormMode: mode } = useSelector(
+  const { currentResponse, responseFormMode: mode } = useSelector(
     state => state.form
   );
 
   useEffect(() => {
-    if (mode === QUESTION_EDIT_MODE) {
-      setName(currentQuestion.name);
-      setVariants(currentQuestion.variants);
+    if (mode === RESPONSE_EDIT_MODE) {
+      setName(currentResponse.name);
+      setVariants(currentResponse.variants);
     }
-  }, [mode, currentQuestion]);
+  }, [mode, currentResponse]);
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    if (mode === QUESTION_EDIT_MODE) {
-      dispatch(updateQuestion({ ...data, id: currentQuestion.id }));
-      dispatch(switchToQuestionAddMode());
+    if (mode === RESPONSE_EDIT_MODE) {
+      dispatch(updateResponse({ ...data, id: currentResponse.id }));
+      dispatch(switchToResponseAddMode());
     } else {
-      dispatch(addQuestion(data));
+      dispatch(addResponse(data));
     }
     setSubmitting(false);
     setName("");
@@ -61,7 +61,7 @@ const AddQuestion = () => {
 
   return (
     <section className='card'>
-      <h2>{mode === QUESTION_EDIT_MODE ? "Edit Question" : "Add Question"}</h2>
+      <h2>{mode === RESPONSE_EDIT_MODE ? "Edit Response" : "Add Response"}</h2>
       <Formik
         initialValues={{
           name,
@@ -85,7 +85,7 @@ const AddQuestion = () => {
                     {values.variants.map((variant, index) => (
                       <div key={index} className={classes.formGroup}>
                         <MyTextField
-                          placeholder="What's another way of saying your question?"
+                          placeholder="What's another way of saying your response?"
                           name={`variants.${index}`}
                         />
                         <IconButton
@@ -119,10 +119,10 @@ const AddQuestion = () => {
                 type='submit'
                 variant='contained'
                 className={
-                  mode === QUESTION_EDIT_MODE ? classes.editBtn : classes.addBtn
+                  mode === RESPONSE_EDIT_MODE ? classes.editBtn : classes.addBtn
                 }
               >
-                {mode === QUESTION_EDIT_MODE ? "Edit Question" : "Add Question"}
+                {mode === RESPONSE_EDIT_MODE ? "Edit Response" : "Add Response"}
               </Button>
             </div>
             <br />
@@ -135,4 +135,4 @@ const AddQuestion = () => {
     </section>
   );
 };
-export default AddQuestion;
+export default AddResponse;

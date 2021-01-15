@@ -11,6 +11,7 @@ const Navbar = () => {
     { name: "About", slug: "/about" },
     { name: "Contact", slug: "/contact" },
     { name: "Questions", slug: "/questions" },
+    { name: "Responses", slug: "/responses" },
   ];
 
   return (
