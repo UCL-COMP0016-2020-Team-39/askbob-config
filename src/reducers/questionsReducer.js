@@ -24,7 +24,6 @@ const reducer = (state = initialState, action) => {
     case actionTypes.DELETE_QUESTION:
       return state.filter(question => question.id !== action.payload.id);
     case actionTypes.UPDATE_QUESTION:
-      console.log("in reducer");
       return state.map(question =>
         question.id !== action.payload.question.id
           ? question

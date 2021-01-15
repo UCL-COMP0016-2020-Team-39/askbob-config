@@ -17,6 +17,13 @@ const Question = ({ id, name, variants }) => {
 
   const editThis = () => {
     dispatch(switchToQuestionEditMode({ id, name, variants }));
+    setTimeout(() => {
+      window.scrollTo({
+        top: 100,
+        left: 100,
+        behavior: "smooth",
+      });
+    }, 30);
   };
 
   return (
