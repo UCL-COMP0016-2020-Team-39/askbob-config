@@ -101,7 +101,7 @@ const AddResponse = () => {
                     ))}
                     <Button
                       variant='contained'
-                      className={classes.addBtn}
+                      className={classes.addVarBtn}
                       onClick={() => {
                         arrayHelpers.push("");
                       }}
