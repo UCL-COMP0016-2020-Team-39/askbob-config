@@ -1,13 +1,28 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Button } from "@material-ui/core";
 const Home = () => {
+  const [show, setShow] = useState(false);
+  const questions = useSelector(state => state.questions);
+
   return (
     <section className='section'>
-      <h2>About</h2>
       <div className='card'>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente saepe
-        esse totam voluptatibus, optio eos. Magni aspernatur, repudiandae dolore
-        asperiores numquam. Iusto, debitis! Magnam.
+        <h2>Welcome</h2>
+        <br />
+
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => {
+            setShow(prev => !prev);
+          }}
+        >
+          get json?
+        </Button>
+        <br />
+        <br />
+        {show && <pre>{JSON.stringify({ questions }, null, 2)}</pre>}
       </div>
     </section>
   );

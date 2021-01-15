@@ -32,8 +32,8 @@ const Question = ({ id, name, variants }) => {
           </IconButton>
         </div>
       </header>
-      {variants.map(variant => (
-        <div>{variant}</div>
+      {variants.map((variant, index) => (
+        <div key={index}>{variant}</div>
       ))}
     </div>
   );

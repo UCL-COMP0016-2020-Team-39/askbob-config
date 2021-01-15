@@ -1,9 +1,24 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Home, About, Contact, Error, AddQuestion } from "./pages";
 import { Navbar } from "./components";
-function App() {
+
+import { useSelector, useDispatch } from "react-redux";
+import { loadQuestions, storeQuestions } from "./actions/questionsActions";
+
+const App = () => {
+  const dispatch = useDispatch();
+  const questions = useSelector(state => state.questions);
+
+  useEffect(() => {
+    dispatch(loadQuestions());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(storeQuestions());
+  }, [dispatch, questions]);
+
   return (
     <Router>
       <div className='container'>
@@ -20,6 +35,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
