@@ -2,17 +2,11 @@ import React, { useState } from "react";
 import styles from "./Navbar.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "@material-ui/icons";
+import PropTypes from "prop-types";
 
-const Navbar = () => {
+const Navbar = ({ links = [] }) => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-  const links = [
-    { name: "Home", slug: "/" },
-    { name: "Questions", slug: "/questions" },
-    { name: "Responses", slug: "/responses" },
-    { name: "About", slug: "/about" },
-    { name: "Contact", slug: "/contact" },
-  ];
 
   return (
     <header
@@ -58,17 +52,28 @@ const Navbar = () => {
             );
           })}
         </ul>
-        <button
-          className={styles.navbarBtn}
-          onClick={() => {
-            setOpen(prev => !prev);
-          }}
-        >
-          <Menu />
-        </button>
+        {links.length > 0 && (
+          <button
+            className={styles.navbarBtn}
+            onClick={() => {
+              setOpen(prev => !prev);
+            }}
+          >
+            <Menu />
+          </button>
+        )}
       </nav>
     </header>
   );
+};
+
+Navbar.propTypes = {
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      slug: PropTypes.string,
+    })
+  ),
 };
 
 export default Navbar;

@@ -25,10 +25,19 @@ const App = () => {
   useEffect(() => {
     dispatch(storeResponses());
   }, [dispatch, responses]);
+
+  const links = [
+    { name: "Home", slug: "/" },
+    { name: "Questions", slug: "/questions" },
+    { name: "Responses", slug: "/responses" },
+    { name: "About", slug: "/about" },
+    { name: "Contact", slug: "/contact" },
+  ];
+
   return (
     <Router>
       <div className='container'>
-        <Navbar className='mb-2' />
+        <Navbar links={links} className='mb-2' />
         <main className='mt-3'>
           <Switch>
             <Route path='/' exact component={Home}></Route>
