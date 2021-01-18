@@ -4,3 +4,4 @@ export { default as Contact } from "./Contact/Contact";
 export { default as Error } from "./Error/Error";
 export { default as AddQuestion } from "./AddQuestion/AddQuestion";
 export { default as AddResponse } from "./AddResponse/AddResponse";
+export { default as AddSkill } from "./AddSkill/AddSkill";

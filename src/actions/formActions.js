@@ -25,3 +25,16 @@ export const switchToResponseAddMode = () => {
     type: actionTypes.RESPONSE_ADD_MODE,
   };
 };
+
+export const switchToSkillEditMode = skill => {
+  return {
+    type: actionTypes.SKILL_EDIT_MODE,
+    payload: { skill },
+  };
+};
+
+export const switchToSkillAddMode = () => {
+  return {
+    type: actionTypes.SKILL_ADD_MODE,
+  };
+};
