@@ -4,6 +4,7 @@ import responsesReducer from "./responsesReducer";
 import skillsReducer from "./skillsReducer";
 import formReducer from "./formReducer";
 
+
 const reducer = combineReducers({
   intents: intentsReducer,
   responses: responsesReducer,
