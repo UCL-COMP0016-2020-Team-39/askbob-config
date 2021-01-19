@@ -1,15 +1,15 @@
 import * as actionTypes from "./types";
 
-export const switchToQuestionEditMode = question => {
+export const switchToIntentEditMode = intent => {
   return {
-    type: actionTypes.QUESTION_EDIT_MODE,
-    payload: { question },
+    type: actionTypes.INTENT_EDIT_MODE,
+    payload: { intent },
   };
 };
 
-export const switchToQuestionAddMode = () => {
+export const switchToIntentAddMode = () => {
   return {
-    type: actionTypes.QUESTION_ADD_MODE,
+    type: actionTypes.INTENT_ADD_MODE,
   };
 };
 

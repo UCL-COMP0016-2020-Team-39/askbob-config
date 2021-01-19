@@ -6,32 +6,32 @@ import {
   About,
   Contact,
   Error,
-  AddQuestion,
+  AddIntent,
   AddResponse,
   AddSkill,
 } from "./pages";
 import { Navbar } from "./components";
 
 import { useSelector, useDispatch } from "react-redux";
-import { loadQuestions, storeQuestions } from "./actions/questionsActions";
+import { loadIntents, storeIntents } from "./actions/intentsActions";
 import { loadResponses, storeResponses } from "./actions/responsesActions";
 import { loadSkills, storeSkills } from "./actions/skillsActions";
 
 const App = () => {
   const dispatch = useDispatch();
-  const questions = useSelector(state => state.questions);
+  const intents = useSelector(state => state.intents);
   const responses = useSelector(state => state.responses);
   const skills = useSelector(state => state.skills);
 
   useEffect(() => {
-    dispatch(loadQuestions());
+    dispatch(loadIntents());
     dispatch(loadResponses());
     dispatch(loadSkills());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(storeQuestions());
-  }, [dispatch, questions]);
+    dispatch(storeIntents());
+  }, [dispatch, intents]);
 
   useEffect(() => {
     dispatch(storeResponses());
@@ -43,7 +43,7 @@ const App = () => {
 
   const links = [
     { name: "Home", slug: "/" },
-    { name: "Questions", slug: "/questions" },
+    { name: "Intents", slug: "/intents" },
     { name: "Responses", slug: "/responses" },
     { name: "Skills", slug: "/skills" },
     { name: "About", slug: "/about" },
@@ -57,7 +57,7 @@ const App = () => {
         <main className='mt-3'>
           <Switch>
             <Route path='/' exact component={Home}></Route>
-            <Route path='/questions' exact component={AddQuestion}></Route>
+            <Route path='/intents' exact component={AddIntent}></Route>
             <Route path='/responses' exact component={AddResponse}></Route>
             <Route path='/skills' exact component={AddSkill}></Route>
             <Route path='/about' exact component={About}></Route>

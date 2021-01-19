@@ -5,16 +5,16 @@ const Home = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState("");
   const [downloadLink, setDownloadLink] = useState("");
-  const questions = useSelector(state => state.questions);
+  const intents = useSelector(state => state.intents);
   const responses = useSelector(state => state.responses);
 
   useEffect(() => {
-    const jsonData = JSON.stringify({ questions, responses }, null, 4);
+    const jsonData = JSON.stringify({ intents, responses }, null, 4);
     setData(jsonData);
     const blob = new Blob([jsonData], { type: "application/json" });
     const fileDownloadUrl = URL.createObjectURL(blob);
     setDownloadLink(fileDownloadUrl);
-  }, [questions, responses]);
+  }, [intents, responses]);
 
   return (
     <section className='section'>

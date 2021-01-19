@@ -2,21 +2,21 @@ import React from "react";
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
-import { deleteQuestion } from "../../../actions/questionsActions";
-import { switchToQuestionEditMode } from "../../../actions/formActions";
+import { deleteIntent } from "../../../actions/intentsActions";
+import { switchToIntentEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Question = ({ id, name, variants }) => {
+const Intent = ({ id, name, variants }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
   const deleteThis = id => {
-    dispatch(deleteQuestion(id));
+    dispatch(deleteIntent(id));
   };
 
   const editThis = () => {
-    dispatch(switchToQuestionEditMode({ id, name, variants }));
+    dispatch(switchToIntentEditMode({ id, name, variants }));
     setTimeout(() => {
       window.scrollTo({
         top: 100,
@@ -46,4 +46,4 @@ const Question = ({ id, name, variants }) => {
   );
 };
 
-export default Question;
+export default Intent;
