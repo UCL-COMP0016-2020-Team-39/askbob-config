@@ -4,6 +4,8 @@ export default makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
+    overflow: "hidden",
+
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
     },

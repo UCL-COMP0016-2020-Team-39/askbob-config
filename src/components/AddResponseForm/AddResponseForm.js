@@ -8,12 +8,6 @@ import { Formik, useField, Form, FieldArray } from "formik";
 import { TextField, Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
-import * as yup from "yup";
-
-const validationSchema = yup.object({
-  name: yup.string().required().max(25),
-  variants: yup.array().of(yup.string().required().max(25)).min(1),
-});
 
 const MyTextField = ({ placeholder, ...props }) => {
   const [field, meta] = useField(props);
@@ -38,6 +32,10 @@ const AddResponse = () => {
   const { currentResponse, responseFormMode: mode } = useSelector(
     state => state.form
   );
+
+  const responses = useSelector(state => state.responses);
+
+  const responsesNames = responses.map(response => response.name);
 
   useEffect(() => {
     if (mode === RESPONSE_EDIT_MODE) {
@@ -69,7 +67,51 @@ const AddResponse = () => {
         }}
         enableReinitialize={true}
         onSubmit={handleSubmit}
-        validationSchema={validationSchema}
+        validate={values => {
+          let errors = { name: "", variants: [""] };
+          const startString = "";
+          const maxStringLength = 80;
+          const { name, variants } = values;
+          if (!name || !name.trim()) {
+            errors.name = "name is required";
+          } else if (!name.toLowerCase().startsWith(startString)) {
+            errors.name = `name should start with ${startString}`;
+          } else if (name.includes(" ")) {
+            errors.name = "name should not have spaces";
+          } else if (name.trim().length < startString.length + 1) {
+            errors.name = "name is too short";
+          } else if (name.length > maxStringLength) {
+            errors.name = "name is too long";
+          } else if (name !== name.toLowerCase()) {
+            errors.name = "name should be all lower case";
+          } else if (responsesNames.includes(name)) {
+            errors.name = "name already used";
+          }
+
+          if (!variants || variants.length === 0) {
+            errors.variants = "variants are required";
+          } else {
+            variants.forEach((variant, index) => {
+              if (!variant || !variant.trim()) {
+                errors.variants[index] = `variant ${index + 1} is required`;
+              } else if (variant.trim().length < 1) {
+                errors.variants[index] = `variant ${index + 1} is too short`;
+              } else if (variant.trim().length > maxStringLength) {
+                errors.variants[index] = `variant ${index + 1} is too long`;
+              }
+            });
+          }
+
+          if (errors.name === "") {
+            delete errors.name;
+          }
+          if (errors.variants[0] === "" && errors.variants.length === 1) {
+            //if errors.variants as a string is truesy
+            delete errors.variants;
+          }
+
+          return { ...errors };
+        }}
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>
