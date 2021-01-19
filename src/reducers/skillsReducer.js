@@ -16,9 +16,8 @@ const reducer = (state = initialState, action) => {
       return [
         ...state,
         {
+          ...action.payload.skill,
           id: v4(),
-          name: action.payload.skill.name,
-          variants: action.payload.skill.variants,
         },
       ];
     case actionTypes.DELETE_SKILL:

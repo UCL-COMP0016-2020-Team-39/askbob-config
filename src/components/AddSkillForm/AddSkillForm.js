@@ -4,16 +4,9 @@ import { addSkill, updateSkill } from "../../actions/skillsActions";
 import { switchToSkillAddMode } from "../../actions/formActions";
 import { SKILL_EDIT_MODE } from "../../actions/types";
 
-import { Formik, useField, Form, FieldArray } from "formik";
-import { TextField, Button, IconButton } from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
+import { Formik, Field, useField, Form } from "formik";
+import { TextField, Select, MenuItem, Button } from "@material-ui/core";
 import useStyles from "./styles";
-import * as yup from "yup";
-
-const validationSchema = yup.object({
-  name: yup.string().required().max(25),
-  variants: yup.array().of(yup.string().required().max(25)).min(1),
-});
 
 const MyTextField = ({ placeholder, ...props }) => {
   const [field, meta] = useField(props);
@@ -29,20 +22,49 @@ const MyTextField = ({ placeholder, ...props }) => {
   );
 };
 
+const MySelect = ({ menuItems, ...props }) => {
+  const classes = useStyles();
+  const [field, meta] = useField(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+
+  return (
+    <>
+      <div className={classes.errorText}>{errorText}</div>
+      <Select {...field} helperText={errorText} error={!!errorText}>
+        {menuItems.map(item => {
+          return (
+            <MenuItem key={item.id} value={item.name}>
+              {item.name}
+            </MenuItem>
+          );
+        })}
+      </Select>
+    </>
+  );
+};
+
 const AddSkill = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  const [variants, setVariants] = useState([""]);
+  const [intent, setIntent] = useState("");
+  const [response, setResponse] = useState("");
 
   const { currentSkill, skillFormMode: mode } = useSelector(
     state => state.form
   );
 
+  const intents = useSelector(state => state.intents);
+  const responses = useSelector(state => state.responses);
+  const skills = useSelector(state => state.skills);
+
+  const skillsNames = skills.map(skill => skill.name);
+
   useEffect(() => {
     if (mode === SKILL_EDIT_MODE) {
       setName(currentSkill.name);
-      setVariants(currentSkill.variants);
+      setIntent(currentSkill.intent);
+      setResponse(currentSkill.response);
     }
   }, [mode, currentSkill]);
 
@@ -56,7 +78,8 @@ const AddSkill = () => {
     }
     setSubmitting(false);
     setName("");
-    setVariants([""]);
+    setIntent("");
+    setResponse("");
   };
 
   return (
@@ -65,11 +88,41 @@ const AddSkill = () => {
       <Formik
         initialValues={{
           name,
-          variants,
+          intent,
+          response,
         }}
         enableReinitialize={true}
         onSubmit={handleSubmit}
-        validationSchema={validationSchema}
+        validate={values => {
+          let errors = {};
+          const startString = "";
+          const maxStringLength = 80;
+          const { name, intent, response } = values;
+          if (!name || !name.trim()) {
+            errors.name = "name is required";
+          } else if (!name.toLowerCase().startsWith(startString)) {
+            errors.name = `name should start with ${startString}`;
+          } else if (name.includes(" ")) {
+            errors.name = "name should not have spaces";
+          } else if (name.trim().length < startString.length + 1) {
+            errors.name = "name is too short";
+          } else if (name.length > maxStringLength) {
+            errors.name = "name is too long";
+          } else if (name !== name.toLowerCase()) {
+            errors.name = "name should be all lower case";
+          } else if (skillsNames.includes(name) && mode !== SKILL_EDIT_MODE) {
+            errors.name = "name already used";
+          }
+
+          if (!response) {
+            errors.response = "response required";
+          }
+
+          if (!intent) {
+            errors.intent = "intent required";
+          }
+          return { ...errors };
+        }}
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>
@@ -77,42 +130,14 @@ const AddSkill = () => {
             <div className={classes.formGroup}>
               <MyTextField name='name' id='name' placeholder='name' />
             </div>
-            <>
-              <label htmlFor='variants'>Variants</label>
-              <FieldArray name='variants'>
-                {arrayHelpers => (
-                  <>
-                    {values.variants.map((variant, index) => (
-                      <div key={index} className={classes.formGroup}>
-                        <MyTextField
-                          placeholder="What's another way of saying your skill?"
-                          name={`variants.${index}`}
-                        />
-                        <IconButton
-                          onClick={() => {
-                            if (values.variants.length > 1) {
-                              arrayHelpers.remove(index);
-                            }
-                          }}
-                        >
-                          <Clear />
-                        </IconButton>
-                      </div>
-                    ))}
-                    <Button
-                      variant='contained'
-                      className={classes.addVarBtn}
-                      onClick={() => {
-                        arrayHelpers.push("");
-                      }}
-                    >
-                      Add Variant
-                    </Button>
-                  </>
-                )}
-              </FieldArray>
-            </>
-
+            <label htmlFor='intent'>Intent</label>
+            <div className={classes.formGroup}>
+              <MySelect name='intent' id='intent' menuItems={intents} />
+            </div>
+            <label htmlFor='response'>Response</label>
+            <div className={classes.formGroup}>
+              <MySelect name='response' id='response' menuItems={responses} />
+            </div>
             <div>
               <Button
                 disable={isSubmitting.toString()}

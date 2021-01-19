@@ -6,7 +6,7 @@ import { deleteSkill } from "../../../actions/skillsActions";
 import { switchToSkillEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Skill = ({ id, name, variants }) => {
+const Skill = ({ id, name, intent, response }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -16,7 +16,7 @@ const Skill = ({ id, name, variants }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToSkillEditMode({ id, name, variants }));
+    dispatch(switchToSkillEditMode({ id, name, intent, response }));
     setTimeout(() => {
       window.scrollTo({
         top: 100,
@@ -39,9 +39,8 @@ const Skill = ({ id, name, variants }) => {
           </IconButton>
         </div>
       </header>
-      {variants.map((variant, index) => (
-        <div key={index}>{variant}</div>
-      ))}
+      <h4>intent: {intent}</h4>
+      <h4>response: {response}</h4>
     </div>
   );
 };

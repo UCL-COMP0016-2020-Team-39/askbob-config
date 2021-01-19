@@ -84,7 +84,7 @@ const AddIntent = () => {
             errors.name = "name is too long";
           } else if (name !== name.toLowerCase()) {
             errors.name = "name should be all lower case";
-          } else if (intentsNames.includes(name)) {
+          } else if (intentsNames.includes(name) && mode !== INTENT_EDIT_MODE) {
             errors.name = "name already used";
           }
 

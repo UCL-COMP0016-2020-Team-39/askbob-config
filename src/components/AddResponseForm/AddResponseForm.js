@@ -84,7 +84,10 @@ const AddResponse = () => {
             errors.name = "name is too long";
           } else if (name !== name.toLowerCase()) {
             errors.name = "name should be all lower case";
-          } else if (responsesNames.includes(name)) {
+          } else if (
+            responsesNames.includes(name) &&
+            mode !== RESPONSE_EDIT_MODE
+          ) {
             errors.name = "name already used";
           }
 

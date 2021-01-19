@@ -7,14 +7,15 @@ const Home = () => {
   const [downloadLink, setDownloadLink] = useState("");
   const intents = useSelector(state => state.intents);
   const responses = useSelector(state => state.responses);
+  const skills = useSelector(state => state.skills);
 
   useEffect(() => {
-    const jsonData = JSON.stringify({ intents, responses }, null, 4);
+    const jsonData = JSON.stringify({ intents, responses, skills }, null, 4);
     setData(jsonData);
     const blob = new Blob([jsonData], { type: "application/json" });
     const fileDownloadUrl = URL.createObjectURL(blob);
     setDownloadLink(fileDownloadUrl);
-  }, [intents, responses]);
+  }, [intents, responses, skills]);
 
   return (
     <section className='section'>

@@ -6,8 +6,9 @@ export default makeStyles(theme => ({
     flexDirection: "column",
     overflow: "hidden",
 
-    "& .MuiTextField-root": {
+    "& .MuiInput-root": {
       margin: theme.spacing(1),
+      flex: "1",
     },
   },
   formGroup: {
