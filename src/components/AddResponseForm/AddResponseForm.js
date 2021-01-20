@@ -3,25 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addResponse, updateResponse } from "../../actions/responsesActions";
 import { switchToResponseAddMode } from "../../actions/formActions";
 import { RESPONSE_EDIT_MODE } from "../../actions/types";
+import { FormTextField } from "../";
 
-import { Formik, useField, Form, FieldArray } from "formik";
-import { TextField, Button, IconButton } from "@material-ui/core";
+import { Formik, Form, FieldArray } from "formik";
+import { Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
-
-const MyTextField = ({ placeholder, ...props }) => {
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : "";
-
-  return (
-    <TextField
-      placeholder={placeholder}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-    />
-  );
-};
 
 const AddResponse = () => {
   const classes = useStyles();
@@ -120,7 +107,7 @@ const AddResponse = () => {
           <Form className={classes.root}>
             <label htmlFor='name'>Name</label>
             <div className={classes.formGroup}>
-              <MyTextField name='name' id='name' placeholder='name' />
+              <FormTextField name='name' id='name' placeholder='name' />
             </div>
             <>
               <label htmlFor='variants'>Variants</label>
@@ -129,7 +116,7 @@ const AddResponse = () => {
                   <>
                     {values.variants.map((variant, index) => (
                       <div key={index} className={classes.formGroup}>
-                        <MyTextField
+                        <FormTextField
                           placeholder="What's another way of saying your response?"
                           name={`variants.${index}`}
                         />

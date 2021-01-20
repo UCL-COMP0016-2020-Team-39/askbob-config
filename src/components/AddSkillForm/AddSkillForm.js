@@ -4,44 +4,10 @@ import { addSkill, updateSkill } from "../../actions/skillsActions";
 import { switchToSkillAddMode } from "../../actions/formActions";
 import { SKILL_EDIT_MODE } from "../../actions/types";
 
-import { Formik, Field, useField, Form } from "formik";
-import { TextField, Select, MenuItem, Button } from "@material-ui/core";
+import { Formik, Form } from "formik";
+import { Button } from "@material-ui/core";
 import useStyles from "./styles";
-
-const MyTextField = ({ placeholder, ...props }) => {
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : "";
-
-  return (
-    <TextField
-      placeholder={placeholder}
-      {...field}
-      helperText={errorText}
-      error={!!errorText}
-    />
-  );
-};
-
-const MySelect = ({ menuItems, ...props }) => {
-  const classes = useStyles();
-  const [field, meta] = useField(props);
-  const errorText = meta.error && meta.touched ? meta.error : "";
-
-  return (
-    <>
-      <div className={classes.errorText}>{errorText}</div>
-      <Select {...field} helperText={errorText} error={!!errorText}>
-        {menuItems.map(item => {
-          return (
-            <MenuItem key={item.id} value={item.name}>
-              {item.name}
-            </MenuItem>
-          );
-        })}
-      </Select>
-    </>
-  );
-};
+import { FormSelect, FormTextField } from "../";
 
 const AddSkill = () => {
   const classes = useStyles();
@@ -128,15 +94,15 @@ const AddSkill = () => {
           <Form className={classes.root}>
             <label htmlFor='name'>Name</label>
             <div className={classes.formGroup}>
-              <MyTextField name='name' id='name' placeholder='name' />
+              <FormTextField name='name' id='name' placeholder='name' />
             </div>
             <label htmlFor='intent'>Intent</label>
             <div className={classes.formGroup}>
-              <MySelect name='intent' id='intent' menuItems={intents} />
+              <FormSelect name='intent' id='intent' menuItems={intents} />
             </div>
             <label htmlFor='response'>Response</label>
             <div className={classes.formGroup}>
-              <MySelect name='response' id='response' menuItems={responses} />
+              <FormSelect name='response' id='response' menuItems={responses} />
             </div>
             <div>
               <Button
