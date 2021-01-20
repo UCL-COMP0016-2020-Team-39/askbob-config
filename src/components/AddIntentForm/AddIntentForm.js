@@ -69,7 +69,7 @@ const AddIntent = () => {
         onSubmit={handleSubmit}
         validate={values => {
           let errors = { name: "", variants: [""] };
-          const startString = "utter_";
+          const startString = "";
           const maxStringLength = 80;
           const { name, variants } = values;
           if (!name || !name.trim()) {

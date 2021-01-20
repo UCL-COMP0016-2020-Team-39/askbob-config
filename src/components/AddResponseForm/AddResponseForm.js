@@ -69,7 +69,7 @@ const AddResponse = () => {
         onSubmit={handleSubmit}
         validate={values => {
           let errors = { name: "", variants: [""] };
-          const startString = "";
+          const startString = "utter_";
           const maxStringLength = 80;
           const { name, variants } = values;
           if (!name || !name.trim()) {
