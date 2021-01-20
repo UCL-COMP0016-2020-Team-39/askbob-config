@@ -8,8 +8,7 @@ const FormSelect = ({ menuItems, ...props }) => {
   const errorText = meta.error && meta.touched ? meta.error : "";
 
   return (
-    <>
-      <div className={classes.errorText}>{errorText}</div>
+    <div className={classes.selectGroup}>
       <Select {...field} helperText={errorText} error={!!errorText}>
         {menuItems.map(item => {
           return (
@@ -19,7 +18,8 @@ const FormSelect = ({ menuItems, ...props }) => {
           );
         })}
       </Select>
-    </>
+      <p className={classes.errorText}>{errorText}</p>
+    </div>
   );
 };
 
