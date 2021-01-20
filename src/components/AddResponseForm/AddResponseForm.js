@@ -39,9 +39,9 @@ const AddResponse = () => {
     } else {
       dispatch(addResponse(data));
     }
-    setSubmitting(false);
     setName("");
     setVariants([""]);
+    setSubmitting(false);
   };
 
   return (

@@ -9,7 +9,7 @@ const FormSelect = ({ menuItems, ...props }) => {
 
   return (
     <div className={classes.selectGroup}>
-      <Select {...field} helperText={errorText} error={!!errorText}>
+      <Select {...field} error={!!errorText}>
         {menuItems.map(item => {
           return (
             <MenuItem key={item.id} value={item.name}>
