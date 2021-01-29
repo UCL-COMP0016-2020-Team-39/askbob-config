@@ -54,6 +54,7 @@ const Navbar = ({ links = [] }) => {
         </ul>
         {links.length > 0 && (
           <button
+            aria-label='toggle-menu'
             className={styles.navbarBtn}
             onClick={() => {
               setOpen(prev => !prev);

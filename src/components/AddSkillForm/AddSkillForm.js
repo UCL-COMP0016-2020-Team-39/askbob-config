@@ -15,7 +15,7 @@ const AddSkill = () => {
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
   const [intent, setIntent] = useState("");
-  const [response, setResponse] = useState("");
+  const [, setResponse] = useState("");
   const [actions, setActions] = useState([""]);
 
   const { currentSkill, skillFormMode: mode } = useSelector(
@@ -156,17 +156,18 @@ const AddSkill = () => {
                             arrayHelpers.remove(index);
                           }
                         }}
+                        aria-label='delete'
                       >
                         <Clear />
                       </IconButton>
                     </div>
                   ))}
                   <Button
-                    locos='contained'
                     className={classes.addVarBtn}
                     onClick={() => {
                       arrayHelpers.push("");
                     }}
+                    aria-label='add response'
                   >
                     Add Response
                   </Button>
@@ -177,7 +178,9 @@ const AddSkill = () => {
               <Button
                 disable={isSubmitting.toString()}
                 type='submit'
-                locos='contained'
+                aria-label={
+                  mode === SKILL_EDIT_MODE ? "Edit Skill" : "Add Skill"
+                }
                 className={
                   mode === SKILL_EDIT_MODE ? classes.editBtn : classes.addBtn
                 }

@@ -31,10 +31,18 @@ const Intent = ({ id, name, variants }) => {
       <header className={classes.header}>
         <h2> {name}</h2>
         <div className={classes.buttons}>
-          <IconButton size='small' onClick={() => deleteThis(id)}>
+          <IconButton
+            size='small'
+            aria-label='delete'
+            onClick={() => deleteThis(id)}
+          >
             <Clear />
           </IconButton>
-          <IconButton size='small' onClick={() => editThis(id)}>
+          <IconButton
+            size='small'
+            aria-label='edit'
+            onClick={() => editThis(id)}
+          >
             <Edit />
           </IconButton>
         </div>

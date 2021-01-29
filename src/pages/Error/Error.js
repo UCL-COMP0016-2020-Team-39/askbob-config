@@ -6,7 +6,9 @@ const Error = () => {
       <h2>Page Not Found</h2>
       <section className='card'>
         <p className='mb-1'>This page doesn't exist. Do you want to go back?</p>
-        <button className='btn'>Go back</button>
+        <button className='btn' aria-label='go back'>
+          Go back
+        </button>
       </section>
     </div>
   );

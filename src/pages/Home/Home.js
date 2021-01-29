@@ -29,6 +29,7 @@ const Home = () => {
           onClick={() => {
             setShow(prev => !prev);
           }}
+          aria-label='show json'
         >
           Show json
         </Button>
@@ -47,10 +48,8 @@ const Home = () => {
         )}
         <br />
         <Link
-          variant='contained'
-          color='danger'
           download='config.json'
-          style={{ color: "#f84" }}
+          style={{ color: "#080" }}
           href={downloadLink}
         >
           download json

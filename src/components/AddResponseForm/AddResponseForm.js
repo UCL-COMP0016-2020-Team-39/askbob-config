@@ -126,6 +126,7 @@ const AddResponse = () => {
                               arrayHelpers.remove(index);
                             }
                           }}
+                          aria-label='delete'
                         >
                           <Clear />
                         </IconButton>
@@ -137,6 +138,7 @@ const AddResponse = () => {
                       onClick={() => {
                         arrayHelpers.push("");
                       }}
+                      aria-label='add variant'
                     >
                       Add Variant
                     </Button>
@@ -150,6 +152,9 @@ const AddResponse = () => {
                 disable={isSubmitting.toString()}
                 type='submit'
                 variant='contained'
+                aria-label={
+                  mode === RESPONSE_EDIT_MODE ? "Edit Response" : "Add Response"
+                }
                 className={
                   mode === RESPONSE_EDIT_MODE ? classes.editBtn : classes.addBtn
                 }

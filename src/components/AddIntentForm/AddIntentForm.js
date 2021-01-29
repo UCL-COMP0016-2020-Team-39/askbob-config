@@ -118,6 +118,7 @@ const AddIntent = () => {
                           name={`variants.${index}`}
                         />
                         <IconButton
+                          aria-label='clear'
                           onClick={() => {
                             if (values.variants.length > 1) {
                               arrayHelpers.remove(index);
@@ -130,6 +131,7 @@ const AddIntent = () => {
                     ))}
                     <Button
                       variant='contained'
+                      aria-label='add variant'
                       className={classes.addVarBtn}
                       onClick={() => {
                         arrayHelpers.push("");
@@ -145,6 +147,9 @@ const AddIntent = () => {
             <div>
               <Button
                 disable={isSubmitting.toString()}
+                aria-label={
+                  mode === INTENT_EDIT_MODE ? "Edit Intent" : "Add Intent"
+                }
                 type='submit'
                 variant='contained'
                 className={
