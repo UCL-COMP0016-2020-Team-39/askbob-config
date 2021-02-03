@@ -193,7 +193,7 @@ const AddStory = () => {
           }}
           aria-label='add steps'
         >
-          Add action
+          Add step
         </Button>
         <div>
           <Button
