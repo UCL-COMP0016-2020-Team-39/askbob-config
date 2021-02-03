@@ -49,6 +49,7 @@ const AddSkill = () => {
     setIntent("");
     setResponse("");
     setActions([""]);
+    resetForm();
   };
 
   return (

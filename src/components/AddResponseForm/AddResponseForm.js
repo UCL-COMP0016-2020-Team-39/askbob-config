@@ -14,7 +14,7 @@ const AddResponse = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  const [variants, setVariants] = useState([""]);
+  const [examples, setExamples] = useState([""]);
 
   const { currentResponse, responseFormMode: mode } = useSelector(
     state => state.form
@@ -27,7 +27,7 @@ const AddResponse = () => {
   useEffect(() => {
     if (mode === RESPONSE_EDIT_MODE) {
       setName(currentResponse.name);
-      setVariants(currentResponse.variants);
+      setExamples(currentResponse.examples);
     }
   }, [mode, currentResponse]);
 
@@ -40,8 +40,9 @@ const AddResponse = () => {
       dispatch(addResponse(data));
     }
     setName("");
-    setVariants([""]);
+    setExamples([""]);
     setSubmitting(false);
+    resetForm();
   };
 
   return (
@@ -50,15 +51,15 @@ const AddResponse = () => {
       <Formik
         initialValues={{
           name,
-          variants,
+          examples,
         }}
         enableReinitialize={true}
         onSubmit={handleSubmit}
         validate={values => {
-          let errors = { name: "", variants: [""] };
+          let errors = { name: "", examples: [""] };
           const startString = "utter_";
           const maxStringLength = 80;
-          const { name, variants } = values;
+          const { name, examples } = values;
           if (!name || !name.trim()) {
             errors.name = "name is required";
           } else if (!name.toLowerCase().startsWith(startString)) {
@@ -78,16 +79,16 @@ const AddResponse = () => {
             errors.name = "name already used";
           }
 
-          if (!variants || variants.length === 0) {
-            errors.variants = "variants are required";
+          if (!examples || examples.length === 0) {
+            errors.examples = "examples are required";
           } else {
-            variants.forEach((variant, index) => {
-              if (!variant || !variant.trim()) {
-                errors.variants[index] = `variant ${index + 1} is required`;
-              } else if (variant.trim().length < 1) {
-                errors.variants[index] = `variant ${index + 1} is too short`;
-              } else if (variant.trim().length > maxStringLength) {
-                errors.variants[index] = `variant ${index + 1} is too long`;
+            examples.forEach((example, index) => {
+              if (!example || !example.trim()) {
+                errors.examples[index] = `example ${index + 1} is required`;
+              } else if (example.trim().length < 1) {
+                errors.examples[index] = `example ${index + 1} is too short`;
+              } else if (example.trim().length > maxStringLength) {
+                errors.examples[index] = `example ${index + 1} is too long`;
               }
             });
           }
@@ -95,9 +96,9 @@ const AddResponse = () => {
           if (errors.name === "") {
             delete errors.name;
           }
-          if (errors.variants[0] === "" && errors.variants.length === 1) {
-            //if errors.variants as a string is truesy
-            delete errors.variants;
+          if (errors.examples[0] === "" && errors.examples.length === 1) {
+            //if errors.examples as a string is truesy
+            delete errors.examples;
           }
 
           return { ...errors };
@@ -110,19 +111,19 @@ const AddResponse = () => {
               <FormTextField name='name' id='name' placeholder='name' />
             </div>
             <>
-              <label htmlFor='variants'>Variants</label>
-              <FieldArray name='variants'>
+              <label htmlFor='examples'>Examples</label>
+              <FieldArray name='examples'>
                 {arrayHelpers => (
                   <>
-                    {values.variants.map((variant, index) => (
+                    {values.examples.map((example, index) => (
                       <div key={index} className={classes.formGroup}>
                         <FormTextField
                           placeholder="What's another way of saying your response?"
-                          name={`variants.${index}`}
+                          name={`examples.${index}`}
                         />
                         <IconButton
                           onClick={() => {
-                            if (values.variants.length > 1) {
+                            if (values.examples.length > 1) {
                               arrayHelpers.remove(index);
                             }
                           }}
@@ -138,9 +139,9 @@ const AddResponse = () => {
                       onClick={() => {
                         arrayHelpers.push("");
                       }}
-                      aria-label='add variant'
+                      aria-label='add example'
                     >
-                      Add Variant
+                      Add example
                     </Button>
                   </>
                 )}
@@ -164,8 +165,8 @@ const AddResponse = () => {
             </div>
             <br />
             <br />
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
+            <pre>{/*JSON.stringify(values, null, 2)*/}</pre>
+            <pre>{/*JSON.stringify(errors, null, 2)*/}</pre>
           </Form>
         )}
       </Formik>

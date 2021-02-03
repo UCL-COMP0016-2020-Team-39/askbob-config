@@ -18,7 +18,7 @@ const reducer = (state = initialState, action) => {
         {
           id: v4(),
           name: action.payload.intent.name,
-          variants: action.payload.intent.variants,
+          examples: action.payload.intent.examples,
         },
       ];
     case actionTypes.DELETE_INTENT:

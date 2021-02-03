@@ -3,7 +3,6 @@ import { v4 } from "uuid";
 
 const initialState = [];
 
-
 const localStorageKey = "responses";
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +18,7 @@ const reducer = (state = initialState, action) => {
         {
           id: v4(),
           name: action.payload.response.name,
-          variants: action.payload.response.variants,
+          examples: action.payload.response.examples,
         },
       ];
     case actionTypes.DELETE_RESPONSE:

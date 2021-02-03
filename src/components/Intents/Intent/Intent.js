@@ -6,7 +6,7 @@ import { deleteIntent } from "../../../actions/intentsActions";
 import { switchToIntentEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Intent = ({ id, name, variants }) => {
+const Intent = ({ id, name, examples }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -16,7 +16,7 @@ const Intent = ({ id, name, variants }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToIntentEditMode({ id, name, variants }));
+    dispatch(switchToIntentEditMode({ id, name, examples }));
     setTimeout(() => {
       window.scrollTo({
         top: 100,
@@ -47,8 +47,8 @@ const Intent = ({ id, name, variants }) => {
           </IconButton>
         </div>
       </header>
-      {variants.map((variant, index) => (
-        <div key={index}>{variant}</div>
+      {examples.map((example, index) => (
+        <div key={index}>{example}</div>
       ))}
     </div>
   );

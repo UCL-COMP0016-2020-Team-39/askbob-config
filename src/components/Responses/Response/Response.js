@@ -6,7 +6,7 @@ import { deleteResponse } from "../../../actions/responsesActions";
 import { switchToResponseEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Response = ({ id, name, variants }) => {
+const Response = ({ id, name, examples }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -16,7 +16,7 @@ const Response = ({ id, name, variants }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToResponseEditMode({ id, name, variants }));
+    dispatch(switchToResponseEditMode({ id, name, examples }));
     setTimeout(() => {
       window.scrollTo({
         top: 100,
@@ -47,8 +47,8 @@ const Response = ({ id, name, variants }) => {
           </IconButton>
         </div>
       </header>
-      {variants.map((variant, index) => (
-        <div key={index}>{variant}</div>
+      {examples.map((example, index) => (
+        <div key={index}>{example}</div>
       ))}
     </div>
   );
