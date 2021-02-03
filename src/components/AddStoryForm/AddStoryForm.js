@@ -91,7 +91,9 @@ const AddStory = () => {
       type: step.type,
     }));
     if (mode === STORY_EDIT_MODE) {
-      dispatch(updateStory({ description, steps, id: currentStory.id }));
+      dispatch(
+        updateStory({ description, steps: storySteps, id: currentStory.id })
+      );
       dispatch(switchToStoryAddMode());
     } else {
       dispatch(addStory({ description, steps: storySteps }));
@@ -120,12 +122,7 @@ const AddStory = () => {
 
         <label htmlFor='response'>Steps</label>
 
-        <ReactSortable
-          list={steps}
-          setList={setSteps}
-          handle={classes.handle}
-          animation={150}
-        >
+        <ReactSortable list={steps} setList={setSteps} animation={150}>
           {steps.map((step, index) => {
             let options =
               step.type === "intent"

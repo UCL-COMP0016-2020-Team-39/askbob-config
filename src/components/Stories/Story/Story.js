@@ -16,7 +16,6 @@ const Story = ({ id, description, steps }) => {
   };
 
   const editThis = () => {
-    console.log(JSON.stringify({ id, description, steps }));
     dispatch(switchToStoryEditMode({ id, description, steps }));
     setTimeout(() => {
       window.scrollTo({
