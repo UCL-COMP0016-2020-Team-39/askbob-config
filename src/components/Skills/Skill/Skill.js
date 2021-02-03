@@ -6,7 +6,7 @@ import { deleteSkill } from "../../../actions/skillsActions";
 import { switchToSkillEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Skill = ({ id, description, intent, actions }) => {
+const Skill = ({ id, description, intent, actions, ...skillProps }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -16,7 +16,9 @@ const Skill = ({ id, description, intent, actions }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToSkillEditMode({ id, description, intent, actions }));
+    dispatch(
+      switchToSkillEditMode({ id, description, intent, actions, ...skillProps })
+    );
     setTimeout(() => {
       window.scrollTo({
         top: 100,

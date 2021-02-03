@@ -6,7 +6,7 @@ import { deleteIntent } from "../../../actions/intentsActions";
 import { switchToIntentEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Intent = ({ id, name, examples }) => {
+const Intent = ({ id, name, examples, ...intentProps }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -16,7 +16,8 @@ const Intent = ({ id, name, examples }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToIntentEditMode({ id, name, examples }));
+    console.log(intentProps);
+    dispatch(switchToIntentEditMode({ id, name, examples, ...intentProps }));
     setTimeout(() => {
       window.scrollTo({
         top: 100,

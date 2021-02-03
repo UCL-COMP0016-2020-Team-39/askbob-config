@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 const initialState = [];
 
-const localStorageKey = "stories";
+const localStorageKey = "askBobConfigStories";
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -24,7 +24,9 @@ const reducer = (state = initialState, action) => {
       return state.filter(story => story.id !== action.payload.id);
     case actionTypes.UPDATE_STORY:
       return state.map(story =>
-        story.id !== action.payload.story.id ? story : action.payload.story
+        story.id !== action.payload.story.id
+          ? story
+          : { ...story, ...action.payload.story }
       );
     default:
       return state;

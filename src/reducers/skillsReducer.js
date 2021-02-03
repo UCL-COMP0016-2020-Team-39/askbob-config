@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 const initialState = [];
 
-const localStorageKey = "skills";
+const localStorageKey = "askBobConfigSkills";
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -24,7 +24,9 @@ const reducer = (state = initialState, action) => {
       return state.filter(skill => skill.id !== action.payload.id);
     case actionTypes.UPDATE_SKILL:
       return state.map(skill =>
-        skill.id !== action.payload.skill.id ? skill : action.payload.skill
+        skill.id !== action.payload.skill.id
+          ? skill
+          : { ...skill, ...action.payload.skill }
       );
     default:
       return state;

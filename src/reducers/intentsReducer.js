@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 const initialState = [];
 
-const localStorageKey = "intents";
+const localStorageKey = "askBobConfigIntents";
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -24,7 +24,9 @@ const reducer = (state = initialState, action) => {
       return state.filter(intent => intent.id !== action.payload.id);
     case actionTypes.UPDATE_INTENT:
       return state.map(intent =>
-        intent.id !== action.payload.intent.id ? intent : action.payload.intent
+        intent.id !== action.payload.intent.id
+          ? intent
+          : { ...intent, ...action.payload.intent }
       );
     default:
       return state;

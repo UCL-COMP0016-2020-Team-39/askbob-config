@@ -17,11 +17,14 @@ import useStyles from "./styles";
 import { ReactSortable } from "react-sortablejs";
 
 import { v4 } from "uuid";
+
 const AddStory = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
-  const [steps, setSteps] = useState([{ id: v4(), name: "", type: "" }]);
+  const [steps, setSteps] = useState([
+    { id: v4(), type: "intent", step_id: "" },
+  ]);
   const [errorText, setErrorText] = useState("error");
 
   const { currentStory, storyFormMode: mode } = useSelector(
@@ -45,8 +48,8 @@ const AddStory = () => {
     }
 
     steps.forEach((step, index) => {
-      if (!step.name) {
-        errors[index] = `step ${index} requires a name`;
+      if (!step.step_id) {
+        errors[index] = `step ${index} requires an id`;
       }
       if (!step.type) {
         errors[index] = `step ${index} requires a type`;
@@ -62,7 +65,7 @@ const AddStory = () => {
     }
 
     if (errors) {
-      setErrorText(Object.values[0]);
+      setErrorText(Object.values(errors)[0]);
     }
 
     return errors;
@@ -85,20 +88,32 @@ const AddStory = () => {
     }
 
     setErrorText("");
+
+    const story_id =
+      description.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+    console.log(story_id);
+
     const storySteps = steps.map(step => ({
       id: step.id,
-      name: step.name,
       type: step.type,
+      data: step.data,
+      step_id: step.step_id,
     }));
+
     if (mode === STORY_EDIT_MODE) {
       dispatch(
-        updateStory({ description, steps: storySteps, id: currentStory.id })
+        updateStory({
+          description,
+          story_id: currentStory.story_id,
+          steps: storySteps,
+          id: currentStory.id,
+        })
       );
       dispatch(switchToStoryAddMode());
     } else {
-      dispatch(addStory({ description, steps: storySteps }));
+      dispatch(addStory({ description, story_id, steps: storySteps }));
     }
-    setSteps([{ id: v4(), name: "", type: "" }]);
+    setSteps([{ id: v4(), type: "intent", step_id: "" }]);
     setDescription("");
   };
 
@@ -124,10 +139,7 @@ const AddStory = () => {
 
         <ReactSortable list={steps} setList={setSteps} animation={150}>
           {steps.map((step, index) => {
-            let options =
-              step.type === "intent"
-                ? intents.map(i => i.name)
-                : responses.map(r => r.name);
+            let options = step.type === "intent" ? intents : responses;
             return (
               <div className={classes.formGroup} key={step.id}>
                 <span className={classes.handle}>
@@ -141,7 +153,11 @@ const AddStory = () => {
                       setSteps(prev =>
                         prev.map(p => {
                           if (p.id === step.id) {
-                            return { ...p, type: e.target.value, name: "" };
+                            return {
+                              ...p,
+                              type: e.target.value,
+                              step_id: "",
+                            };
                           }
                           return p;
                         })
@@ -152,24 +168,33 @@ const AddStory = () => {
                     <MenuItem value='response'>response</MenuItem>
                   </Select>
                   <Select
-                    value={step.name}
+                    value={step.data}
                     className={classes.storyName}
                     onChange={e => {
                       setSteps(prev =>
                         prev.map(p => {
                           if (p.id === step.id) {
-                            return { ...p, name: e.target.value };
+                            return {
+                              ...p,
+                              step_id: e.target.value,
+                            };
                           }
                           return p;
                         })
                       );
                     }}
                   >
-                    {options.map(option => (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    ))}
+                    {options.map(option => {
+                      const id =
+                        step.type === "intent"
+                          ? option.intent_id
+                          : option.response_id;
+                      return (
+                        <MenuItem key={id} value={id}>
+                          {option.name}
+                        </MenuItem>
+                      );
+                    })}
                   </Select>
                 </div>
                 <IconButton

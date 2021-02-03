@@ -1,13 +1,15 @@
 import React from "react";
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteStory } from "../../../actions/storiesActions";
 import { switchToStoryEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Story = ({ id, description, steps }) => {
+const Story = ({ id, description, steps, ...storyProps }) => {
   const dispatch = useDispatch();
+  const intents = useSelector(state => state.intents);
+  const responses = useSelector(state => state.responses);
 
   const classes = useStyles();
 
@@ -16,7 +18,7 @@ const Story = ({ id, description, steps }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToStoryEditMode({ id, description, steps }));
+    dispatch(switchToStoryEditMode({ id, description, steps, ...storyProps }));
     setTimeout(() => {
       window.scrollTo({
         top: 100,
@@ -49,10 +51,16 @@ const Story = ({ id, description, steps }) => {
       </header>
       <h2>Steps</h2>
       {steps.map(step => {
+        let data = intents.find(i => i.intent_id === step.step_id);
+        data = data ?? responses.find(r => r.response_id === step.step_id);
+        let name;
+        if (data) {
+          name = data.name;
+        }
         return (
           <div key={step.id}>
             <p>
-              type: {step.type}, name: {step.name}
+              type: {step.type}, name: {name}
             </p>
           </div>
         );

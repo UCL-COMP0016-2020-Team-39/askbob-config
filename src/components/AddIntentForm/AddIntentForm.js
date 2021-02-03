@@ -10,6 +10,7 @@ import { Clear } from "@material-ui/icons";
 import { FormTextField } from "../";
 import useStyles from "./styles";
 
+import { v4 } from "uuid";
 const AddIntent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -33,11 +34,20 @@ const AddIntent = () => {
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
+    const intent_id =
+      data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
     if (mode === INTENT_EDIT_MODE) {
-      dispatch(updateIntent({ ...data, id: currentIntent.id }));
+      dispatch(
+        updateIntent({
+          ...data,
+          name: data.name.trim(),
+          intent_id: currentIntent.intent_id,
+          id: currentIntent.id,
+        })
+      );
       dispatch(switchToIntentAddMode());
     } else {
-      dispatch(addIntent(data));
+      dispatch(addIntent({ ...data, name: data.name.trim(), intent_id }));
     }
     setSubmitting(false);
     setName("");
@@ -57,16 +67,11 @@ const AddIntent = () => {
         onSubmit={handleSubmit}
         validate={values => {
           let errors = { name: "", examples: [""] };
-          const startString = "";
           const maxStringLength = 80;
           const { name, examples } = values;
           if (!name || !name.trim()) {
             errors.name = "name is required";
-          } else if (!name.toLowerCase().startsWith(startString)) {
-            errors.name = `name should start with ${startString}`;
-          } else if (name.includes(" ")) {
-            errors.name = "name should not have spaces";
-          } else if (name.trim().length < startString.length + 1) {
+          } else if (name.trim().length < 1) {
             errors.name = "name is too short";
           } else if (name.length > maxStringLength) {
             errors.name = "name is too long";

@@ -10,6 +10,8 @@ import { Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 
+import { v4 } from "uuid";
+
 const AddResponse = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -33,11 +35,21 @@ const AddResponse = () => {
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
+    const response_id =
+      data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+    console.log(response_id);
     if (mode === RESPONSE_EDIT_MODE) {
-      dispatch(updateResponse({ ...data, id: currentResponse.id }));
+      dispatch(
+        updateResponse({
+          ...data,
+          name: data.name.trim(),
+          response_id: currentResponse.response_id,
+          id: currentResponse.id,
+        })
+      );
       dispatch(switchToResponseAddMode());
     } else {
-      dispatch(addResponse(data));
+      dispatch(addResponse({ ...data, name: data.name.trim(), response_id }));
     }
     setName("");
     setExamples([""]);
@@ -57,16 +69,11 @@ const AddResponse = () => {
         onSubmit={handleSubmit}
         validate={values => {
           let errors = { name: "", examples: [""] };
-          const startString = "utter_";
           const maxStringLength = 80;
           const { name, examples } = values;
           if (!name || !name.trim()) {
             errors.name = "name is required";
-          } else if (!name.toLowerCase().startsWith(startString)) {
-            errors.name = `name should start with ${startString}`;
-          } else if (name.includes(" ")) {
-            errors.name = "name should not have spaces";
-          } else if (name.trim().length < startString.length + 1) {
+          } else if (name.trim().length < 1) {
             errors.name = "name is too short";
           } else if (name.length > maxStringLength) {
             errors.name = "name is too long";

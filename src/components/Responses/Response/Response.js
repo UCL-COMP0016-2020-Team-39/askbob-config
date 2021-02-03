@@ -6,7 +6,7 @@ import { deleteResponse } from "../../../actions/responsesActions";
 import { switchToResponseEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Response = ({ id, name, examples }) => {
+const Response = ({ id, name, examples, ...responseProps }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -16,7 +16,9 @@ const Response = ({ id, name, examples }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToResponseEditMode({ id, name, examples }));
+    dispatch(
+      switchToResponseEditMode({ id, name, examples, ...responseProps })
+    );
     setTimeout(() => {
       window.scrollTo({
         top: 100,

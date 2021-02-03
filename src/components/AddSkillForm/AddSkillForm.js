@@ -10,6 +10,8 @@ import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 import { FormSelect, FormTextField } from "../";
 
+import { v4 } from "uuid";
+
 const AddSkill = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -38,11 +40,27 @@ const AddSkill = () => {
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
+    const skill_id =
+      data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+    console.log(skill_id);
     if (mode === SKILL_EDIT_MODE) {
-      dispatch(updateSkill({ ...data, id: currentSkill.id }));
+      dispatch(
+        updateSkill({
+          ...data,
+          name: data.name.trim(),
+          skill_id: currentSkill.skill_id,
+          id: currentSkill.id,
+        })
+      );
       dispatch(switchToSkillAddMode());
     } else {
-      dispatch(addSkill(data));
+      dispatch(
+        addSkill({
+          ...data,
+          name: data.name.trim(),
+          skill_id,
+        })
+      );
     }
     setSubmitting(false);
     setDescription("");

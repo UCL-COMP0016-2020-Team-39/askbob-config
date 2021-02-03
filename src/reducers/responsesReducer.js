@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 const initialState = [];
 
-const localStorageKey = "responses";
+const localStorageKey = "askBobConfigResponses";
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -26,7 +26,7 @@ const reducer = (state = initialState, action) => {
       return state.map(response =>
         response.id !== action.payload.response.id
           ? response
-          : action.payload.response
+          : { ...response, ...action.payload.response }
       );
     default:
       return state;
