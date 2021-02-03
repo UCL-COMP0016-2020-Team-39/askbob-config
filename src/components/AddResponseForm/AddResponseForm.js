@@ -36,7 +36,7 @@ const AddResponse = () => {
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     const response_id =
-      data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+      "utter_" + data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
     console.log(response_id);
     if (mode === RESPONSE_EDIT_MODE) {
       dispatch(
