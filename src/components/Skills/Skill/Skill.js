@@ -1,13 +1,16 @@
 import React from "react";
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteSkill } from "../../../actions/skillsActions";
 import { switchToSkillEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
 const Skill = ({ id, description, intent, actions, ...skillProps }) => {
   const dispatch = useDispatch();
+
+  const intents = useSelector(state => state.intents);
+  const responses = useSelector(state => state.responses);
 
   const classes = useStyles();
 
@@ -27,6 +30,9 @@ const Skill = ({ id, description, intent, actions, ...skillProps }) => {
       });
     }, 30);
   };
+
+  const intentData = intents.find(i => i.intent_id === intent);
+  const intentName = intentData && intentData.name;
 
   return (
     <div className='card'>
@@ -50,10 +56,12 @@ const Skill = ({ id, description, intent, actions, ...skillProps }) => {
         </div>
       </header>
       <h2>intent</h2>
-      <h4>{intent}</h4>
+      <h4>{intentName}</h4>
       <h2>responses</h2>
       {actions.map((response, index) => {
-        return <h4 key={index}>{response}</h4>;
+        const responseData = responses.find(r => r.response_id === response);
+        const responseName = responseData && responseData.name;
+        return <h4 key={index}>{responseName}</h4>;
       })}
     </div>
   );

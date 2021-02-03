@@ -2,7 +2,7 @@ import { Select, MenuItem } from "@material-ui/core";
 import { useField } from "formik";
 import useStyles from "./styles";
 
-const FormSelect = ({ menuItems, ...props }) => {
+const FormSelect = ({ menuItems, menuValue, menuText, ...props }) => {
   const classes = useStyles();
   const [field, meta] = useField(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
@@ -12,8 +12,8 @@ const FormSelect = ({ menuItems, ...props }) => {
       <Select {...field} error={!!errorText}>
         {menuItems.map(item => {
           return (
-            <MenuItem key={item.id} value={item.name}>
-              {item.name}
+            <MenuItem key={item.id} value={item[menuValue]}>
+              {item[menuText]}
             </MenuItem>
           );
         })}

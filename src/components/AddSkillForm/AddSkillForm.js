@@ -41,13 +41,13 @@ const AddSkill = () => {
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     const skill_id =
-      data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+      data.description.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
     console.log(skill_id);
     if (mode === SKILL_EDIT_MODE) {
       dispatch(
         updateSkill({
           ...data,
-          name: data.name.trim(),
+          description: data.description.trim(),
           skill_id: currentSkill.skill_id,
           id: currentSkill.id,
         })
@@ -57,7 +57,7 @@ const AddSkill = () => {
       dispatch(
         addSkill({
           ...data,
-          name: data.name.trim(),
+          description: data.description.trim(),
           skill_id,
         })
       );
@@ -87,24 +87,13 @@ const AddSkill = () => {
             intent: "",
             actions: [""],
           };
-          const startString = "";
+
           const maxStringLength = 80;
           const { description, intent, actions } = values;
           if (!description || !description.trim()) {
             errors.description = "description is required";
-          } else if (!description.toLowerCase().startsWith(startString)) {
-            errors.description = `description should start with ${startString}`;
-          } else if (description.trim().length < startString.length + 1) {
-            errors.description = "description is too short";
           } else if (description.length > maxStringLength) {
             errors.description = "description is too long";
-          } else if (description !== description.toLowerCase()) {
-            errors.description = "description should be all lower case";
-          } else if (
-            skillsDescriptions.includes(description) &&
-            mode !== SKILL_EDIT_MODE
-          ) {
-            errors.description = "description already used";
           }
 
           if (!intent) {
@@ -134,7 +123,6 @@ const AddSkill = () => {
           }
 
           if (errors.actions[0] === "" && errors.actions.length === 1) {
-            //if errors.actions as a string is truesy
             delete errors.actions;
           }
 
@@ -153,7 +141,13 @@ const AddSkill = () => {
             </div>
             <label htmlFor='intent'>Intent</label>
             <div className={classes.formGroup}>
-              <FormSelect name='intent' id='intent' menuItems={intents} />
+              <FormSelect
+                name='intent'
+                id='intent'
+                menuItems={intents}
+                menuValue='intent_id'
+                menuText='name'
+              />
             </div>
             <label htmlFor='response'>Responses</label>
 
@@ -167,6 +161,8 @@ const AddSkill = () => {
                           name={`actions.${index}`}
                           id={`actions${index}`}
                           menuItems={responses}
+                          menuValue='response_id'
+                          menuText='name'
                         />
                       </div>
                       <IconButton
