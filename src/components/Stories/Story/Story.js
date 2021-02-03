@@ -6,7 +6,7 @@ import { deleteStory } from "../../../actions/storiesActions";
 import { switchToStoryEditMode } from "../../../actions/formActions";
 import useStyles from "./styles";
 
-const Story = ({ id, description, intent, actions }) => {
+const Story = ({ id, description, steps }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -16,7 +16,8 @@ const Story = ({ id, description, intent, actions }) => {
   };
 
   const editThis = () => {
-    dispatch(switchToStoryEditMode({ id, description, intent, actions }));
+    console.log(JSON.stringify({ id, description, steps }));
+    dispatch(switchToStoryEditMode({ id, description, steps }));
     setTimeout(() => {
       window.scrollTo({
         top: 100,
@@ -47,11 +48,15 @@ const Story = ({ id, description, intent, actions }) => {
           </IconButton>
         </div>
       </header>
-      <h2>intent</h2>
-      <h4>{intent}</h4>
-      <h2>responses</h2>
-      {actions.map((response, index) => {
-        return <h4 key={index}>{response}</h4>;
+      <h2>Steps</h2>
+      {steps.map(step => {
+        return (
+          <div key={step.id}>
+            <p>
+              type: {step.type}, name: {step.name}
+            </p>
+          </div>
+        );
       })}
     </div>
   );

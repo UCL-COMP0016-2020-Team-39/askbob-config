@@ -20,7 +20,25 @@ export default makeStyles(theme => ({
 
     "& .MuiTextField-root": {
       flex: 1,
+      marginLeft: "0rem",
     },
+  },
+  errorText: {
+    background: "#fee",
+    color: "#f00",
+    textAlign: "center",
+  },
+  selectGroup: {
+    display: "flex",
+    width: "100%",
+  },
+  storyType: {
+    flex: 0.5,
+    marginLeft: "1rem",
+  },
+  storyName: {
+    flex: 1,
+    marginLeft: "1rem",
   },
   addBtn: {
     margin: "1rem 0rem 1rem 0rem",
@@ -48,6 +66,12 @@ export default makeStyles(theme => ({
     width: "100%",
     "&:hover": {
       backgroundColor: "#757ce8",
+    },
+  },
+  handle: {
+    color: "#448",
+    "& :hover": {
+      cursor: "grab",
     },
   },
 }));

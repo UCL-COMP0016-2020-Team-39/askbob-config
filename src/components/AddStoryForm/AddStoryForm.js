@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addStory, updateStory } from "../../actions/storiesActions";
 import { switchToStoryAddMode } from "../../actions/formActions";
 import { STORY_EDIT_MODE } from "../../actions/types";
 
-import { Formik, Form, FieldArray } from "formik";
-import { Button, IconButton } from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
+import {
+  Button,
+  IconButton,
+  Select,
+  TextField,
+  MenuItem,
+} from "@material-ui/core";
+import { Clear, OpenWith } from "@material-ui/icons";
 import useStyles from "./styles";
-import { FormSelect, FormTextField } from "../";
 
+import { ReactSortable } from "react-sortablejs";
+
+import { v4 } from "uuid";
 const AddStory = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
-  const [intent, setIntent] = useState("");
-  const [, setResponse] = useState("");
-  const [actions, setActions] = useState([""]);
+  const [steps, setSteps] = useState([{ id: v4(), name: "", type: "" }]);
+  const [errorText, setErrorText] = useState("error");
 
   const { currentStory, storyFormMode: mode } = useSelector(
     state => state.form
@@ -24,179 +30,191 @@ const AddStory = () => {
 
   const intents = useSelector(state => state.intents);
   const responses = useSelector(state => state.responses);
-  const stories = useSelector(state => state.stories);
-
-  const storiesDescriptions = stories.map(story => story.description);
 
   useEffect(() => {
     if (mode === STORY_EDIT_MODE) {
       setDescription(currentStory.description);
-      setIntent(currentStory.intent);
-      setActions(currentStory.actions);
+      setSteps(currentStory.steps);
     }
   }, [mode, currentStory]);
 
-  const handleSubmit = (data, { setSubmitting, resetForm }) => {
-    setSubmitting(true);
+  const validate = useCallback(() => {
+    const errors = { description: "", steps: [""] };
+    if (!description || !description.trim()) {
+      errors.description = "description is required";
+    }
+
+    steps.forEach((step, index) => {
+      if (!step.name) {
+        errors[index] = `step ${index} requires a name`;
+      }
+      if (!step.type) {
+        errors[index] = `step ${index} requires a type`;
+      }
+    });
+
+    if (errors.description === "") {
+      delete errors.description;
+    }
+
+    if (errors.steps[0] === "" && errors.steps.length === 1) {
+      delete errors.steps;
+    }
+
+    if (errors) {
+      setErrorText(Object.values[0]);
+    }
+
+    return errors;
+  }, [description, steps]);
+
+  useEffect(() => {
+    const errors = validate();
+    if (Object.values(errors).length > 0) {
+      setErrorText(Object.values(errors)[0]);
+    }
+  }, [description, steps, validate]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    const errors = validate();
+    if (Object.values(errors).length > 0) {
+      setErrorText(Object.values(errors)[0]);
+      return;
+    }
+
+    setErrorText("");
+    const storySteps = steps.map(step => ({
+      id: step.id,
+      name: step.name,
+      type: step.type,
+    }));
     if (mode === STORY_EDIT_MODE) {
-      dispatch(updateStory({ ...data, id: currentStory.id }));
+      dispatch(updateStory({ description, steps, id: currentStory.id }));
       dispatch(switchToStoryAddMode());
     } else {
-      dispatch(addStory(data));
+      dispatch(addStory({ description, steps: storySteps }));
     }
-    setSubmitting(false);
+    setSteps([{ id: v4(), name: "", type: "" }]);
     setDescription("");
-    setIntent("");
-    setResponse("");
-    setActions([""]);
-    resetForm();
   };
 
   return (
     <section className='card'>
       <h2>{mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}</h2>
-      <Formik
-        initialValues={{
-          description,
-          intent,
-          actions,
-        }}
-        enableReinitialize={true}
-        onSubmit={handleSubmit}
-        validate={values => {
-          let errors = {
-            description: "",
-            intent: "",
-            actions: [""],
-          };
-          const startString = "";
-          const maxStringLength = 80;
-          const { description, intent, actions } = values;
-          if (!description || !description.trim()) {
-            errors.description = "description is required";
-          } else if (!description.toLowerCase().startsWith(startString)) {
-            errors.description = `description should start with ${startString}`;
-          } else if (description.trim().length < startString.length + 1) {
-            errors.description = "description is too short";
-          } else if (description.length > maxStringLength) {
-            errors.description = "description is too long";
-          } else if (description !== description.toLowerCase()) {
-            errors.description = "description should be all lower case";
-          } else if (
-            storiesDescriptions.includes(description) &&
-            mode !== STORY_EDIT_MODE
-          ) {
-            errors.description = "description already used";
-          }
+      <form className={classes.root} onSubmit={e => handleSubmit(e)}>
+        <p className={classes.errorText}>{errorText}</p>
+        <label htmlFor='description'>Description</label>
+        <div className={classes.formGroup}>
+          <TextField
+            name='description'
+            id='description'
+            placeholder='description'
+            value={description}
+            onChange={e => {
+              setDescription(e.target.value);
+            }}
+          />
+        </div>
 
-          if (!intent) {
-            errors.intent = "intent required";
-          }
+        <label htmlFor='response'>Steps</label>
 
-          if (!actions || actions.length === 0) {
-            errors.actions = "actions are required";
-          } else {
-            actions.forEach((response, index) => {
-              if (!response || !response.trim()) {
-                errors.actions[index] = `response ${index + 1} is required`;
-              } else if (response.trim().length < 1) {
-                errors.actions[index] = `response ${index + 1} is too short`;
-              } else if (response.trim().length > maxStringLength) {
-                errors.actions[index] = `response ${index + 1} is too long`;
-              }
-            });
-          }
-
-          if (errors.description === "") {
-            delete errors.description;
-          }
-
-          if (errors.intent === "") {
-            delete errors.intent;
-          }
-
-          if (errors.actions[0] === "" && errors.actions.length === 1) {
-            //if errors.actions as a string is truesy
-            delete errors.actions;
-          }
-
-          return { ...errors };
-        }}
-      >
-        {({ values, isSubmitting, errors }) => (
-          <Form className={classes.root}>
-            <label htmlFor='description'>Description</label>
-            <div className={classes.formGroup}>
-              <FormTextField
-                name='description'
-                id='description'
-                placeholder='description'
-              />
-            </div>
-            <label htmlFor='intent'>Intent</label>
-            <div className={classes.formGroup}>
-              <FormSelect name='intent' id='intent' menuItems={intents} />
-            </div>
-            <label htmlFor='response'>Responses</label>
-
-            <FieldArray name='actions'>
-              {arrayHelpers => (
-                <>
-                  {values.actions.map((response, index) => (
-                    <div key={index} className={classes.formGroup}>
-                      <div className={classes.formGroup}>
-                        <FormSelect
-                          name={`actions.${index}`}
-                          id={`actions${index}`}
-                          menuItems={responses}
-                        />
-                      </div>
-                      <IconButton
-                        onClick={() => {
-                          if (values.actions.length > 1) {
-                            arrayHelpers.remove(index);
+        <ReactSortable
+          list={steps}
+          setList={setSteps}
+          handle={classes.handle}
+          animation={150}
+        >
+          {steps.map((step, index) => {
+            let options =
+              step.type === "intent"
+                ? intents.map(i => i.name)
+                : responses.map(r => r.name);
+            return (
+              <div className={classes.formGroup} key={step.id}>
+                <span className={classes.handle}>
+                  <OpenWith />
+                </span>
+                <div className={classes.selectGroup}>
+                  <Select
+                    className={classes.storyType}
+                    value={step.type}
+                    onChange={e => {
+                      setSteps(prev =>
+                        prev.map(p => {
+                          if (p.id === step.id) {
+                            return { ...p, type: e.target.value, name: "" };
                           }
-                        }}
-                        aria-label='delete'
-                      >
-                        <Clear />
-                      </IconButton>
-                    </div>
-                  ))}
-                  <Button
-                    className={classes.addVarBtn}
-                    onClick={() => {
-                      arrayHelpers.push("");
+                          return p;
+                        })
+                      );
                     }}
-                    aria-label='add response'
                   >
-                    Add Response
-                  </Button>
-                </>
-              )}
-            </FieldArray>
-            <div>
-              <Button
-                disable={isSubmitting.toString()}
-                type='submit'
-                aria-label={
-                  mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"
-                }
-                className={
-                  mode === STORY_EDIT_MODE ? classes.editBtn : classes.addBtn
-                }
-              >
-                {mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}
-              </Button>
-            </div>
-            <br />
-            <br />
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
-          </Form>
-        )}
-      </Formik>
+                    <MenuItem value='intent'>intent</MenuItem>
+                    <MenuItem value='response'>response</MenuItem>
+                  </Select>
+                  <Select
+                    value={step.name}
+                    className={classes.storyName}
+                    onChange={e => {
+                      setSteps(prev =>
+                        prev.map(p => {
+                          if (p.id === step.id) {
+                            return { ...p, name: e.target.value };
+                          }
+                          return p;
+                        })
+                      );
+                    }}
+                  >
+                    {options.map(option => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+                <IconButton
+                  onClick={() => {
+                    if (steps.length > 1) {
+                      setSteps(prev => prev.filter(s => s.id !== step.id));
+                    }
+                  }}
+                  aria-label='delete'
+                >
+                  <Clear />
+                </IconButton>
+              </div>
+            );
+          })}
+        </ReactSortable>
+        <Button
+          className={classes.addVarBtn}
+          onClick={() => {
+            setSteps(prev => [...prev, { id: v4(), type: "intent", name: "" }]);
+          }}
+          aria-label='add steps'
+        >
+          Add action
+        </Button>
+        <div>
+          <Button
+            type='submit'
+            aria-label={mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}
+            className={
+              mode === STORY_EDIT_MODE ? classes.editBtn : classes.addBtn
+            }
+          >
+            {mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}
+          </Button>
+        </div>
+        <br />
+        <br />
+        <pre>{JSON.stringify(steps, null, 2)}</pre>
+      </form>
     </section>
   );
 };
+
 export default AddStory;
