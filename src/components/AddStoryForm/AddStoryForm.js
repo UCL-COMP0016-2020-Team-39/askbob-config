@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addSkill, updateSkill } from "../../actions/skillsActions";
-import { switchToSkillAddMode } from "../../actions/formActions";
-import { SKILL_EDIT_MODE } from "../../actions/types";
+import { addStory, updateStory } from "../../actions/storiesActions";
+import { switchToStoryAddMode } from "../../actions/formActions";
+import { STORY_EDIT_MODE } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
 import { Button, IconButton } from "@material-ui/core";
@@ -10,7 +10,7 @@ import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 import { FormSelect, FormTextField } from "../";
 
-const AddSkill = () => {
+const AddStory = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
@@ -18,31 +18,31 @@ const AddSkill = () => {
   const [, setResponse] = useState("");
   const [actions, setActions] = useState([""]);
 
-  const { currentSkill, skillFormMode: mode } = useSelector(
+  const { currentStory, storyFormMode: mode } = useSelector(
     state => state.form
   );
 
   const intents = useSelector(state => state.intents);
   const responses = useSelector(state => state.responses);
-  const skills = useSelector(state => state.skills);
+  const stories = useSelector(state => state.stories);
 
-  const skillsDescriptions = skills.map(skill => skill.description);
+  const storiesDescriptions = stories.map(story => story.description);
 
   useEffect(() => {
-    if (mode === SKILL_EDIT_MODE) {
-      setDescription(currentSkill.description);
-      setIntent(currentSkill.intent);
-      setActions(currentSkill.actions);
+    if (mode === STORY_EDIT_MODE) {
+      setDescription(currentStory.description);
+      setIntent(currentStory.intent);
+      setActions(currentStory.actions);
     }
-  }, [mode, currentSkill]);
+  }, [mode, currentStory]);
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    if (mode === SKILL_EDIT_MODE) {
-      dispatch(updateSkill({ ...data, id: currentSkill.id }));
-      dispatch(switchToSkillAddMode());
+    if (mode === STORY_EDIT_MODE) {
+      dispatch(updateStory({ ...data, id: currentStory.id }));
+      dispatch(switchToStoryAddMode());
     } else {
-      dispatch(addSkill(data));
+      dispatch(addStory(data));
     }
     setSubmitting(false);
     setDescription("");
@@ -54,7 +54,7 @@ const AddSkill = () => {
 
   return (
     <section className='card'>
-      <h2>{mode === SKILL_EDIT_MODE ? "Edit Skill" : "Add Skill"}</h2>
+      <h2>{mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}</h2>
       <Formik
         initialValues={{
           description,
@@ -83,8 +83,8 @@ const AddSkill = () => {
           } else if (description !== description.toLowerCase()) {
             errors.description = "description should be all lower case";
           } else if (
-            skillsDescriptions.includes(description) &&
-            mode !== SKILL_EDIT_MODE
+            storiesDescriptions.includes(description) &&
+            mode !== STORY_EDIT_MODE
           ) {
             errors.description = "description already used";
           }
@@ -180,23 +180,23 @@ const AddSkill = () => {
                 disable={isSubmitting.toString()}
                 type='submit'
                 aria-label={
-                  mode === SKILL_EDIT_MODE ? "Edit Skill" : "Add Skill"
+                  mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"
                 }
                 className={
-                  mode === SKILL_EDIT_MODE ? classes.editBtn : classes.addBtn
+                  mode === STORY_EDIT_MODE ? classes.editBtn : classes.addBtn
                 }
               >
-                {mode === SKILL_EDIT_MODE ? "Edit Skill" : "Add Skill"}
+                {mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}
               </Button>
             </div>
             <br />
             <br />
-            <pre>{/*JSON.stringify(values, null, 2)*/}</pre>
-            <pre>{/*JSON.stringify(errors, null, 2)*/}</pre>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>
     </section>
   );
 };
-export default AddSkill;
+export default AddStory;

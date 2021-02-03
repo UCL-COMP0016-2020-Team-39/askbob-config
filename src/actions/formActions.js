@@ -38,3 +38,16 @@ export const switchToSkillAddMode = () => {
     type: actionTypes.SKILL_ADD_MODE,
   };
 };
+
+export const switchToStoryEditMode = story => {
+  return {
+    type: actionTypes.STORY_EDIT_MODE,
+    payload: { story },
+  };
+};
+
+export const switchToStoryAddMode = () => {
+  return {
+    type: actionTypes.STORY_ADD_MODE,
+  };
+};

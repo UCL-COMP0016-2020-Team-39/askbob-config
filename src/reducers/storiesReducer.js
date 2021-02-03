@@ -3,28 +3,28 @@ import { v4 } from "uuid";
 
 const initialState = [];
 
-const localStorageKey = "intents";
+const localStorageKey = "stories";
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOAD_INTENTS:
+    case actionTypes.LOAD_STORIES:
       return JSON.parse(localStorage.getItem(localStorageKey)) || [];
-    case actionTypes.STORE_INTENTS:
+    case actionTypes.STORE_STORIES:
       localStorage.setItem(localStorageKey, JSON.stringify(state));
       return state;
-    case actionTypes.ADD_INTENT:
+    case actionTypes.ADD_STORY:
       return [
         ...state,
         {
-          ...action.payload.intent,
+          ...action.payload.story,
           id: v4(),
         },
       ];
-    case actionTypes.DELETE_INTENT:
-      return state.filter(intent => intent.id !== action.payload.id);
-    case actionTypes.UPDATE_INTENT:
-      return state.map(intent =>
-        intent.id !== action.payload.intent.id ? intent : action.payload.intent
+    case actionTypes.DELETE_STORY:
+      return state.filter(story => story.id !== action.payload.id);
+    case actionTypes.UPDATE_STORY:
+      return state.map(story =>
+        story.id !== action.payload.story.id ? story : action.payload.story
       );
     default:
       return state;

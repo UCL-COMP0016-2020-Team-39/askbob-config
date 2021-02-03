@@ -3,12 +3,11 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {
   Home,
-  About,
-  Contact,
   Error,
   AddIntent,
   AddResponse,
   AddSkill,
+  AddStory,
 } from "./pages";
 import { Navbar } from "./components";
 
@@ -16,17 +15,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadIntents, storeIntents } from "./actions/intentsActions";
 import { loadResponses, storeResponses } from "./actions/responsesActions";
 import { loadSkills, storeSkills } from "./actions/skillsActions";
+import { loadStories, storeStories } from "./actions/storiesActions";
 
 const App = () => {
   const dispatch = useDispatch();
   const intents = useSelector(state => state.intents);
   const responses = useSelector(state => state.responses);
   const skills = useSelector(state => state.skills);
+  const stories = useSelector(state => state.stories);
 
   useEffect(() => {
     dispatch(loadIntents());
     dispatch(loadResponses());
     dispatch(loadSkills());
+    dispatch(loadStories());
   }, [dispatch]);
 
   useEffect(() => {
@@ -41,13 +43,16 @@ const App = () => {
     dispatch(storeSkills());
   }, [dispatch, skills]);
 
+  useEffect(() => {
+    dispatch(storeStories());
+  }, [dispatch, stories]);
+
   const links = [
     { name: "Home", slug: "/" },
     { name: "Intents", slug: "/intents" },
     { name: "Responses", slug: "/responses" },
     { name: "Skills", slug: "/skills" },
-    { name: "About", slug: "/about" },
-    { name: "Contact", slug: "/contact" },
+    { name: "Stories", slug: "/Stories" },
   ];
 
   return (
@@ -60,8 +65,7 @@ const App = () => {
             <Route path='/intents' exact component={AddIntent}></Route>
             <Route path='/responses' exact component={AddResponse}></Route>
             <Route path='/skills' exact component={AddSkill}></Route>
-            <Route path='/about' exact component={About}></Route>
-            <Route path='/contact' exact component={Contact}></Route>
+            <Route path='/stories' component={AddStory}></Route>
             <Route path='*' component={Error}></Route>
           </Switch>
         </main>

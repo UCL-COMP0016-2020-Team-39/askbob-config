@@ -16,9 +16,8 @@ const reducer = (state = initialState, action) => {
       return [
         ...state,
         {
+          ...action.payload.response,
           id: v4(),
-          name: action.payload.response.name,
-          examples: action.payload.response.examples,
         },
       ];
     case actionTypes.DELETE_RESPONSE:

@@ -19,6 +19,13 @@ export const ADD_SKILL = "ADD_SKILL";
 export const DELETE_SKILL = "DELETE_SKILL";
 export const UPDATE_SKILL = "UPDATE_SKILL";
 
+export const LOAD_STORIES = "LOAD_STORIES";
+export const STORE_STORIES = "STORE_STORIES";
+export const GET_STORIES = "GET_STORIES";
+export const ADD_STORY = "ADD_STORY";
+export const DELETE_STORY = "DELETE_STORY";
+export const UPDATE_STORY = "UPDATE_STORY";
+
 export const INTENT_EDIT_MODE = "INTENT_EDIT_MODE ";
 export const INTENT_ADD_MODE = "INTENT_ADD_MODE ";
 
@@ -27,3 +34,6 @@ export const RESPONSE_ADD_MODE = "RESPONSE_ADD_MODE";
 
 export const SKILL_EDIT_MODE = "SKILL_EDIT_MODE";
 export const SKILL_ADD_MODE = "SKILL_ADD_MODE";
+
+export const STORY_EDIT_MODE = "STORY_EDIT_MODE";
+export const STORY_ADD_MODE = "STORY_ADD_MODE";
