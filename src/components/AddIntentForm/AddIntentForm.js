@@ -10,7 +10,8 @@ import { Clear } from "@material-ui/icons";
 import { FormTextField } from "../";
 import useStyles from "./styles";
 
-import { v4 } from "uuid";
+import { nameToId } from "../../utils";
+
 const AddIntent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -34,8 +35,7 @@ const AddIntent = () => {
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    const intent_id =
-      data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+    const intent_id = nameToId(data.name);
     if (mode === INTENT_EDIT_MODE) {
       dispatch(
         updateIntent({

@@ -15,8 +15,9 @@ import { Clear, OpenWith } from "@material-ui/icons";
 import useStyles from "./styles";
 
 import { ReactSortable } from "react-sortablejs";
-
 import { v4 } from "uuid";
+
+import { nameToId } from "../../utils";
 
 const AddStory = () => {
   const classes = useStyles();
@@ -89,8 +90,7 @@ const AddStory = () => {
 
     setErrorText("");
 
-    const story_id =
-      description.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+    const story_id = nameToId(description);
     console.log(story_id);
 
     const storySteps = steps.map(step => ({

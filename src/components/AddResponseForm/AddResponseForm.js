@@ -10,7 +10,7 @@ import { Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 
-import { v4 } from "uuid";
+import { nameToId } from "../../utils";
 
 const AddResponse = () => {
   const classes = useStyles();
@@ -35,8 +35,7 @@ const AddResponse = () => {
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    const response_id =
-      "utter_" + data.name.trim().toLowerCase().replaceAll(/\s+/g, "_") + v4();
+    const response_id = "utter_" + nameToId(data.name);
     console.log(response_id);
     if (mode === RESPONSE_EDIT_MODE) {
       dispatch(
