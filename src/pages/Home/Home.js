@@ -80,7 +80,7 @@ const Home = () => {
       <div className='card'>
         <h2>Welcome</h2>
         <p className={classes.errorText}>{errorText}</p>
-        <br />
+
         <label htmlFor='pluginName'>Plugin Name</label>
         <div className={classes.formGroup}>
           <TextField
@@ -139,8 +139,7 @@ const Home = () => {
             download
           </Button>
         </div>
-        <br />
-        <br />
+
         {show && (
           <pre
             style={{
@@ -152,7 +151,7 @@ const Home = () => {
             {data}
           </pre>
         )}
-        <br />
+
         <Link
           download='config.json'
           style={{ display: "none" }}
