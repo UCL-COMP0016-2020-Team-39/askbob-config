@@ -1,0 +1,17 @@
+import { makeStyles } from "@material-ui/core/styles";
+
+export default makeStyles(theme => ({
+  formGroup: {
+    width: "100%",
+    marginBottom: "1rem",
+    "& *": {
+      width: "100%",
+    },
+  },
+
+  errorText: {
+    background: "#fee",
+    color: "#f00",
+    textAlign: "center",
+  },
+}));
