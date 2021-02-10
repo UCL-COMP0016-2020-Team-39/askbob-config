@@ -57,6 +57,14 @@ const AddStory = () => {
       }
     });
 
+    if (steps[0].type !== "intent") {
+      errors.steps[0] = "story must start with an intent";
+    }
+
+    if (steps.length > 0 && steps[steps.length - 1].type === "intent") {
+      errors.steps[0] = "story must not end with an intent";
+    }
+
     if (errors.description === "") {
       delete errors.description;
     }
