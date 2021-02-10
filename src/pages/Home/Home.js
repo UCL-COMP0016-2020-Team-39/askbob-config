@@ -1,12 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { TextField, Button, Link } from "@material-ui/core";
+import { TextField, Button, Link, Checkbox } from "@material-ui/core";
 import UseStyles from "./styles";
+
+const entityNames = [
+  "NAME",
+  "GPE",
+  "DATE",
+  "CURRENCY",
+  "TIME",
+  "DISTANCES",
+  "COLOR",
+  "TRANSACTION",
+];
+
+const FormCheckBox = ({ name, ...props }) => {
+  return (
+    <>
+      <label>{name}</label>
+      <Checkbox value={name} {...props}></Checkbox>
+    </>
+  );
+};
 
 const Home = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState("");
+
   const [pluginName, setPluginName] = useState("");
+  const [entities, setEntities] = useState([]);
+
   const [errorText, setErrorText] = useState("");
   const [downloadLink, setDownloadLink] = useState("");
 
@@ -21,7 +44,7 @@ const Home = () => {
 
   useEffect(() => {
     const jsonData = JSON.stringify(
-      { plugin: pluginName, intents, responses, skills, stories },
+      { plugin: pluginName, entities, intents, responses, skills, stories },
       null,
       4
     );
@@ -29,7 +52,7 @@ const Home = () => {
     const blob = new Blob([jsonData], { type: "application/json" });
     const fileDownloadUrl = URL.createObjectURL(blob);
     setDownloadLink(fileDownloadUrl);
-  }, [pluginName, intents, responses, skills, stories]);
+  }, [pluginName, entities, intents, responses, skills, stories]);
 
   const validate = () => {
     let error = "";
@@ -70,6 +93,29 @@ const Home = () => {
             onBlur={() => validate()}
           ></TextField>
         </div>
+        <label htmlFor='pluginName'>Entities</label>
+
+        <ul>
+          {entityNames.map((entityName, index) => {
+            return (
+              <span key={index}>
+                <FormCheckBox
+                  name={entityName}
+                  onChange={e => {
+                    const value = e.target.value;
+                    if (entities.includes(value)) {
+                      setEntities(prev =>
+                        prev.filter(entity => entity !== value)
+                      );
+                    } else {
+                      setEntities(prev => [...prev, value]);
+                    }
+                  }}
+                />
+              </span>
+            );
+          })}
+        </ul>
         <div className={classes.formGroup}>
           <Button
             variant='contained'
@@ -84,12 +130,13 @@ const Home = () => {
         </div>
         <div className={classes.formGroup}>
           <Button
+            className={classes.downloadBtn}
             variant='contained'
             color='primary'
             onClick={handleSubmit}
-            aria-label='submit'
+            aria-label='download'
           >
-            submit
+            download
           </Button>
         </div>
         <br />

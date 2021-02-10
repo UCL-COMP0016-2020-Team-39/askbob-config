@@ -14,4 +14,11 @@ export default makeStyles(theme => ({
     color: "#f00",
     textAlign: "center",
   },
+  downloadBtn: {
+    backgroundColor: "#f84",
+
+    "&:hover": {
+      backgroundColor: "#e87838",
+    },
+  },
 }));
