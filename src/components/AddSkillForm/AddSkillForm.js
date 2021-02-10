@@ -26,9 +26,6 @@ const AddSkill = () => {
 
   const intents = useSelector(state => state.intents);
   const responses = useSelector(state => state.responses);
-  const skills = useSelector(state => state.skills);
-
-  const skillsDescriptions = skills.map(skill => skill.description);
 
   useEffect(() => {
     if (mode === SKILL_EDIT_MODE) {
@@ -93,6 +90,9 @@ const AddSkill = () => {
             errors.description = "description is required";
           } else if (description.length > maxStringLength) {
             errors.description = "description is too long";
+          } else if (!description.match(/^[0-9a-zA-Z ]+$/)) {
+            errors.description =
+              "description can only contain numbers and letters";
           }
 
           if (!intent) {

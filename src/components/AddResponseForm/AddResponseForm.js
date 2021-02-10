@@ -83,6 +83,8 @@ const AddResponse = () => {
             mode !== RESPONSE_EDIT_MODE
           ) {
             errors.name = "name already used";
+          } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
+            errors.name = "name can only contain numbers and letters";
           }
 
           if (!examples || examples.length === 0) {

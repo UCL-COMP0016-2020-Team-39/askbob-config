@@ -44,8 +44,14 @@ const AddStory = () => {
 
   const validate = useCallback(() => {
     const errors = { description: "", steps: [""] };
+    const maxStringLength = 80;
+
     if (!description || !description.trim()) {
       errors.description = "description is required";
+    } else if (description.length > maxStringLength) {
+      errors.description = "description is too long";
+    } else if (!description.match(/^[0-9a-zA-Z ]+$/)) {
+      errors.description = "description can only contain numbers and letters";
     }
 
     steps.forEach((step, index) => {

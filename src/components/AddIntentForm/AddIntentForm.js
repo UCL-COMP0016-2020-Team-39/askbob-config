@@ -16,7 +16,7 @@ const AddIntent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  const [examples, setExamples] = useState([""]);
+  const [examples, setExamples] = useState(["", ""]);
 
   const { currentIntent, intentFormMode: mode } = useSelector(
     state => state.form
@@ -79,6 +79,8 @@ const AddIntent = () => {
             errors.name = "name should be all lower case";
           } else if (intentsNames.includes(name) && mode !== INTENT_EDIT_MODE) {
             errors.name = "name already used";
+          } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
+            errors.name = "name can only contain numbers and letters";
           }
 
           if (!examples || examples.length === 0) {
@@ -126,7 +128,7 @@ const AddIntent = () => {
                         <IconButton
                           aria-label='clear'
                           onClick={() => {
-                            if (values.examples.length > 1) {
+                            if (values.examples.length > 2) {
                               arrayHelpers.remove(index);
                             }
                           }}
