@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { TextField, Button, Link, Checkbox } from "@material-ui/core";
+import { TextField, Button, Link, Checkbox, Grid } from "@material-ui/core";
 import UseStyles from "./styles";
 
 const entityNames = [
@@ -12,6 +12,8 @@ const entityNames = [
   "DISTANCES",
   "COLOR",
   "TRANSACTION",
+  "LANGUAGE",
+  "MONEY",
 ];
 
 const FormCheckBox = ({ name, ...props }) => {
@@ -95,10 +97,10 @@ const Home = () => {
         </div>
         <label htmlFor='pluginName'>Entities</label>
 
-        <ul>
+        <Grid container direction='row' alignItems='center' spacing='2'>
           {entityNames.map((entityName, index) => {
             return (
-              <span key={index}>
+              <Grid item xs='6' md='3' xl='2' key={index}>
                 <FormCheckBox
                   name={entityName}
                   onChange={e => {
@@ -112,10 +114,10 @@ const Home = () => {
                     }
                   }}
                 />
-              </span>
+              </Grid>
             );
           })}
-        </ul>
+        </Grid>
         <div className={classes.formGroup}>
           <Button
             variant='contained'
