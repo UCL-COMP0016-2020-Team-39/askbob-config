@@ -14,14 +14,17 @@ export default makeStyles(theme => ({
   formGroup: {
     display: "flex",
     width: "100%",
-    flexDirection: "row",
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "baseline",
-    "& button": {
+    "& .MuiButtonBase-root": {
       marginBottom: "1em",
+      alignSelf: "center",
     },
 
     "& .MuiTextField-root": {
       flex: 1,
+      width: "100%",
     },
   },
   addVarBtn: {

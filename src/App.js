@@ -17,6 +17,7 @@ import { loadIntents, storeIntents } from "./actions/intentsActions";
 import { loadResponses, storeResponses } from "./actions/responsesActions";
 import { loadSkills, storeSkills } from "./actions/skillsActions";
 import { loadStories, storeStories } from "./actions/storiesActions";
+import { loadForms, storeForms } from "./actions/formsActions";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,12 +25,14 @@ const App = () => {
   const responses = useSelector(state => state.responses);
   const skills = useSelector(state => state.skills);
   const stories = useSelector(state => state.stories);
+  const forms = useSelector(state => state.forms);
 
   useEffect(() => {
     dispatch(loadIntents());
     dispatch(loadResponses());
     dispatch(loadSkills());
     dispatch(loadStories());
+    dispatch(loadForms());
   }, [dispatch]);
 
   useEffect(() => {
@@ -47,6 +50,10 @@ const App = () => {
   useEffect(() => {
     dispatch(storeStories());
   }, [dispatch, stories]);
+
+  useEffect(() => {
+    dispatch(storeForms());
+  }, [dispatch, forms]);
 
   const links = [
     { name: "Home", slug: "/" },

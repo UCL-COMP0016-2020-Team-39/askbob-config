@@ -16,22 +16,34 @@ const AddForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
-  const [intent, setIntent] = useState("");
-  const [, setResponse] = useState("");
-  const [actions, setActions] = useState([""]);
+  const [activateIntent, setActivateIntent] = useState("");
+  const [deactivateIntent, setDeactivateIntent] = useState("");
 
+  const [, setResponse] = useState("");
+  const [questions, setQuestions] = useState([
+    {
+      question: "",
+      type: "",
+      slot: "",
+      entity: "",
+      role: "",
+      group: "",
+      intent: "",
+      not_intent: "",
+    },
+  ]);
   const { currentForm, formFormMode: mode } = useSelector(
     state => state.formMode
   );
 
   const intents = useSelector(state => state.intents);
-  const responses = useSelector(state => state.responses);
 
   useEffect(() => {
     if (mode === FORM_EDIT_MODE) {
       setDescription(currentForm.description);
-      setIntent(currentForm.intent);
-      setActions(currentForm.actions);
+      setActivateIntent(currentForm.activateIntent);
+      setDeactivateIntent(currentForm.deactivateIntent);
+      setQuestions(currentForm.questions);
     }
   }, [mode, currentForm]);
 
@@ -60,9 +72,21 @@ const AddForm = () => {
     }
     setSubmitting(false);
     setDescription("");
-    setIntent("");
     setResponse("");
-    setActions([""]);
+    setActivateIntent("");
+    setDeactivateIntent("");
+    setQuestions([
+      {
+        question: "",
+        type: "",
+        slot: "",
+        entity: "",
+        role: "",
+        group: "",
+        intent: "",
+        not_intent: "",
+      },
+    ]);
     resetForm();
   };
 
@@ -72,20 +96,19 @@ const AddForm = () => {
       <Formik
         initialValues={{
           description,
-          intent,
-          actions,
+          activateIntent,
+          deactivateIntent,
+          questions,
         }}
         enableReinitialize={true}
         onSubmit={handleSubmit}
         validate={values => {
           let errors = {
             description: "",
-            intent: "",
-            actions: [""],
           };
 
           const maxStringLength = 80;
-          const { description, intent, actions } = values;
+          const { description } = values;
           if (!description || !description.trim()) {
             errors.description = "description is required";
           } else if (description.length > maxStringLength) {
@@ -95,34 +118,8 @@ const AddForm = () => {
               "description can only contain numbers and letters";
           }
 
-          if (!intent) {
-            errors.intent = "intent required";
-          }
-
-          if (!actions || actions.length === 0) {
-            errors.actions = "actions are required";
-          } else {
-            actions.forEach((response, index) => {
-              if (!response || !response.trim()) {
-                errors.actions[index] = `response ${index + 1} is required`;
-              } else if (response.trim().length < 1) {
-                errors.actions[index] = `response ${index + 1} is too short`;
-              } else if (response.trim().length > maxStringLength) {
-                errors.actions[index] = `response ${index + 1} is too long`;
-              }
-            });
-          }
-
           if (errors.description === "") {
             delete errors.description;
-          }
-
-          if (errors.intent === "") {
-            delete errors.intent;
-          }
-
-          if (errors.actions[0] === "" && errors.actions.length === 1) {
-            delete errors.actions;
           }
 
           return { ...errors };
@@ -138,35 +135,119 @@ const AddForm = () => {
                 placeholder='description'
               />
             </div>
-            <label htmlFor='intent'>Intent</label>
+            <label htmlFor='intent'>Activate Intent</label>
             <div className={classes.formGroup}>
               <FormSelect
-                name='intent'
-                id='intent'
+                name='activateIntent'
+                id='activateIntent'
                 menuItems={intents}
                 menuValue='intent_id'
                 menuText='name'
               />
             </div>
-            <label htmlFor='response'>Responses</label>
-
-            <FieldArray name='actions'>
+            <label htmlFor='intent'>Deactivate Intent</label>
+            <div className={classes.formGroup}>
+              <FormSelect
+                name='deactivateIntent'
+                id='deactivateIntent'
+                menuItems={intents}
+                menuValue='intent_id'
+                menuText='name'
+              />
+            </div>
+            <label htmlFor='response'>Questions</label>
+            <FieldArray name='questions'>
               {arrayHelpers => (
                 <>
-                  {values.actions.map((response, index) => (
+                  {values.questions.map((question, index) => (
                     <div key={index} className={classes.formGroup}>
                       <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.question`}>
+                          Question
+                        </label>
+                        <FormTextField
+                          name={`questions.${index}.question`}
+                          id={`questions.${index}.question`}
+                        />
+                      </div>
+                      <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.type`}>Type</label>
                         <FormSelect
-                          name={`actions.${index}`}
-                          id={`actions${index}`}
-                          menuItems={responses}
-                          menuValue='response_id'
+                          name={`questions.${index}.type`}
+                          id={`questions.${index}.type`}
+                          menuItems={[
+                            { type: "from entity" },
+                            { type: "from text" },
+                          ]}
+                          menuValue='type'
+                          menuText='type'
+                        />
+                      </div>
+                      <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.slot`}>Slot</label>
+                        <FormTextField
+                          name={`questions.${index}.slot`}
+                          id={`questions.${index}.slot`}
+                        />
+                      </div>
+                      <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.entity`}>
+                          Entity
+                        </label>
+                        <FormTextField
+                          name={`questions.${index}.entity`}
+                          id={`questions.${index}.entity`}
+                        />
+                      </div>
+                      <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.role`}>Role</label>
+                        <FormTextField
+                          name={`questions.${index}.role`}
+                          id={`questions.${index}.role`}
+                        />
+                      </div>
+                      <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.group`}>
+                          Group
+                        </label>
+                        <FormTextField
+                          name={`questions.${index}.group`}
+                          id={`questions.${index}.group`}
+                        />
+                      </div>
+                      <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.group`}>
+                          Intent
+                        </label>
+                        <FormSelect
+                          name={`questions.${index}.intent`}
+                          id={`questions.${index}.intent`}
+                          menuItems={[
+                            ...intents,
+                            { intent_id: "None", name: "None" },
+                          ]}
+                          menuValue='intent_id'
+                          menuText='name'
+                        />
+                      </div>
+                      <div className={classes.formGroup}>
+                        <label htmlFor={`questions.${index}.not_intent`}>
+                          Not Intent
+                        </label>
+                        <FormSelect
+                          name={`questions.${index}.not_intent`}
+                          id={`questions.${index}.not_intent`}
+                          menuItems={[
+                            ...intents,
+                            { intent_id: "None", name: "None" },
+                          ]}
+                          menuValue='intent_id'
                           menuText='name'
                         />
                       </div>
                       <IconButton
                         onClick={() => {
-                          if (values.actions.length > 1) {
+                          if (values.questions.length > 1) {
                             arrayHelpers.remove(index);
                           }
                         }}
@@ -179,15 +260,25 @@ const AddForm = () => {
                   <Button
                     className={classes.addVarBtn}
                     onClick={() => {
-                      arrayHelpers.push("");
+                      arrayHelpers.push({
+                        question: "",
+                        type: "",
+                        slot: "",
+                        entity: "",
+                        role: "",
+                        group: "",
+                        intent: "",
+                        not_intent: "",
+                      });
                     }}
-                    aria-label='add response'
+                    aria-label='add question'
                   >
-                    Add Response
+                    Add Question
                   </Button>
                 </>
               )}
             </FieldArray>
+
             <div>
               <Button
                 disable={isSubmitting.toString()}
@@ -202,8 +293,8 @@ const AddForm = () => {
             </div>
             <br />
             <br />
-            <pre>{/*JSON.stringify(values, null, 2)*/}</pre>
-            <pre>{/*JSON.stringify(errors, null, 2)*/}</pre>
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>

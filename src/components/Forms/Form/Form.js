@@ -6,7 +6,15 @@ import { deleteForm } from "../../../actions/formsActions";
 import { switchToFormEditMode } from "../../../actions/formModeActions";
 import useStyles from "./styles";
 
-const Form = ({ id, description, intent, actions, ...formProps }) => {
+const Form = ({
+  id,
+  description,
+  activateIntent,
+  deactivateIntent,
+  questions,
+
+  ...formProps
+}) => {
   const dispatch = useDispatch();
 
   const intents = useSelector(state => state.intents);
@@ -20,7 +28,14 @@ const Form = ({ id, description, intent, actions, ...formProps }) => {
 
   const editThis = () => {
     dispatch(
-      switchToFormEditMode({ id, description, intent, actions, ...formProps })
+      switchToFormEditMode({
+        id,
+        description,
+        activateIntent,
+        deactivateIntent,
+        questions,
+        ...formProps,
+      })
     );
     setTimeout(() => {
       window.scrollTo({
@@ -31,13 +46,19 @@ const Form = ({ id, description, intent, actions, ...formProps }) => {
     }, 30);
   };
 
-  const intentData = intents.find(i => i.intent_id === intent);
-  const intentName = intentData && intentData.name;
+  const activateIntentData = intents.find(i => i.intent_id === activateIntent);
+  const activateIntentName = activateIntentData && activateIntentData.name;
+
+  const deactivateIntentData = intents.find(
+    i => i.intent_id === deactivateIntent
+  );
+  const deactivateIntentName =
+    deactivateIntentData && deactivateIntentData.name;
 
   return (
-    <div className='card'>
+    <div className={`card ${classes.form}`}>
       <header className={classes.header}>
-        <h2> {description}</h2>
+        <h3> {description}</h3>
         <div className={classes.buttons}>
           <IconButton
             size='small'
@@ -55,13 +76,61 @@ const Form = ({ id, description, intent, actions, ...formProps }) => {
           </IconButton>
         </div>
       </header>
-      <h2>intent</h2>
-      <h4>{intentName}</h4>
-      <h2>responses</h2>
-      {actions.map((response, index) => {
-        const responseData = responses.find(r => r.response_id === response);
-        const responseName = responseData && responseData.name;
-        return <h4 key={index}>{responseName}</h4>;
+      <h3>activate intent</h3>
+      <h4>{activateIntentName}</h4>
+
+      <h3>deactivate intent</h3>
+      <h4>{deactivateIntentName}</h4>
+      {/*
+  question: "",
+  type: "",
+  slot: "",
+  entity: "",
+  role: "",
+  group: "",
+  intent: "",
+  not_intent: "",
+  
+  */}
+      <h3>Questions</h3>
+      {questions.map((q, index) => {
+        const {
+          question,
+          type,
+          slot,
+          entity,
+          role,
+          group,
+          intent,
+          not_intent,
+        } = q;
+        const intentData = intents.find(i => i.intent_id === intent);
+        const intentName = intentData && intentData.name;
+        const notIntentData = intents.find(i => i.intent_id === not_intent);
+        const notIntentName = notIntentData && notIntentData.name;
+        return (
+          <div key={index}>
+            <h3>Question</h3>
+            <h4>{question}</h4>
+            <h3>Type</h3>
+            <h4>{type}</h4>
+            <h3>Slot</h3>
+            <h4>{slot}</h4>
+            <h3>Entity</h3>
+            <h4>{entity}</h4>
+            <h3>Role</h3>
+            <h4>{role}</h4>
+            <h3>Group</h3>
+            <h4>{group}</h4>
+            <h3>Intent</h3>
+            <h4>{intent === "None" ? "None" : intentName}</h4>
+            <h3>Not Intent</h3>
+            <h4>{not_intent === "None" ? "None" : notIntentName}</h4>
+            <br />
+            <br />
+            <br />
+          </div>
+        );
       })}
     </div>
   );
