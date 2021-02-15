@@ -3,7 +3,7 @@ import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStory } from "../../../actions/storiesActions";
-import { switchToStoryEditMode } from "../../../actions/formActions";
+import { switchToStoryEditMode } from "../../../actions/formModeActions";
 import useStyles from "./styles";
 
 const Story = ({ id, description, steps, ...storyProps }) => {

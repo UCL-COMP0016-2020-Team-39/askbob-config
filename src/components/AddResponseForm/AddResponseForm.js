@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addResponse, updateResponse } from "../../actions/responsesActions";
-import { switchToResponseAddMode } from "../../actions/formActions";
+import { switchToResponseAddMode } from "../../actions/formModeActions";
 import { RESPONSE_EDIT_MODE } from "../../actions/types";
 import { FormTextField } from "../";
 
@@ -19,7 +19,7 @@ const AddResponse = () => {
   const [examples, setExamples] = useState([""]);
 
   const { currentResponse, responseFormMode: mode } = useSelector(
-    state => state.form
+    state => state.formMode
   );
 
   const responses = useSelector(state => state.responses);

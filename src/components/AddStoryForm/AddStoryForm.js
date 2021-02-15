@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addStory, updateStory } from "../../actions/storiesActions";
-import { switchToStoryAddMode } from "../../actions/formActions";
+import { switchToStoryAddMode } from "../../actions/formModeActions";
 import { STORY_EDIT_MODE } from "../../actions/types";
 
 import {
@@ -29,7 +29,7 @@ const AddStory = () => {
   const [errorText, setErrorText] = useState("error");
 
   const { currentStory, storyFormMode: mode } = useSelector(
-    state => state.form
+    state => state.formMode
   );
 
   const intents = useSelector(state => state.intents);
@@ -170,7 +170,6 @@ const AddStory = () => {
                             return {
                               ...p,
                               type: e.target.value,
-                              step_id: "",
                             };
                           }
                           return p;
@@ -182,7 +181,7 @@ const AddStory = () => {
                     <MenuItem value='response'>response</MenuItem>
                   </Select>
                   <Select
-                    value={step.data}
+                    value={step.step_id}
                     className={classes.storyName}
                     onChange={e => {
                       setSteps(prev =>
@@ -247,7 +246,7 @@ const AddStory = () => {
         </div>
         <br />
         <br />
-        <pre>{JSON.stringify(steps, null, 2)}</pre>
+        <pre>{/*JSON.stringify(steps, null, 2)*/}</pre>
       </form>
     </section>
   );

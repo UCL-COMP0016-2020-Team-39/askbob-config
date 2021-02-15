@@ -3,12 +3,12 @@ import intentsReducer from "./intentsReducer";
 import responsesReducer from "./responsesReducer";
 import skillsReducer from "./skillsReducer";
 import storiesReducer from "./storiesReducer";
-import formReducer from "./formReducer";
+import formModeReducer from "./formModeReducer";
 
 const reducer = combineReducers({
   intents: intentsReducer,
   responses: responsesReducer,
-  form: formReducer,
+  formMode: formModeReducer,
   skills: skillsReducer,
   stories: storiesReducer,
 });

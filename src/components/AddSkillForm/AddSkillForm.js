@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addSkill, updateSkill } from "../../actions/skillsActions";
-import { switchToSkillAddMode } from "../../actions/formActions";
+import { switchToSkillAddMode } from "../../actions/formModeActions";
 import { SKILL_EDIT_MODE } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
@@ -21,7 +21,7 @@ const AddSkill = () => {
   const [actions, setActions] = useState([""]);
 
   const { currentSkill, skillFormMode: mode } = useSelector(
-    state => state.form
+    state => state.formMode
   );
 
   const intents = useSelector(state => state.intents);

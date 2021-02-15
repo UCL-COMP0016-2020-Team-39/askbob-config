@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addIntent, updateIntent } from "../../actions/intentsActions";
-import { switchToIntentAddMode } from "../../actions/formActions";
+import { switchToIntentAddMode } from "../../actions/formModeActions";
 import { INTENT_EDIT_MODE } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
@@ -19,7 +19,7 @@ const AddIntent = () => {
   const [examples, setExamples] = useState(["", ""]);
 
   const { currentIntent, intentFormMode: mode } = useSelector(
-    state => state.form
+    state => state.formMode
   );
 
   const intents = useSelector(state => state.intents);

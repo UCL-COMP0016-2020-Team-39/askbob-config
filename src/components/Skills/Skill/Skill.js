@@ -3,7 +3,7 @@ import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSkill } from "../../../actions/skillsActions";
-import { switchToSkillEditMode } from "../../../actions/formActions";
+import { switchToSkillEditMode } from "../../../actions/formModeActions";
 import useStyles from "./styles";
 
 const Skill = ({ id, description, intent, actions, ...skillProps }) => {

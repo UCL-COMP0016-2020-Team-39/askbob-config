@@ -3,7 +3,7 @@ import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 import { deleteResponse } from "../../../actions/responsesActions";
-import { switchToResponseEditMode } from "../../../actions/formActions";
+import { switchToResponseEditMode } from "../../../actions/formModeActions";
 import useStyles from "./styles";
 
 const Response = ({ id, name, examples, ...responseProps }) => {
