@@ -39,6 +39,7 @@ const Home = () => {
   const responses = useSelector(state => state.responses);
   const skills = useSelector(state => state.skills);
   const stories = useSelector(state => state.stories);
+  const forms = useSelector(state => state.forms);
 
   const downloadTag = useRef(null);
 
@@ -46,7 +47,15 @@ const Home = () => {
 
   useEffect(() => {
     const jsonData = JSON.stringify(
-      { plugin: pluginName, entities, intents, responses, skills, stories },
+      {
+        plugin: pluginName,
+        entities,
+        intents,
+        responses,
+        skills,
+        stories,
+        forms,
+      },
       null,
       4
     );
@@ -54,7 +63,7 @@ const Home = () => {
     const blob = new Blob([jsonData], { type: "application/json" });
     const fileDownloadUrl = URL.createObjectURL(blob);
     setDownloadLink(fileDownloadUrl);
-  }, [pluginName, entities, intents, responses, skills, stories]);
+  }, [pluginName, entities, intents, responses, skills, stories, forms]);
 
   const validate = () => {
     let error = "";
