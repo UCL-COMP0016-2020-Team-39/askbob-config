@@ -5,10 +5,12 @@ const initialState = {
   currentResponse: null,
   currentSkill: null,
   currentStory: null,
+  currentForm: null,
   responseFormMode: actionTypes.RESPONSE_ADD_MODE,
   intentFormMode: actionTypes.INTENT_ADD_MODE,
   skillFormMode: actionTypes.SKILL_ADD_MODE,
   storyFormMode: actionTypes.STORY_ADD_MODE,
+  FormFormMode: actionTypes.FORM_ADD_MODE,
 };
 
 const reducer = (state = initialState, action) => {
@@ -60,6 +62,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentStory: { ...action.payload.story },
         storyFormMode: actionTypes.STORY_EDIT_MODE,
+      };
+    case actionTypes.FORM_ADD_MODE:
+      return {
+        ...state,
+        currentForm: null,
+        FormFormMode: actionTypes.FORM_ADD_MODE,
+      };
+    case actionTypes.FORM_EDIT_MODE:
+      return {
+        ...state,
+        currentForm: { ...action.payload.form },
+        storyFormMode: actionTypes.FORM_EDIT_MODE,
       };
     default:
       return state;

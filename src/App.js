@@ -8,6 +8,7 @@ import {
   AddResponse,
   AddSkill,
   AddStory,
+  AddForm,
 } from "./pages";
 import { Navbar } from "./components";
 
@@ -52,7 +53,8 @@ const App = () => {
     { name: "Intents", slug: "/intents" },
     { name: "Responses", slug: "/responses" },
     { name: "Skills", slug: "/skills" },
-    { name: "Stories", slug: "/Stories" },
+    { name: "Stories", slug: "/stories" },
+    { name: "Forms", slug: "/forms" },
   ];
 
   return (
@@ -66,6 +68,7 @@ const App = () => {
             <Route path='/responses' exact component={AddResponse}></Route>
             <Route path='/skills' exact component={AddSkill}></Route>
             <Route path='/stories' component={AddStory}></Route>
+            <Route path='/forms' component={AddForm}></Route>
             <Route path='*' component={Error}></Route>
           </Switch>
         </main>

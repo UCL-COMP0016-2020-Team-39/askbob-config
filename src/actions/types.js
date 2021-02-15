@@ -26,6 +26,13 @@ export const ADD_STORY = "ADD_STORY";
 export const DELETE_STORY = "DELETE_STORY";
 export const UPDATE_STORY = "UPDATE_STORY";
 
+export const LOAD_FORMS = "LOAD_FORMS";
+export const STORE_FORMS = "STORE_FORMS";
+export const GET_FORMS = "GET_FORM";
+export const ADD_FORM = "ADD_FORM";
+export const DELETE_FORM = "DELETE_FORM";
+export const UPDATE_FORM = "UPDATE_FORM";
+
 export const INTENT_EDIT_MODE = "INTENT_EDIT_MODE ";
 export const INTENT_ADD_MODE = "INTENT_ADD_MODE ";
 
@@ -37,3 +44,6 @@ export const SKILL_ADD_MODE = "SKILL_ADD_MODE";
 
 export const STORY_EDIT_MODE = "STORY_EDIT_MODE";
 export const STORY_ADD_MODE = "STORY_ADD_MODE";
+
+export const FORM_EDIT_MODE = "FORM_EDIT_MODE";
+export const FORM_ADD_MODE = "FORM_ADD_MODE";

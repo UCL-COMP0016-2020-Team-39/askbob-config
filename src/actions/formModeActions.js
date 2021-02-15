@@ -51,3 +51,16 @@ export const switchToStoryAddMode = () => {
     type: actionTypes.STORY_ADD_MODE,
   };
 };
+
+export const switchToFormEditMode = form => {
+  return {
+    type: actionTypes.FORM_EDIT_MODE,
+    payload: { form },
+  };
+};
+
+export const switchToFormAddMode = () => {
+  return {
+    type: actionTypes.FORM_ADD_MODE,
+  };
+};
