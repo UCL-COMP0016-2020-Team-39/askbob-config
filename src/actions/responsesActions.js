@@ -1,8 +1,8 @@
 import {
   ADD_RESPONSE,
   DELETE_RESPONSE,
-  LOAD_RESPONSES,
-  STORE_RESPONSES,
+  LOAD_RESPONSE,
+  STORE_RESPONSE,
   UPDATE_RESPONSE,
 } from "./types";
 
@@ -20,6 +20,6 @@ export const updateResponse = response => ({
   type: UPDATE_RESPONSE,
   payload: { response },
 });
-export const loadResponses = () => ({ type: LOAD_RESPONSES });
+export const loadResponses = () => ({ type: LOAD_RESPONSE });
 
-export const storeResponses = () => ({ type: STORE_RESPONSES });
+export const storeResponses = () => ({ type: STORE_RESPONSE });

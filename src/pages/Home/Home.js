@@ -109,7 +109,7 @@ const Home = () => {
         <Grid container direction='row' alignItems='center' spacing='2'>
           {entityNames.map((entityName, index) => {
             return (
-              <Grid item xs='6' sm='4' md='3' xl='2' key={index}>
+              <Grid item xs={6} sm={4} md={3} xl={2} key={index}>
                 <FormCheckBox
                   name={entityName}
                   onChange={e => {

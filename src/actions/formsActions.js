@@ -1,8 +1,8 @@
 import {
   ADD_FORM,
   DELETE_FORM,
-  LOAD_FORMS,
-  STORE_FORMS,
+  LOAD_FORM,
+  STORE_FORM,
   UPDATE_FORM,
 } from "./types";
 
@@ -20,6 +20,6 @@ export const updateForm = form => ({
   type: UPDATE_FORM,
   payload: { form },
 });
-export const loadForms = () => ({ type: LOAD_FORMS });
+export const loadForms = () => ({ type: LOAD_FORM });
 
-export const storeForms = () => ({ type: STORE_FORMS });
+export const storeForms = () => ({ type: STORE_FORM });

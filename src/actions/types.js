@@ -1,34 +1,34 @@
-export const LOAD_INTENTS = "LOAD_INTENTS";
-export const STORE_INTENTS = "STORE_INTENTS";
-export const GET_INTENTS = "GET_INTENTS";
+export const LOAD_INTENT = "LOAD_INTENT";
+export const STORE_INTENT = "STORE_INTENT";
+export const GET_INTENT = "GET_INTENT";
 export const ADD_INTENT = "ADD_INTENT";
 export const DELETE_INTENT = "DELETE_INTENT";
 export const UPDATE_INTENT = "UPDATE_INTENT";
 
-export const LOAD_RESPONSES = "LOAD_RESPONSES";
-export const STORE_RESPONSES = "STORE_RESPONSES";
-export const GET_RESPONSES = "GET_RESPONSES";
+export const LOAD_RESPONSE = "LOAD_RESPONSE";
+export const STORE_RESPONSE = "STORE_RESPONSE";
+export const GET_RESPONSE = "GET_RESPONSE";
 export const ADD_RESPONSE = "ADD_RESPONSE";
 export const DELETE_RESPONSE = "DELETE_RESPONSE";
 export const UPDATE_RESPONSE = "UPDATE_RESPONSE";
 
-export const LOAD_SKILLS = "LOAD_SKILLS";
-export const STORE_SKILLS = "STORE_SKILLS";
-export const GET_SKILLS = "GET_SKILLS";
+export const LOAD_SKILL = "LOAD_SKILL";
+export const STORE_SKILL = "STORE_SKILL";
+export const GET_SKILL = "GET_SKILL";
 export const ADD_SKILL = "ADD_SKILL";
 export const DELETE_SKILL = "DELETE_SKILL";
 export const UPDATE_SKILL = "UPDATE_SKILL";
 
-export const LOAD_STORIES = "LOAD_STORIES";
-export const STORE_STORIES = "STORE_STORIES";
-export const GET_STORIES = "GET_STORIES";
+export const LOAD_STORY = "LOAD_STORY";
+export const STORE_STORY = "STORE_STORY";
+export const GET_STORY = "GET_STORY";
 export const ADD_STORY = "ADD_STORY";
 export const DELETE_STORY = "DELETE_STORY";
 export const UPDATE_STORY = "UPDATE_STORY";
 
-export const LOAD_FORMS = "LOAD_FORMS";
-export const STORE_FORMS = "STORE_FORMS";
-export const GET_FORMS = "GET_FORM";
+export const LOAD_FORM = "LOAD_FORM";
+export const STORE_FORM = "STORE_FORM";
+export const GET_FORM = "GET_FORM";
 export const ADD_FORM = "ADD_FORM";
 export const DELETE_FORM = "DELETE_FORM";
 export const UPDATE_FORM = "UPDATE_FORM";

@@ -1,8 +1,8 @@
 import {
   ADD_INTENT,
   DELETE_INTENT,
-  LOAD_INTENTS,
-  STORE_INTENTS,
+  LOAD_INTENT,
+  STORE_INTENT,
   UPDATE_INTENT,
 } from "./types";
 
@@ -20,6 +20,6 @@ export const updateIntent = intent => ({
   type: UPDATE_INTENT,
   payload: { intent },
 });
-export const loadIntents = () => ({ type: LOAD_INTENTS });
+export const loadIntents = () => ({ type: LOAD_INTENT });
 
-export const storeIntents = () => ({ type: STORE_INTENTS });
+export const storeIntents = () => ({ type: STORE_INTENT });

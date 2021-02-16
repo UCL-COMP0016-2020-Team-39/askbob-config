@@ -1,18 +1,14 @@
 import { combineReducers } from "redux";
-import intentsReducer from "./intentsReducer";
-import responsesReducer from "./responsesReducer";
-import skillsReducer from "./skillsReducer";
-import storiesReducer from "./storiesReducer";
-import formsReducer from "./formsReducer";
 import formModeReducer from "./formModeReducer";
+import createReducer from "./reducerFactory";
 
 const reducer = combineReducers({
-  intents: intentsReducer,
-  responses: responsesReducer,
+  intents: createReducer("intent"),
+  responses: createReducer("response"),
+  skills: createReducer("skill"),
+  stories: createReducer("story"),
+  forms: createReducer("form"),
   formMode: formModeReducer,
-  skills: skillsReducer,
-  stories: storiesReducer,
-  forms: formsReducer,
 });
 
 export default reducer;

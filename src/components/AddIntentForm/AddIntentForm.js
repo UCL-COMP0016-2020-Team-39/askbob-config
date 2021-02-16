@@ -51,7 +51,7 @@ const AddIntent = () => {
     }
     setSubmitting(false);
     setName("");
-    setExamples([""]);
+    setExamples(["", ""]);
     resetForm();
   };
 

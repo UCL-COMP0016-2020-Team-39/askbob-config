@@ -1,8 +1,8 @@
 import {
   ADD_SKILL,
   DELETE_SKILL,
-  LOAD_SKILLS,
-  STORE_SKILLS,
+  LOAD_SKILL,
+  STORE_SKILL,
   UPDATE_SKILL,
 } from "./types";
 
@@ -20,6 +20,6 @@ export const updateSkill = skill => ({
   type: UPDATE_SKILL,
   payload: { skill },
 });
-export const loadSkills = () => ({ type: LOAD_SKILLS });
+export const loadSkills = () => ({ type: LOAD_SKILL });
 
-export const storeSkills = () => ({ type: STORE_SKILLS });
+export const storeSkills = () => ({ type: STORE_SKILL });
