@@ -27,8 +27,8 @@ const entityNames = [
 const FormCheckBox = ({ name, ...props }) => {
   return (
     <>
-      <label>{name}</label>
       <Checkbox value={name} {...props}></Checkbox>
+      <label>{name}</label>
     </>
   );
 };
@@ -121,10 +121,27 @@ const Home = () => {
         </div>
         <label htmlFor='pluginName'>Entities</label>
 
-        <Grid container direction='row' alignItems='center' spacing={2}>
+        <Grid
+          container
+          direction='row'
+          alignItems='flex-end'
+          justify='flex-end'
+          spacing={2}
+        >
           {entityNames.map((entityName, index) => {
             return (
-              <Grid item xs={6} sm={4} md={3} key={index}>
+              <Grid
+                item
+                xs={6}
+                sm={4}
+                md={3}
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
                 <FormCheckBox
                   name={entityName}
                   onChange={e => {
