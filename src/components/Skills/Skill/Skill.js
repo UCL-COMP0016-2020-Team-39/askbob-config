@@ -3,14 +3,14 @@ import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSkill } from "../../../actions/skillsActions";
-import { switchToSkillEditMode } from "../../../actions/formModeActions";
+import { switchToSkillEditMode } from "../../../actions/skillsActions";
 import useStyles from "./styles";
 
 const Skill = ({ id, description, intent, actions, ...skillProps }) => {
   const dispatch = useDispatch();
 
-  const intents = useSelector(state => state.intents);
-  const responses = useSelector(state => state.responses);
+  const intents = useSelector(state => state.intents.items);
+  const responses = useSelector(state => state.responses.items);
 
   const classes = useStyles();
 

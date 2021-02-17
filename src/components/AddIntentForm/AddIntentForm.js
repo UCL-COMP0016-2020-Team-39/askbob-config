@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addIntent, updateIntent } from "../../actions/intentsActions";
-import { switchToIntentAddMode } from "../../actions/formModeActions";
-import { INTENT_EDIT_MODE } from "../../actions/types";
+import {
+  addIntent,
+  updateIntent,
+  switchToIntentAddMode,
+} from "../../actions/intentsActions";
+import { EDIT_MODE_INTENT } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
 import { Button, IconButton } from "@material-ui/core";
@@ -18,31 +21,29 @@ const AddIntent = () => {
   const [name, setName] = useState("");
   const [examples, setExamples] = useState(["", ""]);
 
-  const { currentIntent, intentFormMode: mode } = useSelector(
-    state => state.formMode
-  );
+  const { currentItem, mode } = useSelector(state => state.intents);
 
-  const intents = useSelector(state => state.intents);
-
+  const intents = useSelector(state => state.intents.items);
+  console.log("intents are", intents);
   const intentsNames = intents.map(intent => intent.name);
 
   useEffect(() => {
-    if (mode === INTENT_EDIT_MODE) {
-      setName(currentIntent.name);
-      setExamples(currentIntent.examples);
+    if (mode === EDIT_MODE_INTENT) {
+      setName(currentItem.name);
+      setExamples(currentItem.examples);
     }
-  }, [mode, currentIntent]);
+  }, [mode, currentItem]);
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     const intent_id = nameToId(data.name);
-    if (mode === INTENT_EDIT_MODE) {
+    if (mode === EDIT_MODE_INTENT) {
       dispatch(
         updateIntent({
           ...data,
           name: data.name.trim(),
-          intent_id: currentIntent.intent_id,
-          id: currentIntent.id,
+          intent_id: currentItem.intent_id,
+          id: currentItem.id,
         })
       );
       dispatch(switchToIntentAddMode());
@@ -57,7 +58,7 @@ const AddIntent = () => {
 
   return (
     <section className='card'>
-      <h2>{mode === INTENT_EDIT_MODE ? "Edit Intent" : "Add Intent"}</h2>
+      <h2>{mode === EDIT_MODE_INTENT ? "Edit Intent" : "Add Intent"}</h2>
       <Formik
         initialValues={{
           name,
@@ -77,7 +78,7 @@ const AddIntent = () => {
             errors.name = "name is too long";
           } else if (name !== name.toLowerCase()) {
             errors.name = "name should be all lower case";
-          } else if (intentsNames.includes(name) && mode !== INTENT_EDIT_MODE) {
+          } else if (intentsNames.includes(name) && mode !== EDIT_MODE_INTENT) {
             errors.name = "name already used";
           } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
             errors.name = "name can only contain numbers and letters";
@@ -156,15 +157,15 @@ const AddIntent = () => {
               <Button
                 disable={isSubmitting.toString()}
                 aria-label={
-                  mode === INTENT_EDIT_MODE ? "Edit Intent" : "Add Intent"
+                  mode === EDIT_MODE_INTENT ? "Edit Intent" : "Add Intent"
                 }
                 type='submit'
                 variant='contained'
                 className={
-                  mode === INTENT_EDIT_MODE ? classes.editBtn : classes.addBtn
+                  mode === EDIT_MODE_INTENT ? classes.editBtn : classes.addBtn
                 }
               >
-                {mode === INTENT_EDIT_MODE ? "Edit Intent" : "Add Intent"}
+                {mode === EDIT_MODE_INTENT ? "Edit Intent" : "Add Intent"}
               </Button>
             </div>
             <br />

@@ -3,13 +3,13 @@ import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStory } from "../../../actions/storiesActions";
-import { switchToStoryEditMode } from "../../../actions/formModeActions";
+import { switchToStoryEditMode } from "../../../actions/storiesActions";
 import useStyles from "./styles";
 
 const Story = ({ id, description, steps, ...storyProps }) => {
   const dispatch = useDispatch();
-  const intents = useSelector(state => state.intents);
-  const responses = useSelector(state => state.responses);
+  const intents = useSelector(state => state.intents.items);
+  const responses = useSelector(state => state.responses.items);
 
   const classes = useStyles();
 

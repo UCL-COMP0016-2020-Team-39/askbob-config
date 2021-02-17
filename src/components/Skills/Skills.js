@@ -3,7 +3,7 @@ import Skill from "./Skill/Skill";
 import { useSelector } from "react-redux";
 
 const Skills = () => {
-  const skills = useSelector(state => state.skills);
+  const skills = useSelector(state => state.skills.items);
 
   if (skills.length === 0) {
     return <div className='card'>No Skills</div>;

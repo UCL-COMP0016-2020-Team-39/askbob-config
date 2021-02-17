@@ -3,7 +3,7 @@ import Response from "./Response/Response";
 import { useSelector } from "react-redux";
 
 const Responses = () => {
-  const responses = useSelector(state => state.responses);
+  const responses = useSelector(state => state.responses.items);
 
   if (responses.length === 0) {
     return <div className='card'>No Responses</div>;

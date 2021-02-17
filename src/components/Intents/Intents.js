@@ -3,7 +3,7 @@ import Intent from "./Intent/Intent";
 import { useSelector } from "react-redux";
 
 const Intents = () => {
-  const intents = useSelector(state => state.intents);
+  const intents = useSelector(state => state.intents.items);
 
   if (intents.length === 0) {
     return <div className='card'>No Intents</div>;

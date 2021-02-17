@@ -3,7 +3,7 @@ import Form from "./Form/Form";
 import { useSelector } from "react-redux";
 
 const Forms = () => {
-  const forms = useSelector(state => state.forms);
+  const forms = useSelector(state => state.forms.items);
 
   if (forms.length === 0) {
     return <div className='card'>No Forms</div>;

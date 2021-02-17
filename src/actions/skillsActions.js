@@ -4,6 +4,8 @@ import {
   LOAD_SKILL,
   STORE_SKILL,
   UPDATE_SKILL,
+  EDIT_MODE_SKILL,
+  ADD_MODE_SKILL,
 } from "./types";
 
 export const addSkill = skill => ({
@@ -23,3 +25,16 @@ export const updateSkill = skill => ({
 export const loadSkills = () => ({ type: LOAD_SKILL });
 
 export const storeSkills = () => ({ type: STORE_SKILL });
+
+export const switchToSkillEditMode = currentItem => {
+  return {
+    type: EDIT_MODE_SKILL,
+    payload: { currentItem },
+  };
+};
+
+export const switchToSkillAddMode = () => {
+  return {
+    type: ADD_MODE_SKILL,
+  };
+};

@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import formModeReducer from "./formModeReducer";
 import createReducer from "./reducerFactory";
 
 const reducer = combineReducers({
@@ -8,7 +7,6 @@ const reducer = combineReducers({
   skills: createReducer("skill"),
   stories: createReducer("story"),
   forms: createReducer("form"),
-  formMode: formModeReducer,
 });
 
 export default reducer;

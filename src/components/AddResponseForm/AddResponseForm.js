@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addResponse, updateResponse } from "../../actions/responsesActions";
-import { switchToResponseAddMode } from "../../actions/formModeActions";
-import { RESPONSE_EDIT_MODE } from "../../actions/types";
+import {
+  addResponse,
+  updateResponse,
+  switchToResponseAddMode,
+} from "../../actions/responsesActions";
+import { EDIT_MODE_RESPONSE } from "../../actions/types";
 import { FormTextField } from "../";
 
 import { Formik, Form, FieldArray } from "formik";
@@ -18,32 +21,29 @@ const AddResponse = () => {
   const [name, setName] = useState("");
   const [examples, setExamples] = useState([""]);
 
-  const { currentResponse, responseFormMode: mode } = useSelector(
-    state => state.formMode
-  );
+  const { currentItem, mode } = useSelector(state => state.responses);
 
-  const responses = useSelector(state => state.responses);
+  const responses = useSelector(state => state.responses.items);
 
   const responsesNames = responses.map(response => response.name);
 
   useEffect(() => {
-    if (mode === RESPONSE_EDIT_MODE) {
-      setName(currentResponse.name);
-      setExamples(currentResponse.examples);
+    if (mode === EDIT_MODE_RESPONSE) {
+      setName(currentItem.name);
+      setExamples(currentItem.examples);
     }
-  }, [mode, currentResponse]);
+  }, [mode, currentItem]);
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     const response_id = "utter_" + nameToId(data.name);
-    console.log(response_id);
-    if (mode === RESPONSE_EDIT_MODE) {
+    if (mode === EDIT_MODE_RESPONSE) {
       dispatch(
         updateResponse({
           ...data,
           name: data.name.trim(),
-          response_id: currentResponse.response_id,
-          id: currentResponse.id,
+          response_id: currentItem.response_id,
+          id: currentItem.id,
         })
       );
       dispatch(switchToResponseAddMode());
@@ -58,7 +58,7 @@ const AddResponse = () => {
 
   return (
     <section className='card'>
-      <h2>{mode === RESPONSE_EDIT_MODE ? "Edit Response" : "Add Response"}</h2>
+      <h2>{mode === EDIT_MODE_RESPONSE ? "Edit Response" : "Add Response"}</h2>
       <Formik
         initialValues={{
           name,
@@ -80,7 +80,7 @@ const AddResponse = () => {
             errors.name = "name should be all lower case";
           } else if (
             responsesNames.includes(name) &&
-            mode !== RESPONSE_EDIT_MODE
+            mode !== EDIT_MODE_RESPONSE
           ) {
             errors.name = "name already used";
           } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
@@ -162,13 +162,13 @@ const AddResponse = () => {
                 type='submit'
                 variant='contained'
                 aria-label={
-                  mode === RESPONSE_EDIT_MODE ? "Edit Response" : "Add Response"
+                  mode === EDIT_MODE_RESPONSE ? "Edit Response" : "Add Response"
                 }
                 className={
-                  mode === RESPONSE_EDIT_MODE ? classes.editBtn : classes.addBtn
+                  mode === EDIT_MODE_RESPONSE ? classes.editBtn : classes.addBtn
                 }
               >
-                {mode === RESPONSE_EDIT_MODE ? "Edit Response" : "Add Response"}
+                {mode === EDIT_MODE_RESPONSE ? "Edit Response" : "Add Response"}
               </Button>
             </div>
             <br />

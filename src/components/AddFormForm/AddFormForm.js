@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addForm, updateForm } from "../../actions/formsActions";
-import { switchToFormAddMode } from "../../actions/formModeActions";
-import { FORM_EDIT_MODE } from "../../actions/types";
+import {
+  addForm,
+  updateForm,
+  switchToFormAddMode,
+} from "../../actions/formsActions";
+import { EDIT_MODE_FORM } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
 import { Button, IconButton } from "@material-ui/core";
@@ -32,32 +35,29 @@ const AddForm = () => {
       not_intent: "",
     },
   ]);
-  const { currentForm, formFormMode: mode } = useSelector(
-    state => state.formMode
-  );
+  const { currentItem, mode } = useSelector(state => state.forms);
 
-  const intents = useSelector(state => state.intents);
+  const intents = useSelector(state => state.intents.items);
 
   useEffect(() => {
-    if (mode === FORM_EDIT_MODE) {
-      setDescription(currentForm.description);
-      setActivateIntent(currentForm.activateIntent);
-      setDeactivateIntent(currentForm.deactivateIntent);
-      setQuestions(currentForm.questions);
+    if (mode === EDIT_MODE_FORM) {
+      setDescription(currentItem.description);
+      setActivateIntent(currentItem.activateIntent);
+      setDeactivateIntent(currentItem.deactivateIntent);
+      setQuestions(currentItem.questions);
     }
-  }, [mode, currentForm]);
+  }, [mode, currentItem]);
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     const form_id = nameToId(data.description);
-    console.log(form_id);
-    if (mode === FORM_EDIT_MODE) {
+    if (mode === EDIT_MODE_FORM) {
       dispatch(
         updateForm({
           ...data,
           description: data.description.trim(),
-          form_id: currentForm.form_id,
-          id: currentForm.id,
+          form_id: currentItem.form_id,
+          id: currentItem.id,
         })
       );
       dispatch(switchToFormAddMode());
@@ -92,7 +92,7 @@ const AddForm = () => {
 
   return (
     <section className='card'>
-      <h2>{mode === FORM_EDIT_MODE ? "Edit Form" : "Add Form"}</h2>
+      <h2>{mode === EDIT_MODE_FORM ? "Edit Form" : "Add Form"}</h2>
       <Formik
         initialValues={{
           description,
@@ -283,12 +283,12 @@ const AddForm = () => {
               <Button
                 disable={isSubmitting.toString()}
                 type='submit'
-                aria-label={mode === FORM_EDIT_MODE ? "Edit Form" : "Add Form"}
+                aria-label={mode === EDIT_MODE_FORM ? "Edit Form" : "Add Form"}
                 className={
-                  mode === FORM_EDIT_MODE ? classes.editBtn : classes.addBtn
+                  mode === EDIT_MODE_FORM ? classes.editBtn : classes.addBtn
                 }
               >
-                {mode === FORM_EDIT_MODE ? "Edit Form" : "Add Form"}
+                {mode === EDIT_MODE_FORM ? "Edit Form" : "Add Form"}
               </Button>
             </div>
             <br />

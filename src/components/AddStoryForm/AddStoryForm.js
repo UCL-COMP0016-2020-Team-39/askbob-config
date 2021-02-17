@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addStory, updateStory } from "../../actions/storiesActions";
-import { switchToStoryAddMode } from "../../actions/formModeActions";
-import { STORY_EDIT_MODE } from "../../actions/types";
+import {
+  addStory,
+  updateStory,
+  switchToStoryAddMode,
+} from "../../actions/storiesActions";
+import { EDIT_MODE_STORY } from "../../actions/types";
 
 import {
   Button,
@@ -28,19 +31,17 @@ const AddStory = () => {
   ]);
   const [errorText, setErrorText] = useState("error");
 
-  const { currentStory, storyFormMode: mode } = useSelector(
-    state => state.formMode
-  );
+  const { currentItem, mode } = useSelector(state => state.stories);
 
-  const intents = useSelector(state => state.intents);
-  const responses = useSelector(state => state.responses);
+  const intents = useSelector(state => state.intents.items);
+  const responses = useSelector(state => state.responses.items);
 
   useEffect(() => {
-    if (mode === STORY_EDIT_MODE) {
-      setDescription(currentStory.description);
-      setSteps(currentStory.steps);
+    if (mode === EDIT_MODE_STORY) {
+      setDescription(currentItem.description);
+      setSteps(currentItem.steps);
     }
-  }, [mode, currentStory]);
+  }, [mode, currentItem]);
 
   const validate = useCallback(() => {
     const errors = { description: "", steps: [""] };
@@ -105,7 +106,6 @@ const AddStory = () => {
     setErrorText("");
 
     const story_id = nameToId(description);
-    console.log(story_id);
 
     const storySteps = steps.map(step => ({
       id: step.id,
@@ -114,13 +114,13 @@ const AddStory = () => {
       step_id: step.step_id,
     }));
 
-    if (mode === STORY_EDIT_MODE) {
+    if (mode === EDIT_MODE_STORY) {
       dispatch(
         updateStory({
           description,
-          story_id: currentStory.story_id,
+          story_id: currentItem.story_id,
           steps: storySteps,
-          id: currentStory.id,
+          id: currentItem.id,
         })
       );
       dispatch(switchToStoryAddMode());
@@ -133,7 +133,7 @@ const AddStory = () => {
 
   return (
     <section className='card'>
-      <h2>{mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}</h2>
+      <h2>{mode === EDIT_MODE_STORY ? "Edit Story" : "Add Story"}</h2>
       <form className={classes.root} onSubmit={e => handleSubmit(e)}>
         <p className={classes.errorText}>{errorText}</p>
         <label htmlFor='description'>Description</label>
@@ -236,12 +236,12 @@ const AddStory = () => {
         <div>
           <Button
             type='submit'
-            aria-label={mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}
+            aria-label={mode === EDIT_MODE_STORY ? "Edit Story" : "Add Story"}
             className={
-              mode === STORY_EDIT_MODE ? classes.editBtn : classes.addBtn
+              mode === EDIT_MODE_STORY ? classes.editBtn : classes.addBtn
             }
           >
-            {mode === STORY_EDIT_MODE ? "Edit Story" : "Add Story"}
+            {mode === EDIT_MODE_STORY ? "Edit Story" : "Add Story"}
           </Button>
         </div>
         <br />

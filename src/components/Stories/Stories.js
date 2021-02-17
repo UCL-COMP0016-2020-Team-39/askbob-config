@@ -3,7 +3,7 @@ import Story from "./Story/Story";
 import { useSelector } from "react-redux";
 
 const Stories = () => {
-  const stories = useSelector(state => state.stories);
+  const stories = useSelector(state => state.stories.items);
 
   if (stories.length === 0) {
     return <div className='card'>No Stories</div>;

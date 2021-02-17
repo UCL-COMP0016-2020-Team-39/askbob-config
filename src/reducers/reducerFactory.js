@@ -3,34 +3,58 @@ import { v4 } from "uuid";
 
 const createDatabaseWithNamedType = (databaseName = "") => {
   const localStorageKey = `askBobConfig${databaseName}`;
-  const initialState = [];
+  const actionName = databaseName.toUpperCase();
+  const initialState = {
+    items: [],
+    currentItem: null,
+    mode: actionTypes[`ADD_MODE_${actionName}`],
+  };
 
   const reducer = (state = initialState, action) => {
-    console.log("the state is", state, "the action is", action);
-    const actionName = databaseName.toUpperCase();
     switch (action.type) {
       case actionTypes[`LOAD_${actionName}`]:
-        return JSON.parse(localStorage.getItem(localStorageKey)) || [];
+        return JSON.parse(localStorage.getItem(localStorageKey)) || state;
       case actionTypes[`STORE_${actionName}`]:
         localStorage.setItem(localStorageKey, JSON.stringify(state));
         return state;
       case actionTypes[`ADD_${actionName}`]:
-        console.log("adding", action);
-        return [
+        return {
           ...state,
-          {
-            ...action.payload[databaseName],
-            id: v4(),
-          },
-        ];
+
+          items: [
+            ...state.items,
+            {
+              ...action.payload[databaseName],
+              id: v4(),
+            },
+          ],
+        };
       case actionTypes[`DELETE_${actionName}`]:
-        return state.filter(item => item.id !== action.payload.id);
+        return {
+          ...state,
+          items: state.items.filter(item => item.id !== action.payload.id),
+        };
       case actionTypes[`UPDATE_${actionName}`]:
-        return state.map(item =>
-          item.id !== action.payload[databaseName].id
-            ? item
-            : { ...item, ...action.payload[databaseName] }
-        );
+        return {
+          ...state,
+          items: state.items.map(item =>
+            item.id !== action.payload[databaseName].id
+              ? item
+              : { ...item, ...action.payload[databaseName] }
+          ),
+        };
+      case actionTypes[`EDIT_MODE_${actionName}`]:
+        return {
+          ...state,
+          mode: actionTypes[`EDIT_MODE_${actionName}`],
+          currentItem: action.payload.currentItem,
+        };
+      case actionTypes[`ADD_MODE_${actionName}`]:
+        return {
+          ...state,
+          mode: actionTypes[`ADD_MODE_${actionName}`],
+          currentItem: null,
+        };
       default:
         return state;
     }

@@ -35,11 +35,11 @@ const Home = () => {
   const [errorText, setErrorText] = useState("");
   const [downloadLink, setDownloadLink] = useState("");
 
-  const intents = useSelector(state => state.intents);
-  const responses = useSelector(state => state.responses);
-  const skills = useSelector(state => state.skills);
-  const stories = useSelector(state => state.stories);
-  const forms = useSelector(state => state.forms);
+  const intents = useSelector(state => state.intents.items);
+  const responses = useSelector(state => state.responses.items);
+  const skills = useSelector(state => state.skills.items);
+  const stories = useSelector(state => state.stories.items);
+  const forms = useSelector(state => state.forms.items);
 
   const downloadTag = useRef(null);
 

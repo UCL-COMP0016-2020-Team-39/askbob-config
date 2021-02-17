@@ -3,7 +3,7 @@ import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 import { deleteIntent } from "../../../actions/intentsActions";
-import { switchToIntentEditMode } from "../../../actions/formModeActions";
+import { switchToIntentEditMode } from "../../../actions/intentsActions";
 import useStyles from "./styles";
 
 const Intent = ({ id, name, examples, ...intentProps }) => {
@@ -16,7 +16,6 @@ const Intent = ({ id, name, examples, ...intentProps }) => {
   };
 
   const editThis = () => {
-    console.log(intentProps);
     dispatch(switchToIntentEditMode({ id, name, examples, ...intentProps }));
     setTimeout(() => {
       window.scrollTo({

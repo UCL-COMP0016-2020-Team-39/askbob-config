@@ -4,6 +4,8 @@ import {
   LOAD_RESPONSE,
   STORE_RESPONSE,
   UPDATE_RESPONSE,
+  EDIT_MODE_RESPONSE,
+  ADD_MODE_RESPONSE,
 } from "./types";
 
 export const addResponse = response => ({
@@ -23,3 +25,15 @@ export const updateResponse = response => ({
 export const loadResponses = () => ({ type: LOAD_RESPONSE });
 
 export const storeResponses = () => ({ type: STORE_RESPONSE });
+export const switchToResponseEditMode = currentItem => {
+  return {
+    type: EDIT_MODE_RESPONSE,
+    payload: { currentItem },
+  };
+};
+
+export const switchToResponseAddMode = () => {
+  return {
+    type: ADD_MODE_RESPONSE,
+  };
+};

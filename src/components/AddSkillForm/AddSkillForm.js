@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addSkill, updateSkill } from "../../actions/skillsActions";
-import { switchToSkillAddMode } from "../../actions/formModeActions";
-import { SKILL_EDIT_MODE } from "../../actions/types";
+import {
+  addSkill,
+  updateSkill,
+  switchToSkillAddMode,
+} from "../../actions/skillsActions";
+import { EDIT_MODE_SKILL } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
 import { Button, IconButton } from "@material-ui/core";
@@ -20,32 +23,29 @@ const AddSkill = () => {
   const [, setResponse] = useState("");
   const [actions, setActions] = useState([""]);
 
-  const { currentSkill, skillFormMode: mode } = useSelector(
-    state => state.formMode
-  );
+  const { currentItem, mode } = useSelector(state => state.skills);
 
-  const intents = useSelector(state => state.intents);
-  const responses = useSelector(state => state.responses);
+  const intents = useSelector(state => state.intents.items);
+  const responses = useSelector(state => state.responses.items);
 
   useEffect(() => {
-    if (mode === SKILL_EDIT_MODE) {
-      setDescription(currentSkill.description);
-      setIntent(currentSkill.intent);
-      setActions(currentSkill.actions);
+    if (mode === EDIT_MODE_SKILL) {
+      setDescription(currentItem.description);
+      setIntent(currentItem.intent);
+      setActions(currentItem.actions);
     }
-  }, [mode, currentSkill]);
+  }, [mode, currentItem]);
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     const skill_id = nameToId(data.description);
-    console.log(skill_id);
-    if (mode === SKILL_EDIT_MODE) {
+    if (mode === EDIT_MODE_SKILL) {
       dispatch(
         updateSkill({
           ...data,
           description: data.description.trim(),
-          skill_id: currentSkill.skill_id,
-          id: currentSkill.id,
+          skill_id: currentItem.skill_id,
+          id: currentItem.id,
         })
       );
       dispatch(switchToSkillAddMode());
@@ -68,7 +68,7 @@ const AddSkill = () => {
 
   return (
     <section className='card'>
-      <h2>{mode === SKILL_EDIT_MODE ? "Edit Skill" : "Add Skill"}</h2>
+      <h2>{mode === EDIT_MODE_SKILL ? "Edit Skill" : "Add Skill"}</h2>
       <Formik
         initialValues={{
           description,
@@ -193,13 +193,13 @@ const AddSkill = () => {
                 disable={isSubmitting.toString()}
                 type='submit'
                 aria-label={
-                  mode === SKILL_EDIT_MODE ? "Edit Skill" : "Add Skill"
+                  mode === EDIT_MODE_SKILL ? "Edit Skill" : "Add Skill"
                 }
                 className={
-                  mode === SKILL_EDIT_MODE ? classes.editBtn : classes.addBtn
+                  mode === EDIT_MODE_SKILL ? classes.editBtn : classes.addBtn
                 }
               >
-                {mode === SKILL_EDIT_MODE ? "Edit Skill" : "Add Skill"}
+                {mode === EDIT_MODE_SKILL ? "Edit Skill" : "Add Skill"}
               </Button>
             </div>
             <br />

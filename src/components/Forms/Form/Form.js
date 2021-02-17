@@ -3,7 +3,7 @@ import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteForm } from "../../../actions/formsActions";
-import { switchToFormEditMode } from "../../../actions/formModeActions";
+import { switchToFormEditMode } from "../../../actions/formsActions";
 import useStyles from "./styles";
 
 const Form = ({
@@ -17,8 +17,7 @@ const Form = ({
 }) => {
   const dispatch = useDispatch();
 
-  const intents = useSelector(state => state.intents);
-  const responses = useSelector(state => state.responses);
+  const intents = useSelector(state => state.intents.items);
 
   const classes = useStyles();
 
