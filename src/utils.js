@@ -5,3 +5,10 @@ export const nameToId = name => {
     .toLowerCase()
     .replaceAll(/(\s+)|(-+)/g, "_");
 };
+
+export const nameToIdNonUniqueId = name => {
+  return name
+    .trim()
+    .toLowerCase()
+    .replaceAll(/(\s+)|(-+)/g, "_");
+};

@@ -36,6 +36,10 @@ const Home = () => {
   const [downloadLink, setDownloadLink] = useState("");
 
   const intents = useSelector(state => state.intents.items);
+  const synonyms = useSelector(state => state.synonyms.items);
+  const lookups = useSelector(state => state.lookups.items);
+  const regexes = useSelector(state => state.regexes.items);
+
   const responses = useSelector(state => state.responses.items);
   const skills = useSelector(state => state.skills.items);
   const stories = useSelector(state => state.stories.items);
@@ -51,6 +55,9 @@ const Home = () => {
         plugin: pluginName,
         entities,
         intents,
+        synonyms,
+        lookups,
+        regexes,
         responses,
         skills,
         stories,

@@ -14,6 +14,9 @@ import { Navbar } from "./components";
 
 import { useSelector, useDispatch } from "react-redux";
 import { loadIntents, storeIntents } from "./actions/intentsActions";
+import { loadSynonyms, storeSynonyms } from "./actions/synonymsActions";
+import { loadLookups, storeLookups } from "./actions/lookupsActions";
+import { loadRegexes, storeRegexes } from "./actions/regexesActions";
 import { loadResponses, storeResponses } from "./actions/responsesActions";
 import { loadSkills, storeSkills } from "./actions/skillsActions";
 import { loadStories, storeStories } from "./actions/storiesActions";
@@ -22,6 +25,10 @@ import { loadForms, storeForms } from "./actions/formsActions";
 const App = () => {
   const dispatch = useDispatch();
   const intents = useSelector(state => state.intents.items);
+  const synonyms = useSelector(state => state.synonyms.items);
+  const lookups = useSelector(state => state.lookups.items);
+  const regexes = useSelector(state => state.regexes.items);
+
   const responses = useSelector(state => state.responses.items);
   const skills = useSelector(state => state.skills.items);
   const stories = useSelector(state => state.stories.items);
@@ -29,6 +36,9 @@ const App = () => {
 
   useEffect(() => {
     dispatch(loadIntents());
+    dispatch(loadSynonyms());
+    dispatch(loadLookups());
+    dispatch(loadRegexes());
     dispatch(loadResponses());
     dispatch(loadSkills());
     dispatch(loadStories());
@@ -38,6 +48,18 @@ const App = () => {
   useEffect(() => {
     dispatch(storeIntents());
   }, [dispatch, intents]);
+
+  useEffect(() => {
+    dispatch(storeSynonyms());
+  }, [dispatch, synonyms]);
+
+  useEffect(() => {
+    dispatch(storeLookups());
+  }, [dispatch, lookups]);
+
+  useEffect(() => {
+    dispatch(storeRegexes());
+  }, [dispatch, regexes]);
 
   useEffect(() => {
     dispatch(storeResponses());

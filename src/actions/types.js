@@ -7,6 +7,33 @@ export const UPDATE_INTENT = "UPDATE_INTENT";
 export const ADD_MODE_INTENT = "ADD_MODE_INTENT";
 export const EDIT_MODE_INTENT = "EDIT_MODE_INTENT";
 
+export const LOAD_SYNONYM = "LOAD_SYNONYM";
+export const STORE_SYNONYM = "STORE_SYNONYM";
+export const GET_SYNONYM = "GET_SYNONYM";
+export const ADD_SYNONYM = "ADD_SYNONYM";
+export const DELETE_SYNONYM = "DELETE_SYNONYM";
+export const UPDATE_SYNONYM = "UPDATE_SYNONYM";
+export const ADD_MODE_SYNONYM = "ADD_MODE_SYNONYM";
+export const EDIT_MODE_SYNONYM = "EDIT_MODE_SYNONYM";
+
+export const LOAD_REGEX = "LOAD_REGEX";
+export const STORE_REGEX = "STORE_REGEX";
+export const GET_REGEX = "GET_REGEX";
+export const ADD_REGEX = "ADD_REGEX";
+export const DELETE_REGEX = "DELETE_REGEX";
+export const UPDATE_REGEX = "UPDATE_REGEX";
+export const ADD_MODE_REGEX = "ADD_MODE_REGEX";
+export const EDIT_MODE_REGEX = "EDIT_MODE_REGEX";
+
+export const LOAD_LOOKUP = "LOAD_LOOKUP";
+export const STORE_LOOKUP = "STORE_LOOKUP";
+export const GET_LOOKUP = "GET_LOOKUP";
+export const ADD_LOOKUP = "ADD_LOOKUP";
+export const DELETE_LOOKUP = "DELETE_LOOKUP";
+export const UPDATE_LOOKUP = "UPDATE_LOOKUP";
+export const ADD_MODE_LOOKUP = "ADD_MODE_LOOKUP";
+export const EDIT_MODE_LOOKUP = "EDIT_MODE_LOOKUP";
+
 export const LOAD_RESPONSE = "LOAD_RESPONSE";
 export const STORE_RESPONSE = "STORE_RESPONSE";
 export const GET_RESPONSE = "GET_RESPONSE";

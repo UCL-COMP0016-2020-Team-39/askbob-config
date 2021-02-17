@@ -1,9 +1,11 @@
 import {
   ADD_SYNONYM,
   DELETE_SYNONYM,
-  LOAD_SYNONYMS,
-  STORE_SYNONYMS,
+  LOAD_SYNONYM,
+  STORE_SYNONYM,
   UPDATE_SYNONYM,
+  EDIT_MODE_SYNONYM,
+  ADD_MODE_SYNONYM,
 } from "./types";
 
 export const addSynonym = synonym => ({
@@ -20,6 +22,19 @@ export const updateSynonym = synonym => ({
   type: UPDATE_SYNONYM,
   payload: { synonym },
 });
-export const loadSynonyms = () => ({ type: LOAD_SYNONYMS });
+export const loadSynonyms = () => ({ type: LOAD_SYNONYM });
 
-export const storeSynonyms = () => ({ type: STORE_SYNONYMS });
+export const storeSynonyms = () => ({ type: STORE_SYNONYM });
+
+export const switchToSynonymEditMode = currentItem => {
+  return {
+    type: EDIT_MODE_SYNONYM,
+    payload: { currentItem },
+  };
+};
+
+export const switchToSynonymAddMode = () => {
+  return {
+    type: ADD_MODE_SYNONYM,
+  };
+};
