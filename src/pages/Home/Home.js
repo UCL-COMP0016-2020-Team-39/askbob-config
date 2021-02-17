@@ -4,16 +4,24 @@ import { TextField, Button, Link, Checkbox, Grid } from "@material-ui/core";
 import UseStyles from "./styles";
 
 const entityNames = [
-  "NAME",
-  "GPE",
+  "CARDINAL",
   "DATE",
-  "CURRENCY",
-  "TIME",
-  "DISTANCES",
-  "COLOR",
-  "TRANSACTION",
+  "EVENT",
+  "FAC",
+  "GPE",
   "LANGUAGE",
+  "LAW",
+  "LOC",
   "MONEY",
+  "NORP",
+  "ORDINAL",
+  "ORG",
+  "PERCENT",
+  "PERSON",
+  "PRODUCT",
+  "QUANTITY",
+  "TIME",
+  "WORK_OF_ART",
 ];
 
 const FormCheckBox = ({ name, ...props }) => {
@@ -113,10 +121,10 @@ const Home = () => {
         </div>
         <label htmlFor='pluginName'>Entities</label>
 
-        <Grid container direction='row' alignItems='center' spacing='2'>
+        <Grid container direction='row' alignItems='center' spacing={2}>
           {entityNames.map((entityName, index) => {
             return (
-              <Grid item xs={6} sm={4} md={3} xl={2} key={index}>
+              <Grid item xs={6} sm={4} md={3} key={index}>
                 <FormCheckBox
                   name={entityName}
                   onChange={e => {
