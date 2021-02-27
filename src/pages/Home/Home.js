@@ -78,7 +78,18 @@ const Home = () => {
     const blob = new Blob([jsonData], { type: "application/json" });
     const fileDownloadUrl = URL.createObjectURL(blob);
     setDownloadLink(fileDownloadUrl);
-  }, [pluginName, entities, intents, responses, skills, stories, forms]);
+  }, [
+    pluginName,
+    entities,
+    intents,
+    synonyms,
+    lookups,
+    regexes,
+    responses,
+    skills,
+    stories,
+    forms,
+  ]);
 
   const validate = () => {
     let error = "";
