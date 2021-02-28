@@ -1,54 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addSynonym,
-  updateSynonym,
-  switchToSynonymAddMode,
-} from "../../actions/synonymsActions";
-import { EDIT_MODE_SYNONYM } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
 import { Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
-import { FormTextField } from "..";
+import { FormTextField } from "../";
 import useStyles from "./styles";
+import { useDispatch } from "react-redux";
+import { nameToId } from "../../utils";
 
-import { nameToIdNonUniqueId } from "../../utils";
-
-const AddSynonym = () => {
+const WithForm = ({
+  itemName,
+  currentItem,
+  mode,
+  items,
+  itemNames,
+  updateItem,
+  EDIT_MODE,
+  switchToItemAddMode,
+  addItem,
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [examples, setExamples] = useState(["", ""]);
 
-  const { currentItem, mode } = useSelector(state => state.synonyms);
+  const dispatch = useDispatch();
 
-  const synonyms = useSelector(state => state.synonyms.items);
-  console.log("synonyms are", synonyms);
-  const synonymsNames = synonyms.map(synonym => synonym.name);
-
+  const isEditing = mode === EDIT_MODE;
   useEffect(() => {
-    if (mode === EDIT_MODE_SYNONYM) {
+    if (isEditing) {
       setName(currentItem.name);
       setExamples(currentItem.examples);
     }
-  }, [mode, currentItem]);
+  }, [mode, currentItem, EDIT_MODE, isEditing]);
 
   const handleSubmit = (data, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    const synonym_id = nameToIdNonUniqueId(data.name);
-    if (mode === EDIT_MODE_SYNONYM) {
+    const item_id = nameToId(data.name);
+    if (isEditing) {
       dispatch(
-        updateSynonym({
+        updateItem({
           ...data,
           name: data.name.trim(),
-          synonym_id: currentItem.synonym_id,
+          [`${itemName}_id`]: currentItem[`${itemName}_id`],
           id: currentItem.id,
         })
       );
-      dispatch(switchToSynonymAddMode());
+      dispatch(switchToItemAddMode());
     } else {
-      dispatch(addSynonym({ ...data, name: data.name.trim(), synonym_id }));
+      dispatch(addItem({ ...data, name: data.name.trim(), item_id }));
     }
     setSubmitting(false);
     setName("");
@@ -58,9 +57,11 @@ const AddSynonym = () => {
 
   return (
     <section className='card'>
-      <div id='synonym_target'></div>
+      <div id={`${itemName}_target`}></div>
 
-      <h2>{mode === EDIT_MODE_SYNONYM ? "Edit Synonym" : "Add Synonym"}</h2>
+      <h2 className={classes.title}>
+        {isEditing ? `Edit ${itemName}` : `Add ${itemName}`}
+      </h2>
       <Formik
         initialValues={{
           name,
@@ -80,10 +81,7 @@ const AddSynonym = () => {
             errors.name = "name is too long";
           } else if (name !== name.toLowerCase()) {
             errors.name = "name should be all lower case";
-          } else if (
-            synonymsNames.includes(name) &&
-            mode !== EDIT_MODE_SYNONYM
-          ) {
+          } else if (itemNames.includes(name) && mode !== EDIT_MODE) {
             errors.name = "name already used";
           } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
             errors.name = "name can only contain numbers and letters";
@@ -128,7 +126,7 @@ const AddSynonym = () => {
                     {values.examples.map((example, index) => (
                       <div key={index} className={classes.formGroup}>
                         <FormTextField
-                          placeholder='Synonym'
+                          placeholder={`What's another way of saying your ${itemName}?`}
                           name={`examples.${index}`}
                         />
                         <IconButton
@@ -161,16 +159,12 @@ const AddSynonym = () => {
             <div>
               <Button
                 disable={isSubmitting.toString()}
-                aria-label={
-                  mode === EDIT_MODE_SYNONYM ? "Edit Synonym" : "Add Synonym"
-                }
+                aria-label={isEditing ? `Edit ${itemName}` : `Add ${itemName}`}
                 type='submit'
                 variant='contained'
-                className={
-                  mode === EDIT_MODE_SYNONYM ? classes.editBtn : classes.addBtn
-                }
+                className={isEditing ? classes.editBtn : classes.addBtn}
               >
-                {mode === EDIT_MODE_SYNONYM ? "Edit Synonym" : "Add Synonym"}
+                {isEditing ? `Edit ${itemName}` : `Add ${itemName}`}
               </Button>
             </div>
             <br />
@@ -183,4 +177,4 @@ const AddSynonym = () => {
     </section>
   );
 };
-export default AddSynonym;
+export default WithForm;

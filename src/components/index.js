@@ -9,11 +9,8 @@ export { default as Skills } from "./Skills/Skills";
 export { default as Stories } from "./Stories/Stories";
 export { default as Forms } from "./Forms/Forms";
 
-export { default as AddIntentForm } from "./AddIntentForm/AddIntentForm";
-export { default as AddSynonymForm } from "./AddSynonymForm/AddSynonymForm";
-export { default as AddLookupForm } from "./AddLookupForm/AddLookupForm";
-export { default as AddRegexForm } from "./AddRegexForm/AddRegexForm";
-export { default as AddResponseForm } from "./AddResponseForm/AddResponseForm";
+export { default as WithForm } from "./WithForm/WithForm";
+
 export { default as AddSkillForm } from "./AddSkillForm/AddSkillForm";
 export { default as AddStoryForm } from "./AddStoryForm/AddStoryForm";
 export { default as AddFormForm } from "./AddFormForm/AddFormForm";

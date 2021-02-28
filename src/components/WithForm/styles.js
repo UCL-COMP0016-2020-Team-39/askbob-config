@@ -5,10 +5,12 @@ export default makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",
-
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
     },
+  },
+  title: {
+    textTransform: "capitalize",
   },
   formGroup: {
     display: "flex",
@@ -23,15 +25,6 @@ export default makeStyles(theme => ({
       flex: 1,
     },
   },
-  addVarBtn: {
-    margin: "1rem 0rem 1rem 0rem",
-    backgroundColor: "#ffa000",
-    color: "white",
-    width: "100%",
-    "&:hover": {
-      backgroundColor: "#ffd149",
-    },
-  },
   addBtn: {
     margin: "1rem 0rem 1rem 0rem",
 
@@ -40,6 +33,15 @@ export default makeStyles(theme => ({
     width: "100%",
     "&:hover": {
       backgroundColor: "#6abf69",
+    },
+  },
+  addVarBtn: {
+    margin: "1rem 0rem 1rem 0rem",
+    backgroundColor: "#ffa000",
+    color: "white",
+    width: "100%",
+    "&:hover": {
+      backgroundColor: "#ffd149",
     },
   },
   editBtn: {
