@@ -1,10 +1,6 @@
 export { default as Navbar } from "./Navbar/Navbar";
-export { default as Intents } from "./Intents/Intents";
-export { default as Regexes } from "./Regexes/Regexes";
-export { default as Synonyms } from "./Synonyms/Synonyms";
-export { default as Lookups } from "./Lookups/Lookups";
+export { default as Items } from "./Items/Items";
 
-export { default as Responses } from "./Responses/Responses";
 export { default as Skills } from "./Skills/Skills";
 export { default as Stories } from "./Stories/Stories";
 export { default as Forms } from "./Forms/Forms";

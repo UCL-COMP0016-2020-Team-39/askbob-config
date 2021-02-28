@@ -1,10 +1,12 @@
 import React from "react";
-import { Responses, WithForm } from "../../components";
+import { Items, WithForm } from "../../components";
 
 import {
   addResponse,
   updateResponse,
+  deleteResponse,
   switchToResponseAddMode,
+  switchToResponseEditMode,
 } from "../../actions/responsesActions";
 
 import { EDIT_MODE_RESPONSE } from "../../actions/types";
@@ -31,10 +33,17 @@ const AddResponse = () => {
     addItem: addResponse,
   };
 
+  const responseListProps = {
+    items: responses,
+    itemName: "response",
+    deleteItem: deleteResponse,
+    switchToItemEditMode: switchToResponseEditMode,
+  };
+
   return (
     <section className='section'>
       <WithForm {...addResponseProps} />
-      <Responses />
+      <Items {...responseListProps} />
     </section>
   );
 };

@@ -1,20 +1,20 @@
 import React from "react";
-import Intent from "./Item/Intent";
-import { useSelector } from "react-redux";
+import Item from "./Item/Item";
 
-const Items = () => {
-  const items = useSelector(state => state.items);
-
+const Items = ({ items, itemName, deleteItem, switchToItemEditMode }) => {
   if (items.length === 0) {
     return <div className='card'>No Items</div>;
   }
 
   return (
     <ul>
-      {items.map(intent => {
+      {items.map(item => {
         return (
-          <li key={intent.id}>
-            <Intent {...intent} />
+          <li key={item.id}>
+            <Item
+              {...{ itemName, deleteItem, switchToItemEditMode }}
+              {...item}
+            />
           </li>
         );
       })}

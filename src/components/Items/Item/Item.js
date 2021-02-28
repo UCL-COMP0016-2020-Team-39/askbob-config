@@ -2,36 +2,39 @@ import React from "react";
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
-import { deleteResponse } from "../../../actions/responsesActions";
-import { switchToResponseEditMode } from "../../../actions/responsesActions";
 import useStyles from "./styles";
 
-const Response = ({ id, name, examples, ...responseProps }) => {
+const Item = ({
+  id,
+  itemName,
+  name,
+  examples,
+  deleteItem,
+  switchToItemEditMode,
+  ...itemProps
+}) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
   const deleteThis = id => {
-    dispatch(deleteResponse(id));
+    dispatch(deleteItem(id));
   };
 
   const editThis = () => {
-    dispatch(
-      switchToResponseEditMode({ id, name, examples, ...responseProps })
-    );
+    dispatch(switchToItemEditMode({ id, name, examples, ...itemProps }));
     setTimeout(() => {
-      window.scrollTo({
-        top: 100,
-        left: 100,
-        behavior: "smooth",
-      });
+      const target = document.getElementById(`${itemName}_target`);
+      if (target) {
+        target.scrollIntoView();
+      }
     }, 30);
   };
 
   return (
     <div className='card'>
       <header className={classes.header}>
-        <h2> {name}</h2>
+        <h2 className={classes.title}>{`${itemName}: ${name}`}</h2>
         <div className={classes.buttons}>
           <IconButton
             size='small'
@@ -49,11 +52,12 @@ const Response = ({ id, name, examples, ...responseProps }) => {
           </IconButton>
         </div>
       </header>
+      <h4>Examples</h4>
       {examples.map((example, index) => (
-        <div key={index}>{example}</div>
+        <p key={index}>{example}</p>
       ))}
     </div>
   );
 };
 
-export default Response;
+export default Item;

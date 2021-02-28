@@ -1,34 +1,36 @@
 import React from "react";
-import {
-  Intents,
-  Synonyms,
-  Regexes,
-  Lookups,
-  WithForm,
-} from "../../components";
+import { WithForm, Items } from "../../components";
 
 import {
   addIntent,
   updateIntent,
+  deleteIntent,
   switchToIntentAddMode,
+  switchToIntentEditMode,
 } from "../../actions/intentsActions";
 
 import {
   addSynonym,
   updateSynonym,
+  deleteSynonym,
   switchToSynonymAddMode,
+  switchToSynonymEditMode,
 } from "../../actions/synonymsActions";
 
 import {
   addRegex,
   updateRegex,
+  deleteRegex,
   switchToRegexAddMode,
+  switchToRegexEditMode,
 } from "../../actions/regexesActions";
 
 import {
   addLookup,
   updateLookup,
+  deleteLookup,
   switchToLookupAddMode,
+  switchToLookupEditMode,
 } from "../../actions/lookupsActions";
 
 import {
@@ -117,19 +119,47 @@ const AddIntent = () => {
     addItem: addLookup,
   };
 
+  const intentListProps = {
+    items: intents,
+    itemName: "intent",
+    deleteItem: deleteIntent,
+    switchToItemEditMode: switchToIntentEditMode,
+  };
+
+  const synonymListProps = {
+    items: synonyms,
+    itemName: "synonym",
+    deleteItem: deleteSynonym,
+    switchToItemEditMode: switchToSynonymEditMode,
+  };
+
+  const regexListProps = {
+    items: regexes,
+    itemName: "regex",
+    deleteItem: deleteRegex,
+    switchToItemEditMode: switchToRegexEditMode,
+  };
+
+  const lookupListProps = {
+    items: lookups,
+    itemName: "lookup",
+    deleteItem: deleteLookup,
+    switchToItemEditMode: switchToLookupEditMode,
+  };
+
   return (
     <section className='section'>
       <WithForm {...addIntentProps} />
-      <Intents />
+      <Items {...intentListProps} />
 
       <WithForm {...addSynonymProps} />
-      <Synonyms />
+      <Items {...synonymListProps} />
 
       <WithForm {...addRegexProps} />
-      <Regexes />
+      <Items {...regexListProps} />
 
       <WithForm {...addLookupsProps} />
-      <Lookups />
+      <Items {...lookupListProps} />
     </section>
   );
 };
