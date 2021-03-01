@@ -47,7 +47,13 @@ const WithForm = ({
       );
       dispatch(switchToItemAddMode());
     } else {
-      dispatch(addItem({ ...data, name: data.name.trim(), item_id }));
+      dispatch(
+        addItem({
+          ...data,
+          name: data.name.trim(),
+          [`${itemName}_id`]: item_id,
+        })
+      );
     }
     setSubmitting(false);
     setName("");
