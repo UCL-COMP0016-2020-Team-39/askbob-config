@@ -58,7 +58,11 @@ const Home = () => {
   const classes = UseStyles();
 
   useEffect(() => {
-    const jsonData = JSON.stringify(
+    let formatedskills = skills.map(skill => {
+      let actions = skill.actions.map(action => action.action_id);
+      return { ...skill, actions };
+    });
+    let jsonData = JSON.stringify(
       {
         plugin: pluginName,
         entities,
@@ -67,7 +71,7 @@ const Home = () => {
         lookups,
         regexes,
         responses,
-        skills,
+        skills: formatedskills,
         stories,
         forms,
       },
