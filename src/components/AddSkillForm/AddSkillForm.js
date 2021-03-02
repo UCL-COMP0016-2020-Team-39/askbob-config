@@ -221,10 +221,6 @@ const AddSkill = () => {
                 {mode === EDIT_MODE_SKILL ? "Edit Skill" : "Add Skill"}
               </Button>
             </div>
-            <br />
-            <br />
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>

@@ -291,10 +291,6 @@ const AddForm = () => {
                 {mode === EDIT_MODE_FORM ? "Edit Form" : "Add Form"}
               </Button>
             </div>
-            <br />
-            <br />
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>
