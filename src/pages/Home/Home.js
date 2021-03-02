@@ -109,8 +109,8 @@ const Home = () => {
   const validate = () => {
     let error = "";
 
-    if (!pluginName || !pluginName.trim()) {
-      error = "plugin name is needed";
+    if (pluginName && !pluginName.match(/^[a-z+A-Z]+$/)) {
+      error = "plugin name can only contain letters";
     }
 
     setErrorText(error);
