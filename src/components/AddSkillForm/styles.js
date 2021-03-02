@@ -24,6 +24,17 @@ export default makeStyles(theme => ({
       flex: 1,
     },
   },
+  selectGroup: {
+    display: "flex",
+    width: "100%",
+  },
+  typeSelect: {
+    marginRight: "1rem",
+    width: "100%",
+    "&>*": {
+      width: "100%",
+    },
+  },
   addVarBtn: {
     margin: "1rem 0rem 1rem 0rem",
     backgroundColor: "#ffa000",

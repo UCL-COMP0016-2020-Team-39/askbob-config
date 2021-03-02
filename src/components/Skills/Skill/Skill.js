@@ -57,11 +57,16 @@ const Skill = ({ id, description, intent, actions, ...skillProps }) => {
       </header>
       <h2>intent</h2>
       <h4>{intentName}</h4>
-      <h2>responses</h2>
-      {actions.map((response, index) => {
-        const responseData = responses.find(r => r.response_id === response);
-        const responseName = responseData && responseData.name;
-        return <h4 key={index}>{responseName}</h4>;
+      <h2>Actions</h2>
+      {actions.map((action, index) => {
+        if (action.type === "response") {
+          const responseData = responses.find(
+            r => r.response_id === action.action_id
+          );
+          const responseName = responseData && responseData.name;
+          return <h4 key={index}>{responseName}</h4>;
+        }
+        return <h4 key={index}>{action.action_id}</h4>;
       })}
     </div>
   );

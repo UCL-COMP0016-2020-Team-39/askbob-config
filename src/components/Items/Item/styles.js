@@ -5,7 +5,6 @@ export default makeStyles(theme => ({
     textTransform: "capitalize",
   },
   header: {
-    background: "cyan",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "baseline",

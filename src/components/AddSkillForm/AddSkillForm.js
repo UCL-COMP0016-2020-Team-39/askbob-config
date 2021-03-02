@@ -20,8 +20,7 @@ const AddSkill = () => {
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
   const [intent, setIntent] = useState("");
-  const [, setResponse] = useState("");
-  const [actions, setActions] = useState([""]);
+  const [actions, setActions] = useState([{ type: "", action_id: "" }]);
 
   const { currentItem, mode } = useSelector(state => state.skills);
 
@@ -61,8 +60,7 @@ const AddSkill = () => {
     setSubmitting(false);
     setDescription("");
     setIntent("");
-    setResponse("");
-    setActions([""]);
+    setActions([{ type: "", action_id: "" }]);
     resetForm();
   };
 
@@ -102,13 +100,11 @@ const AddSkill = () => {
           if (!actions || actions.length === 0) {
             errors.actions = "actions are required";
           } else {
-            actions.forEach((response, index) => {
-              if (!response || !response.trim()) {
-                errors.actions[index] = `response ${index + 1} is required`;
-              } else if (response.trim().length < 1) {
-                errors.actions[index] = `response ${index + 1} is too short`;
-              } else if (response.trim().length > maxStringLength) {
-                errors.actions[index] = `response ${index + 1} is too long`;
+            actions.forEach((action, index) => {
+              if (!action) {
+                errors.actions[index] = `action ${index + 1} is required`;
+              } else if (action?.action_id.trim().length < 1) {
+                errors.actions[index] = `action ${index + 1} is too short`;
               }
             });
           }
@@ -148,21 +144,41 @@ const AddSkill = () => {
                 menuText='name'
               />
             </div>
-            <label htmlFor='response'>Responses</label>
+            <label htmlFor='action'>Actions</label>
 
             <FieldArray name='actions'>
               {arrayHelpers => (
                 <>
-                  {values.actions.map((response, index) => (
+                  {values.actions.map((action, index) => (
                     <div key={index} className={classes.formGroup}>
-                      <div className={classes.formGroup}>
+                      <div className={classes.selectGroup}>
                         <FormSelect
-                          name={`actions.${index}`}
-                          id={`actions${index}`}
-                          menuItems={responses}
-                          menuValue='response_id'
+                          className={classes.typeSelect}
+                          name={`actions.${index}.type`}
+                          id={`actions.${index}.type`}
+                          menuItems={[{ name: "response" }, { name: "custom" }]}
+                          menuValue='name'
                           menuText='name'
                         />
+                        {values.actions[index].type === "response" ? (
+                          <FormSelect
+                            name={`actions.${index}.action_id`}
+                            id={`actions.${index}.action_id`}
+                            menuItems={responses}
+                            menuValue='response_id'
+                            menuText='name'
+                          />
+                        ) : (
+                          <>
+                            <div className={classes.formGroup}>
+                              <FormTextField
+                                name={`actions.${index}.action_id`}
+                                id={`actions.${index}.action_id`}
+                                placeholder='Add name of custom action'
+                              />
+                            </div>
+                          </>
+                        )}
                       </div>
                       <IconButton
                         onClick={() => {
@@ -181,9 +197,9 @@ const AddSkill = () => {
                     onClick={() => {
                       arrayHelpers.push("");
                     }}
-                    aria-label='add response'
+                    aria-label='add action'
                   >
-                    Add Response
+                    Add Action
                   </Button>
                 </>
               )}
@@ -204,8 +220,9 @@ const AddSkill = () => {
             </div>
             <br />
             <br />
-            <pre>{/*JSON.stringify(values, null, 2)*/}</pre>
-            <pre>{/*JSON.stringify(errors, null, 2)*/}</pre>
+            {console.log(values)}
+            <pre>{JSON.stringify(values, null, 2)}</pre>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>
