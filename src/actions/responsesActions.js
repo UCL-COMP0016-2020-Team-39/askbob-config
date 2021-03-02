@@ -8,10 +8,16 @@ import {
   ADD_MODE_RESPONSE,
 } from "./types";
 
-export const addResponse = response => ({
-  type: ADD_RESPONSE,
-  payload: { response },
-});
+export const addResponse = response => {
+  if (!response.response_id.startsWith("utter_")) {
+    response.response_id = `utter_${response.response_id}`;
+  }
+
+  return {
+    type: ADD_RESPONSE,
+    payload: { response },
+  };
+};
 
 export const deleteResponse = id => ({
   type: DELETE_RESPONSE,
