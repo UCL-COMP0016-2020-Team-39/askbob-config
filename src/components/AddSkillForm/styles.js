@@ -24,6 +24,12 @@ export default makeStyles(theme => ({
       flex: 1,
     },
   },
+
+  errorText: {
+    background: "#fee",
+    color: "#f00",
+    textAlign: "center",
+  },
   selectGroup: {
     display: "flex",
     width: "100%",

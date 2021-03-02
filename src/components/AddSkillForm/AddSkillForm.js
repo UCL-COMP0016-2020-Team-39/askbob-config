@@ -19,8 +19,9 @@ const AddSkill = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
   const [intent, setIntent] = useState("");
-  const [actions, setActions] = useState([{ type: "", action_id: "" }]);
+  const [actions, setActions] = useState([{ type: "response", action_id: "" }]);
 
   const { currentItem, mode } = useSelector(state => state.skills);
 
@@ -60,7 +61,7 @@ const AddSkill = () => {
     setSubmitting(false);
     setDescription("");
     setIntent("");
-    setActions([{ type: "", action_id: "" }]);
+    setActions([{ type: "response", action_id: "" }]);
     resetForm();
   };
 
@@ -79,7 +80,6 @@ const AddSkill = () => {
           let errors = {
             description: "",
             intent: "",
-            actions: [""],
           };
 
           const maxStringLength = 80;
@@ -98,13 +98,18 @@ const AddSkill = () => {
           }
 
           if (!actions || actions.length === 0) {
-            errors.actions = "actions are required";
+            errors[`actions`] = "actions are required";
           } else {
             actions.forEach((action, index) => {
               if (!action) {
-                errors.actions[index] = `action ${index + 1} is required`;
+                errors[`actions${index}`] = `action ${index + 1} is required`;
               } else if (action?.action_id.trim().length < 1) {
-                errors.actions[index] = `action ${index + 1} is too short`;
+                errors[`actions${index}`] = `action ${
+                  index + 1
+                } id is required`;
+              } else if (!action.action_id.match(/^[0-9a-zA-Z_ ]+$/)) {
+                errors[`actions${index}`] =
+                  "actions can only contain numbers and letters";
               }
             });
           }
@@ -117,15 +122,14 @@ const AddSkill = () => {
             delete errors.intent;
           }
 
-          if (errors.actions[0] === "" && errors.actions.length === 1) {
-            delete errors.actions;
-          }
-
+          console.log(error);
+          setError(Object.values(errors)[0]);
           return { ...errors };
         }}
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>
+            <p className={classes.errorText}>{error}</p>
             <label htmlFor='description'>Description</label>
             <div className={classes.formGroup}>
               <FormTextField
@@ -195,7 +199,7 @@ const AddSkill = () => {
                   <Button
                     className={classes.addVarBtn}
                     onClick={() => {
-                      arrayHelpers.push("");
+                      arrayHelpers.push({ type: "response", action_id: "" });
                     }}
                     aria-label='add action'
                   >
