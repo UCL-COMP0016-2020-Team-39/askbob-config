@@ -10,6 +10,7 @@ const reducer = combineReducers({
   skills: createReducer("skill"),
   stories: createReducer("story"),
   forms: createReducer("form"),
+  slots: createReducer("slot"),
 });
 
 export default reducer;

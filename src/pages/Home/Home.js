@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { TextField, Button, Link, Checkbox, Grid } from "@material-ui/core";
 import UseStyles from "./styles";
+import { Slots, AddSlotForm } from "../../components";
 
 const entityNames = [
   "CARDINAL",
@@ -52,6 +53,7 @@ const Home = () => {
   const skills = useSelector(state => state.skills.items);
   const stories = useSelector(state => state.stories.items);
   const forms = useSelector(state => state.forms.items);
+  const slots = useSelector(state => state.slots.items);
 
   const downloadTag = useRef(null);
 
@@ -66,6 +68,7 @@ const Home = () => {
     const json = {
       plugin: pluginName,
       entities,
+      slots,
       intents,
       synonyms,
       lookups,
@@ -78,7 +81,6 @@ const Home = () => {
     const entries = Object.entries(json);
     entries.forEach(prop => {
       const [key, value] = prop;
-      console.log("key: ", key, "value: ", value);
 
       if (value.length === 0) {
         delete json[key];
@@ -93,6 +95,7 @@ const Home = () => {
   }, [
     pluginName,
     entities,
+    slots,
     intents,
     synonyms,
     lookups,
@@ -182,6 +185,10 @@ const Home = () => {
             );
           })}
         </Grid>
+      </div>
+      <AddSlotForm />
+      <Slots />
+      <div className='card'>
         <div className={classes.formGroup}>
           <Button
             variant='contained'

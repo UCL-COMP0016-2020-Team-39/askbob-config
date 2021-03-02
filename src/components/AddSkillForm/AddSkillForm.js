@@ -122,7 +122,6 @@ const AddSkill = () => {
             delete errors.intent;
           }
 
-          console.log(error);
           setError(Object.values(errors)[0]);
           return { ...errors };
         }}
@@ -224,7 +223,6 @@ const AddSkill = () => {
             </div>
             <br />
             <br />
-            {console.log(values)}
             <pre>{JSON.stringify(values, null, 2)}</pre>
             <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>

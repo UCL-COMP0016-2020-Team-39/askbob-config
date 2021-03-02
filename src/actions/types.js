@@ -70,3 +70,13 @@ export const UPDATE_FORM = "UPDATE_FORM";
 
 export const ADD_MODE_FORM = "ADD_MODE_FORM";
 export const EDIT_MODE_FORM = "EDIT_MODE_FORM";
+
+export const LOAD_SLOT = "LOAD_SLOT";
+export const STORE_SLOT = "STORE_SLOT";
+export const GET_SLOT = "GET_SLOT";
+export const ADD_SLOT = "ADD_SLOT";
+export const DELETE_SLOT = "DELETE_SLOT";
+export const UPDATE_SLOT = "UPDATE_SLOT";
+
+export const ADD_MODE_SLOT = "ADD_MODE_SLOT";
+export const EDIT_MODE_SLOT = "EDIT_MODE_SLOT";
