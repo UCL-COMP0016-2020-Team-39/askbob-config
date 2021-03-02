@@ -62,22 +62,30 @@ const Home = () => {
       let actions = skill.actions.map(action => action.action_id);
       return { ...skill, actions };
     });
-    let jsonData = JSON.stringify(
-      {
-        plugin: pluginName,
-        entities,
-        intents,
-        synonyms,
-        lookups,
-        regexes,
-        responses,
-        skills: formatedskills,
-        stories,
-        forms,
-      },
-      null,
-      4
-    );
+
+    const json = {
+      plugin: pluginName,
+      entities,
+      intents,
+      synonyms,
+      lookups,
+      regexes,
+      responses,
+      skills: formatedskills,
+      stories,
+      forms,
+    };
+    const entries = Object.entries(json);
+    entries.forEach(prop => {
+      const [key, value] = prop;
+      console.log("key: ", key, "value: ", value);
+
+      if (value.length === 0) {
+        delete json[key];
+      }
+    });
+    let jsonData = JSON.stringify(json, null, 4);
+
     setData(jsonData);
     const blob = new Blob([jsonData], { type: "application/json" });
     const fileDownloadUrl = URL.createObjectURL(blob);
