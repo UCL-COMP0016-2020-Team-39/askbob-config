@@ -52,7 +52,6 @@ const Home = () => {
   const responses = useSelector(state => state.responses.items);
   const skills = useSelector(state => state.skills.items);
   const stories = useSelector(state => state.stories.items);
-  const forms = useSelector(state => state.forms.items);
   const slots = useSelector(state => state.slots.items);
 
   const downloadTag = useRef(null);
@@ -65,6 +64,17 @@ const Home = () => {
       return { ...skill, actions };
     });
 
+    let formattedResponses = responses.map(response => {
+      const formattedResponse = {
+        ...response,
+        text: [...response.examples],
+      };
+
+      delete formattedResponse.examples;
+
+      return formattedResponse;
+    });
+
     const json = {
       plugin: pluginName,
       entities,
@@ -73,10 +83,9 @@ const Home = () => {
       synonyms,
       lookups,
       regexes,
-      responses,
+      responses: formattedResponses,
       skills: formatedskills,
       stories,
-      forms,
     };
     const entries = Object.entries(json);
     entries.forEach(prop => {
@@ -103,7 +112,6 @@ const Home = () => {
     responses,
     skills,
     stories,
-    forms,
   ]);
 
   const validate = () => {

@@ -1,15 +1,7 @@
 import "./App.css";
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import {
-  Home,
-  Error,
-  AddIntent,
-  AddResponse,
-  AddSkill,
-  AddStory,
-  AddForm,
-} from "./pages";
+import { Home, AddIntent, AddResponse, AddSkill, AddStory } from "./pages";
 import { Navbar } from "./components";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -20,7 +12,7 @@ import { loadRegexes, storeRegexes } from "./actions/regexesActions";
 import { loadResponses, storeResponses } from "./actions/responsesActions";
 import { loadSkills, storeSkills } from "./actions/skillsActions";
 import { loadStories, storeStories } from "./actions/storiesActions";
-import { loadForms, storeForms } from "./actions/formsActions";
+import { loadSlots, storeSlots } from "./actions/slotsActions";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,7 +24,7 @@ const App = () => {
   const responses = useSelector(state => state.responses.items);
   const skills = useSelector(state => state.skills.items);
   const stories = useSelector(state => state.stories.items);
-  const forms = useSelector(state => state.forms.items);
+  const slots = useSelector(state => state.slots.items);
 
   useEffect(() => {
     dispatch(loadIntents());
@@ -42,7 +34,7 @@ const App = () => {
     dispatch(loadResponses());
     dispatch(loadSkills());
     dispatch(loadStories());
-    dispatch(loadForms());
+    dispatch(loadSlots());
   }, [dispatch]);
 
   useEffect(() => {
@@ -74,8 +66,8 @@ const App = () => {
   }, [dispatch, stories]);
 
   useEffect(() => {
-    dispatch(storeForms());
-  }, [dispatch, forms]);
+    dispatch(storeSlots());
+  }, [dispatch, slots]);
 
   const links = [
     { name: "Home", slug: "/" },
@@ -83,7 +75,6 @@ const App = () => {
     { name: "Responses", slug: "/responses" },
     { name: "Skills", slug: "/skills" },
     { name: "Stories", slug: "/stories" },
-    { name: "Forms", slug: "/forms" },
   ];
 
   return (
@@ -97,8 +88,7 @@ const App = () => {
             <Route path='/responses' exact component={AddResponse}></Route>
             <Route path='/skills' exact component={AddSkill}></Route>
             <Route path='/stories' component={AddStory}></Route>
-            <Route path='/forms' component={AddForm}></Route>
-            <Route path='*' component={Error}></Route>
+            <Route path='*' component={Home}></Route>
           </Switch>
         </main>
       </div>

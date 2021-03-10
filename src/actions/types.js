@@ -61,16 +61,6 @@ export const UPDATE_STORY = "UPDATE_STORY";
 export const ADD_MODE_STORY = "ADD_MODE_STORY";
 export const EDIT_MODE_STORY = "EDIT_MODE_STORY";
 
-export const LOAD_FORM = "LOAD_FORM";
-export const STORE_FORM = "STORE_FORM";
-export const GET_FORM = "GET_FORM";
-export const ADD_FORM = "ADD_FORM";
-export const DELETE_FORM = "DELETE_FORM";
-export const UPDATE_FORM = "UPDATE_FORM";
-
-export const ADD_MODE_FORM = "ADD_MODE_FORM";
-export const EDIT_MODE_FORM = "EDIT_MODE_FORM";
-
 export const LOAD_SLOT = "LOAD_SLOT";
 export const STORE_SLOT = "STORE_SLOT";
 export const GET_SLOT = "GET_SLOT";

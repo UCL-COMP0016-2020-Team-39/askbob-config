@@ -9,7 +9,6 @@ const reducer = combineReducers({
   responses: createReducer("response"),
   skills: createReducer("skill"),
   stories: createReducer("story"),
-  forms: createReducer("form"),
   slots: createReducer("slot"),
 });
 

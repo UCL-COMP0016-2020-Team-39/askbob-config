@@ -12,7 +12,7 @@ const FormSelect = ({ menuItems, menuValue, menuText, ...props }) => {
       <Select {...field} error={!!errorText}>
         {menuItems.map(item => {
           return (
-            <MenuItem key={item.id} value={item[menuValue]}>
+            <MenuItem key={item[menuValue]} value={item[menuValue]}>
               {item[menuText]}
             </MenuItem>
           );
