@@ -35,7 +35,7 @@ const FormCheckBox = ({ name, ...props }) => {
 };
 
 const Home = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [data, setData] = useState("");
 
   const [pluginName, setPluginName] = useState("");
@@ -145,6 +145,7 @@ const Home = () => {
         <div className={classes.formGroup}>
           <TextField
             id='pluginName'
+            data-testid='pluginInput'
             value={pluginName}
             onChange={e => {
               setPluginName(e.target.value);
@@ -223,6 +224,7 @@ const Home = () => {
 
         {show && (
           <pre
+            data-testid='dataJson'
             style={{
               overflowX: "scroll",
               backgroundColor: "white",
