@@ -10,7 +10,12 @@ import {
 
 export const addResponse = response => {
   if (!response.response_id.startsWith("utter_")) {
-    response.response_id = `utter_${response.response_id}`;
+    return {
+      type: ADD_RESPONSE,
+      payload: {
+        response: { ...response, response_id: `utter_${response.response_id}` },
+      },
+    };
   }
 
   return {
