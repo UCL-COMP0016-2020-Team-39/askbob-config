@@ -169,44 +169,46 @@ const AddSlot = () => {
               menuValue='id'
               menuText='id'
             />
-            <label htmlFor='response'>Values</label>
             {values.type === "catergorical" && (
-              <FieldArray name='values'>
-                {arrayHelpers => (
-                  <>
-                    {values.values.map((value, index) => (
-                      <div key={index} className={classes.formGroup}>
-                        <div className={classes.formGroup}>
-                          <FormTextField
-                            name={`values.${index}`}
-                            id={`values.${index}`}
-                          />
-                        </div>
+              <>
+                <label htmlFor='response'>Values</label>
+                <FieldArray name='values'>
+                  {arrayHelpers => (
+                    <>
+                      {values.values.map((value, index) => (
+                        <div key={index} className={classes.formGroup}>
+                          <div className={classes.formGroup}>
+                            <FormTextField
+                              name={`values.${index}`}
+                              id={`values.${index}`}
+                            />
+                          </div>
 
-                        <IconButton
-                          onClick={() => {
-                            if (values.values.length > 1) {
-                              arrayHelpers.remove(index);
-                            }
-                          }}
-                          aria-label='delete'
-                        >
-                          <Clear />
-                        </IconButton>
-                      </div>
-                    ))}
-                    <Button
-                      className={classes.addVarBtn}
-                      onClick={() => {
-                        arrayHelpers.push("");
-                      }}
-                      aria-label='add value'
-                    >
-                      Add Value
-                    </Button>
-                  </>
-                )}
-              </FieldArray>
+                          <IconButton
+                            onClick={() => {
+                              if (values.values.length > 1) {
+                                arrayHelpers.remove(index);
+                              }
+                            }}
+                            aria-label='delete'
+                          >
+                            <Clear />
+                          </IconButton>
+                        </div>
+                      ))}
+                      <Button
+                        className={classes.addVarBtn}
+                        onClick={() => {
+                          arrayHelpers.push("");
+                        }}
+                        aria-label='add value'
+                      >
+                        Add Value
+                      </Button>
+                    </>
+                  )}
+                </FieldArray>
+              </>
             )}
             <div>
               {values.type === "float" && (
