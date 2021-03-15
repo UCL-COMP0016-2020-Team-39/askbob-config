@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import createReducer from "../reducerFactory";
-import * as actionTypes from "../../actions/types";
 
 import localStorageMock from "./localStorageMock";
 
@@ -25,7 +24,7 @@ it("should return initial state", () => {
   expect(reducer(undefined, {})).toEqual({
     items: [],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   });
 });
 
@@ -34,10 +33,10 @@ it("should handle ADD_INTENT", () => {
     {
       items: [],
       currentItem: null,
-      mode: actionTypes[`ADD_MODE_${actionName}`],
+      mode: `ADD_MODE_${actionName}`,
     },
     {
-      type: actionTypes.ADD_INTENT,
+      type: "ADD_INTENT",
       payload: {
         [reducerName]: {
           name: "intentName",
@@ -57,7 +56,7 @@ it("should handle ADD_INTENT", () => {
       },
     ],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   };
   expect(actualState.currentItem).toBeNull();
   expect(actualState.mode).toBe(expectedState.mode);
@@ -77,10 +76,10 @@ it("should handle UPDATE_INTENT", () => {
         },
       ],
       currentItem: null,
-      mode: actionTypes[`ADD_MODE_${actionName}`],
+      mode: `ADD_MODE_${actionName}`,
     },
     {
-      type: actionTypes.UPDATE_INTENT,
+      type: "UPDATE_INTENT",
       payload: {
         [reducerName]: {
           name: "updatedName",
@@ -99,7 +98,7 @@ it("should handle UPDATE_INTENT", () => {
       },
     ],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   };
   expect(actualState.currentItem).toBeNull();
   expect(actualState.mode).toBe(expectedState.mode);
@@ -119,10 +118,10 @@ it("should handle partial UPDATE_INTENT", () => {
         },
       ],
       currentItem: null,
-      mode: actionTypes[`ADD_MODE_${actionName}`],
+      mode: `ADD_MODE_${actionName}`,
     },
     {
-      type: actionTypes.UPDATE_INTENT,
+      type: "UPDATE_INTENT",
       payload: {
         [reducerName]: {
           name: "updatedName",
@@ -140,7 +139,7 @@ it("should handle partial UPDATE_INTENT", () => {
       },
     ],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   };
   expect(actualState.currentItem).toBeNull();
   expect(actualState.mode).toBe(expectedState.mode);
@@ -165,10 +164,10 @@ it("should handle DELETE_INTENT", () => {
         },
       ],
       currentItem: null,
-      mode: actionTypes[`ADD_MODE_${actionName}`],
+      mode: `ADD_MODE_${actionName}`,
     },
     {
-      type: actionTypes.DELETE_INTENT,
+      type: "DELETE_INTENT",
       payload: {
         id: "id2",
       },
@@ -184,7 +183,7 @@ it("should handle DELETE_INTENT", () => {
       },
     ],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   };
   expect(actualState.currentItem).toBeNull();
   expect(actualState.mode).toBe(expectedState.mode);
@@ -204,10 +203,10 @@ it("should handle LOAD_INTENT", () => {
         },
       ],
       currentItem: null,
-      mode: actionTypes[`ADD_MODE_${actionName}`],
+      mode: `ADD_MODE_${actionName}`,
     },
     {
-      type: actionTypes.STORE_INTENT,
+      type: "STORE_INTENT",
     }
   );
 
@@ -220,7 +219,7 @@ it("should handle LOAD_INTENT", () => {
       },
     ],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   });
   expect(expectedState).toEqual(
     localStorage.getItem(`askBobConfig${reducerName}`)
@@ -237,7 +236,7 @@ it("should handle STORE_INTENT", () => {
       },
     ],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   });
 
   localStorage.setItem(`askBobConfig${reducerName}`, expectedState);
@@ -246,7 +245,7 @@ it("should handle STORE_INTENT", () => {
     reducer(
       {},
       {
-        type: actionTypes.LOAD_INTENT,
+        type: "LOAD_INTENT",
       }
     )
   );
@@ -254,4 +253,50 @@ it("should handle STORE_INTENT", () => {
   expect(actualState).toEqual(
     localStorage.getItem(`askBobConfig${reducerName}`)
   );
+});
+
+it("should handle SWITCH_TO_EDIT_MODE action", () => {
+  expect(
+    reducer(undefined, {
+      type: "EDIT_MODE_INTENT",
+      payload: {
+        currentItem: {
+          name: "name",
+          examples: ["1", "2", "3"],
+          intent_id: "id",
+        },
+      },
+    })
+  ).toEqual({
+    items: [],
+    currentItem: {
+      name: "name",
+      examples: ["1", "2", "3"],
+      intent_id: "id",
+    },
+    mode: `EDIT_MODE_${actionName}`,
+  });
+});
+
+it("should handle SWITCH_TO_ADD_MODE action", () => {
+  expect(
+    reducer(
+      {
+        items: [],
+        currentItem: {
+          name: "name",
+          examples: ["1", "2", "3"],
+          intent_id: "id",
+        },
+        mode: `EDIT_MODE_${actionName}`,
+      },
+      {
+        type: "ADD_MODE_INTENT",
+      }
+    )
+  ).toEqual({
+    items: [],
+    currentItem: null,
+    mode: `ADD_MODE_${actionName}`,
+  });
 });

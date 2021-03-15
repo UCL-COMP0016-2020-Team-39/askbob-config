@@ -1,4 +1,3 @@
-import * as actionTypes from "../actions/types";
 import { v4 } from "uuid";
 
 const createDatabaseWithNamedType = (databaseName = "") => {
@@ -7,17 +6,17 @@ const createDatabaseWithNamedType = (databaseName = "") => {
   const initialState = {
     items: [],
     currentItem: null,
-    mode: actionTypes[`ADD_MODE_${actionName}`],
+    mode: `ADD_MODE_${actionName}`,
   };
 
   const reducer = (state = initialState, action) => {
     switch (action.type) {
-      case actionTypes[`LOAD_${actionName}`]:
+      case `LOAD_${actionName}`:
         return JSON.parse(localStorage.getItem(localStorageKey)) || state;
-      case actionTypes[`STORE_${actionName}`]:
+      case `STORE_${actionName}`:
         localStorage.setItem(localStorageKey, JSON.stringify(state));
         return state;
-      case actionTypes[`ADD_${actionName}`]:
+      case `ADD_${actionName}`:
         return {
           ...state,
 
@@ -29,12 +28,12 @@ const createDatabaseWithNamedType = (databaseName = "") => {
             },
           ],
         };
-      case actionTypes[`DELETE_${actionName}`]:
+      case `DELETE_${actionName}`:
         return {
           ...state,
           items: state.items.filter(item => item.id !== action.payload.id),
         };
-      case actionTypes[`UPDATE_${actionName}`]:
+      case `UPDATE_${actionName}`:
         return {
           ...state,
           items: state.items.map(item =>
@@ -43,16 +42,16 @@ const createDatabaseWithNamedType = (databaseName = "") => {
               : { ...item, ...action.payload[databaseName] }
           ),
         };
-      case actionTypes[`EDIT_MODE_${actionName}`]:
+      case `EDIT_MODE_${actionName}`:
         return {
           ...state,
-          mode: actionTypes[`EDIT_MODE_${actionName}`],
+          mode: `EDIT_MODE_${actionName}`,
           currentItem: action.payload.currentItem,
         };
-      case actionTypes[`ADD_MODE_${actionName}`]:
+      case `ADD_MODE_${actionName}`:
         return {
           ...state,
-          mode: actionTypes[`ADD_MODE_${actionName}`],
+          mode: `ADD_MODE_${actionName}`,
           currentItem: null,
         };
       default:
