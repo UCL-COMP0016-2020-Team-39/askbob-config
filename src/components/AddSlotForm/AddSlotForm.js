@@ -108,9 +108,14 @@ const AddSlot = () => {
           if (type === "float") {
             if (!min_value || !min_value.trim() || isNaN(min_value)) {
               errors.min_value = "min value should be a number";
+            } else if (min_value < 0 || min_value > 1) {
+              errors.min_value = "min value should be between than 1 and 0";
             }
+
             if (!max_value || !max_value.trim() || isNaN(max_value.trim())) {
               errors.max_value = "max value should be a number";
+            } else if (max_value < 0 || max_value > 1) {
+              errors.max_value = "max value should be between than 1 and 0";
             }
           }
 
