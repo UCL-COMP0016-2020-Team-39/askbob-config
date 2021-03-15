@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
@@ -60,4 +61,12 @@ const Item = ({
   );
 };
 
+Item.propTypes = {
+  id: PropTypes.string.isRequired,
+  itemName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  examples: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  switchToItemEditMode: PropTypes.func.isRequired,
+};
 export default Item;

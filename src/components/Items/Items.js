@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Item from "./Item/Item";
 
 const Items = ({ items, itemName, deleteItem, switchToItemEditMode }) => {
@@ -20,6 +22,18 @@ const Items = ({ items, itemName, deleteItem, switchToItemEditMode }) => {
       })}
     </ul>
   );
+};
+
+Items.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      examples: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    })
+  ),
+  itemName: PropTypes.string.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  switchToItemEditMode: PropTypes.func.isRequired,
 };
 
 export default Items;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 import { Formik, Form, FieldArray } from "formik";
 import { Button, IconButton } from "@material-ui/core";
@@ -182,5 +183,17 @@ const WithForm = ({
       </Formik>
     </section>
   );
+};
+
+WithForm.propTypes = {
+  itemName: PropTypes.string.isRequired,
+  currentItem: PropTypes.object,
+  mode: PropTypes.string.isRequired,
+  items: PropTypes.array.isRequired,
+  itemNames: PropTypes.array.isRequired,
+  updateItem: PropTypes.func.isRequired,
+  EDIT_MODE: PropTypes.string.isRequired,
+  switchToItemAddMode: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
 };
 export default WithForm;

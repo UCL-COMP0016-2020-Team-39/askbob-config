@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
@@ -96,4 +98,12 @@ const Slot = ({
   );
 };
 
+Slot.propTypes = {
+  name: PropTypes.string.isRequired,
+  influence_conversation: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  min_value: PropTypes.string,
+  max_value: PropTypes.string,
+  values: PropTypes.arrayOf(PropTypes.string),
+};
 export default Slot;

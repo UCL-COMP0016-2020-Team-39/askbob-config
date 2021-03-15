@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -72,4 +74,10 @@ const Skill = ({ id, description, intent, actions, ...skillProps }) => {
   );
 };
 
+Skill.propTypes = {
+  id: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  intent: PropTypes.string.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.object.isRequired),
+};
 export default Skill;

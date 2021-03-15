@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { IconButton } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -69,4 +71,13 @@ const Story = ({ id, description, steps, ...storyProps }) => {
   );
 };
 
+Story.propTypes = {
+  description: PropTypes.string.isRequired,
+  steps: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+};
 export default Story;
