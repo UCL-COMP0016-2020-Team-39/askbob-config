@@ -55,10 +55,7 @@ const Story = ({ id, description, steps, ...storyProps }) => {
       {steps.map(step => {
         let data = intents.find(i => i.intent_id === step.step_id);
         data = data ?? responses.find(r => r.response_id === step.step_id);
-        let name;
-        if (data) {
-          name = data.name;
-        }
+        let name = data?.name ?? step.step_id;
         return (
           <div key={step.id}>
             <p>
@@ -76,7 +73,7 @@ Story.propTypes = {
   steps: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+      step_id: PropTypes.string.isRequired,
     })
   ),
 };

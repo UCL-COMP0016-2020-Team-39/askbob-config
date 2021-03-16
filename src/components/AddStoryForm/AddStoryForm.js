@@ -110,7 +110,6 @@ const AddStory = () => {
     const storySteps = steps.map(step => ({
       id: step.id,
       type: step.type,
-      data: step.data,
       step_id: step.step_id,
     }));
 
@@ -137,17 +136,16 @@ const AddStory = () => {
       <form className={classes.root} onSubmit={e => handleSubmit(e)}>
         <p className={classes.errorText}>{errorText}</p>
         <label htmlFor='description'>Description</label>
-        <div className={classes.formGroup}>
-          <TextField
-            name='description'
-            id='description'
-            placeholder='description'
-            value={description}
-            onChange={e => {
-              setDescription(e.target.value);
-            }}
-          />
-        </div>
+        <TextField
+          name='description'
+          id='description'
+          placeholder='description'
+          value={description}
+          className={classes.description}
+          onChange={e => {
+            setDescription(e.target.value);
+          }}
+        />
 
         <label htmlFor='response'>Steps</label>
 
@@ -170,6 +168,7 @@ const AddStory = () => {
                             return {
                               ...p,
                               type: e.target.value,
+                              step_id: "",
                             };
                           }
                           return p;
@@ -179,36 +178,58 @@ const AddStory = () => {
                   >
                     <MenuItem value='intent'>intent</MenuItem>
                     <MenuItem value='response'>response</MenuItem>
+                    <MenuItem value='custom'>custom</MenuItem>
                   </Select>
-                  <Select
-                    value={step.step_id}
-                    className={classes.storyName}
-                    onChange={e => {
-                      setSteps(prev =>
-                        prev.map(p => {
-                          if (p.id === step.id) {
-                            return {
-                              ...p,
-                              step_id: e.target.value,
-                            };
-                          }
-                          return p;
-                        })
-                      );
-                    }}
-                  >
-                    {options.map(option => {
-                      const id =
-                        step.type === "intent"
-                          ? option.intent_id
-                          : option.response_id;
-                      return (
-                        <MenuItem key={id} value={id}>
-                          {option.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
+                  {step.type === "custom" ? (
+                    <TextField
+                      placeholder='Add name of custom action'
+                      value={step.step_id}
+                      onChange={e => {
+                        setSteps(prev =>
+                          prev.map(p => {
+                            if (p.id === step.id) {
+                              return {
+                                ...p,
+                                step_id: e.target.value,
+                              };
+                            } else {
+                              return p;
+                            }
+                          })
+                        );
+                      }}
+                    />
+                  ) : (
+                    <Select
+                      value={step.step_id}
+                      className={classes.storyName}
+                      onChange={e => {
+                        setSteps(prev =>
+                          prev.map(p => {
+                            if (p.id === step.id) {
+                              return {
+                                ...p,
+                                step_id: e.target.value,
+                              };
+                            }
+                            return p;
+                          })
+                        );
+                      }}
+                    >
+                      {options.map(option => {
+                        const id =
+                          step.type === "intent"
+                            ? option.intent_id
+                            : option.response_id;
+                        return (
+                          <MenuItem key={id} value={id}>
+                            {option.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  )}
                 </div>
                 <IconButton
                   onClick={() => {
@@ -227,7 +248,10 @@ const AddStory = () => {
         <Button
           className={classes.addVarBtn}
           onClick={() => {
-            setSteps(prev => [...prev, { id: v4(), type: "intent", name: "" }]);
+            setSteps(prev => [
+              ...prev,
+              { id: v4(), type: "intent", step_id: "" },
+            ]);
           }}
           aria-label='add steps'
         >
@@ -246,7 +270,7 @@ const AddStory = () => {
         </div>
         <br />
         <br />
-        <pre>{/*JSON.stringify(steps, null, 2)*/}</pre>
+        <pre>{JSON.stringify(steps, null, 2)}</pre>
       </form>
     </section>
   );

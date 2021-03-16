@@ -33,6 +33,9 @@ export default makeStyles(theme => ({
   selectGroup: {
     display: "flex",
     width: "100%",
+    "&> *": {
+      flex: "1",
+    },
   },
   typeSelect: {
     marginRight: "1rem",

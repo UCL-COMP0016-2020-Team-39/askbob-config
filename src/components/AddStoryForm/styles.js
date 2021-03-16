@@ -17,11 +17,10 @@ export default makeStyles(theme => ({
     "& button": {
       marginBottom: "1em",
     },
-
-    "& .MuiTextField-root": {
-      flex: 1,
-      marginLeft: "0rem",
-    },
+  },
+  description: {
+    flex: 1,
+    marginLeft: "0rem",
   },
   errorText: {
     background: "#fee",
@@ -31,6 +30,10 @@ export default makeStyles(theme => ({
   selectGroup: {
     display: "flex",
     width: "100%",
+    alignItems: "center",
+    "& *": {
+      flex: "1",
+    },
   },
   storyType: {
     flex: 0.5,

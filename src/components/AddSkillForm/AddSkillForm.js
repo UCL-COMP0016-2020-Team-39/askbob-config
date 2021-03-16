@@ -8,12 +8,12 @@ import {
 import { EDIT_MODE_SKILL } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
-import { Button, IconButton } from "@material-ui/core";
+import { Button, IconButton, MenuItem, Select } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 import { FormSelect, FormTextField } from "../";
 
-import { nameToId } from "../../utils";
+import { nameToId, validateSkill } from "../../utils";
 
 const AddSkill = () => {
   const classes = useStyles();
@@ -77,53 +77,9 @@ const AddSkill = () => {
         enableReinitialize={true}
         onSubmit={handleSubmit}
         validate={values => {
-          let errors = {
-            description: "",
-            intent: "",
-          };
-
-          const maxStringLength = 80;
-          const { description, intent, actions } = values;
-          if (!description || !description.trim()) {
-            errors.description = "description is required";
-          } else if (description.length > maxStringLength) {
-            errors.description = "description is too long";
-          } else if (!description.match(/^[0-9a-zA-Z ]+$/)) {
-            errors.description =
-              "description can only contain numbers and letters";
-          }
-
-          if (!intent) {
-            errors.intent = "intent required";
-          }
-
-          if (!actions || actions.length === 0) {
-            errors[`actions`] = "actions are required";
-          } else {
-            actions.forEach((action, index) => {
-              if (!action) {
-                errors[`actions${index}`] = `action ${index + 1} is required`;
-              } else if (action?.action_id.trim().length < 1) {
-                errors[`actions${index}`] = `action ${
-                  index + 1
-                } id is required`;
-              } else if (!action.action_id.match(/^[0-9a-zA-Z_ ]+$/)) {
-                errors[`actions${index}`] =
-                  "actions can only contain numbers and letters";
-              }
-            });
-          }
-
-          if (errors.description === "") {
-            delete errors.description;
-          }
-
-          if (errors.intent === "") {
-            delete errors.intent;
-          }
-
+          const errors = validateSkill(values);
           setError(Object.values(errors)[0]);
-          return { ...errors };
+          return errors;
         }}
       >
         {({ values, isSubmitting, errors }) => (
@@ -155,14 +111,22 @@ const AddSkill = () => {
                   {values.actions.map((action, index) => (
                     <div key={index} className={classes.formGroup}>
                       <div className={classes.selectGroup}>
-                        <FormSelect
-                          className={classes.typeSelect}
-                          name={`actions.${index}.type`}
-                          id={`actions.${index}.type`}
-                          menuItems={[{ name: "response" }, { name: "custom" }]}
-                          menuValue='name'
-                          menuText='name'
-                        />
+                        <Select
+                          value={values.actions[index].type}
+                          onChange={e =>
+                            setActions(prev =>
+                              prev.map((action, i) => {
+                                console.log(i, index, action, e.target.value);
+                                return i !== index
+                                  ? action
+                                  : { type: e.target.value, action_id: "" };
+                              })
+                            )
+                          }
+                        >
+                          <MenuItem value='response'>response</MenuItem>
+                          <MenuItem value='custom'>custom</MenuItem>
+                        </Select>
                         {values.actions[index].type === "response" ? (
                           <FormSelect
                             name={`actions.${index}.action_id`}

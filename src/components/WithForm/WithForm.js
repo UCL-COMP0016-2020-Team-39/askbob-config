@@ -7,7 +7,7 @@ import { Clear } from "@material-ui/icons";
 import { FormTextField } from "../";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-import { nameToId } from "../../utils";
+import { nameToId, validateItem } from "../../utils";
 
 const WithForm = ({
   itemName,
@@ -76,49 +76,7 @@ const WithForm = ({
         }}
         enableReinitialize={true}
         onSubmit={handleSubmit}
-        validate={values => {
-          let errors = { name: "", examples: [""] };
-          const maxStringLength = 80;
-          const { name, examples } = values;
-
-          if (!name || !name.trim()) {
-            errors.name = "name is required";
-          } else if (name.trim().length < 1) {
-            errors.name = "name is too short";
-          } else if (name.length > maxStringLength) {
-            errors.name = "name is too long";
-          } else if (name !== name.toLowerCase()) {
-            errors.name = "name should be all lower case";
-          } else if (itemNames.includes(nameToId(name)) && mode !== EDIT_MODE) {
-            errors.name = "name already used";
-          } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
-            errors.name = "name can only contain numbers and letters";
-          }
-
-          if (!examples || examples.length === 0) {
-            errors.examples = "examples are required";
-          } else {
-            examples.forEach((example, index) => {
-              if (!example || !example.trim()) {
-                errors.examples[index] = `example ${index + 1} is required`;
-              } else if (example.trim().length < 1) {
-                errors.examples[index] = `example ${index + 1} is too short`;
-              } else if (example.trim().length > maxStringLength) {
-                errors.examples[index] = `example ${index + 1} is too long`;
-              }
-            });
-          }
-
-          if (errors.name === "") {
-            delete errors.name;
-          }
-          if (errors.examples[0] === "" && errors.examples.length === 1) {
-            //if errors.examples as a string is truesy
-            delete errors.examples;
-          }
-
-          return { ...errors };
-        }}
+        validate={values => validateItem(values, itemNames, mode, EDIT_MODE)}
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>
