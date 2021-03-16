@@ -8,7 +8,7 @@ export const nameToId = name => {
   return name
     .trim()
     .toLowerCase()
-    .replaceAll(/(\s+)|(-+)/g, "_");
+    .replace(/[^(A-Z)|(a-z)|(0-9)]+/g, "_");
 };
 
 export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
@@ -18,12 +18,8 @@ export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
 
   if (!name || !name.trim()) {
     errors.name = "name is required";
-  } else if (name.trim().length < 1) {
-    errors.name = "name is too short";
   } else if (name.length > maxStringLength) {
     errors.name = "name is too long";
-  } else if (name !== name.toLowerCase()) {
-    errors.name = "name should be all lower case";
   } else if (itemNames.includes(nameToId(name)) && mode !== EDIT_MODE) {
     errors.name = "name already used";
   } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
@@ -36,8 +32,6 @@ export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
     examples.forEach((example, index) => {
       if (!example || !example.trim()) {
         errors.examples[index] = `example ${index + 1} is required`;
-      } else if (example.trim().length < 1) {
-        errors.examples[index] = `example ${index + 1} is too short`;
       } else if (example.trim().length > maxStringLength) {
         errors.examples[index] = `example ${index + 1} is too long`;
       }
@@ -48,7 +42,6 @@ export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
     delete errors.name;
   }
   if (errors.examples[0] === "" && errors.examples.length === 1) {
-    //if errors.examples as a string is truesy
     delete errors.examples;
   }
 
