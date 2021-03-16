@@ -13,7 +13,7 @@ import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 import { FormSelect, FormTextField } from "..";
 
-import { nameToId } from "../../utils";
+import { nameToId, validateSlot } from "../../utils";
 
 const AddSlot = () => {
   const classes = useStyles();
@@ -88,64 +88,7 @@ const AddSlot = () => {
         }}
         enableReinitialize={true}
         onSubmit={handleSubmit}
-        validate={values => {
-          let errors = { values: [""] };
-
-          const maxStringLength = 80;
-          const {
-            name,
-            type,
-            min_value,
-            max_value,
-            values: catergories,
-          } = values;
-          if (!name || !name.trim()) {
-            errors.name = "name is required";
-          } else if (name.length > maxStringLength) {
-            errors.name = "name is too long";
-          } else if (
-            slotNames.includes(nameToId(name)) &&
-            mode !== EDIT_MODE_SLOT
-          ) {
-            errors.name = "name already used";
-          } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
-            errors.name = "name can only contain numbers and letters";
-          }
-
-          if (type === "float") {
-            if (!min_value || !min_value.trim() || isNaN(min_value)) {
-              errors.min_value = "min value should be a number";
-            } else if (min_value < 0 || min_value > 1) {
-              errors.min_value = "min value should be between than 1 and 0";
-            }
-
-            if (!max_value || !max_value.trim() || isNaN(max_value.trim())) {
-              errors.max_value = "max value should be a number";
-            } else if (max_value < 0 || max_value > 1) {
-              errors.max_value = "max value should be between than 1 and 0";
-            }
-          }
-
-          if (type === "catergorical") {
-            catergories.forEach((catergory, index) => {
-              if (!catergory || !catergory.trim()) {
-                errors.values[index] = `catergory ${index + 1} is required`;
-              } else if (catergory.length > maxStringLength) {
-                errors.values[index] = `catergory ${index + 1} is too long`;
-              } else if (!catergory.match(/^[0-9a-zA-Z ]+$/)) {
-                errors.values[
-                  index
-                ] = `catergory ${index} can only contain numbers and letters`;
-              }
-            });
-          }
-
-          if (errors.values[0] === "" && errors.values.length === 1) {
-            delete errors.values;
-          }
-
-          return { ...errors };
-        }}
+        validate={values => validateSlot(values)}
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>

@@ -20,7 +20,7 @@ import useStyles from "./styles";
 import { ReactSortable } from "react-sortablejs";
 import { v4 } from "uuid";
 
-import { nameToId } from "../../utils";
+import { nameToId, validateStory } from "../../utils";
 
 const AddStory = () => {
   const classes = useStyles();
@@ -43,61 +43,18 @@ const AddStory = () => {
     }
   }, [mode, currentItem]);
 
-  const validate = useCallback(() => {
-    const errors = { description: "", steps: [""] };
-    const maxStringLength = 80;
-
-    if (!description || !description.trim()) {
-      errors.description = "description is required";
-    } else if (description.length > maxStringLength) {
-      errors.description = "description is too long";
-    } else if (!description.match(/^[0-9a-zA-Z ]+$/)) {
-      errors.description = "description can only contain numbers and letters";
-    }
-
-    steps.forEach((step, index) => {
-      if (!step.step_id) {
-        errors[index] = `step ${index} requires an id`;
-      }
-      if (!step.type) {
-        errors[index] = `step ${index} requires a type`;
-      }
-    });
-
-    if (steps[0].type !== "intent") {
-      errors.steps[0] = "story must start with an intent";
-    }
-
-    if (steps.length > 0 && steps[steps.length - 1].type === "intent") {
-      errors.steps[0] = "story must not end with an intent";
-    }
-
-    if (errors.description === "") {
-      delete errors.description;
-    }
-
-    if (errors.steps[0] === "" && errors.steps.length === 1) {
-      delete errors.steps;
-    }
-
-    if (errors) {
-      setErrorText(Object.values(errors)[0]);
-    }
-
-    return errors;
-  }, [description, steps]);
-
   useEffect(() => {
-    const errors = validate();
+    const errors = validateStory({ description, steps });
     if (Object.values(errors).length > 0) {
       setErrorText(Object.values(errors)[0]);
     }
-  }, [description, steps, validate]);
+  }, [description, steps]);
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    const errors = validate();
+    const errors = validateStory({ description, steps });
+
     if (Object.values(errors).length > 0) {
       setErrorText(Object.values(errors)[0]);
       return;

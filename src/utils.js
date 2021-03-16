@@ -161,7 +161,7 @@ export const validateSlot = (values, mode, slotNames) => {
   return { ...errors };
 };
 
-export const validateStories = values => {
+export const validateStory = values => {
   const errors = { description: "", steps: [""] };
   const maxStringLength = 80;
 
