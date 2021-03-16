@@ -23,7 +23,7 @@ const WithForm = ({
   const classes = useStyles();
   const [name, setName] = useState("");
   const [examples, setExamples] = useState(["", ""]);
-
+  itemNames = itemNames.map(name => nameToId(name));
   const dispatch = useDispatch();
 
   const isEditing = mode === EDIT_MODE;
@@ -80,6 +80,7 @@ const WithForm = ({
           let errors = { name: "", examples: [""] };
           const maxStringLength = 80;
           const { name, examples } = values;
+
           if (!name || !name.trim()) {
             errors.name = "name is required";
           } else if (name.trim().length < 1) {
@@ -88,7 +89,7 @@ const WithForm = ({
             errors.name = "name is too long";
           } else if (name !== name.toLowerCase()) {
             errors.name = "name should be all lower case";
-          } else if (itemNames.includes(name) && mode !== EDIT_MODE) {
+          } else if (itemNames.includes(nameToId(name)) && mode !== EDIT_MODE) {
             errors.name = "name already used";
           } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
             errors.name = "name can only contain numbers and letters";
@@ -139,7 +140,7 @@ const WithForm = ({
                         <IconButton
                           aria-label='clear'
                           onClick={() => {
-                            if (values.examples.length > 2) {
+                            if (values.examples.length > 1) {
                               arrayHelpers.remove(index);
                             }
                           }}

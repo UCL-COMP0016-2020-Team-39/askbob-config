@@ -19,7 +19,7 @@ const AddResponse = () => {
     mode: responseMode,
     items: responses,
   } = useSelector(state => state.responses);
-  const responseNames = responses.map(item => item.name);
+  const responseNames = responses.map(item => item.response_id);
 
   const addResponseProps = {
     itemName: "response",

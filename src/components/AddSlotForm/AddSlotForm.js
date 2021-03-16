@@ -25,7 +25,9 @@ const AddSlot = () => {
   const [max_value, setMax_value] = useState("0");
   const [values, setValues] = useState([""]);
 
-  const { currentItem, mode } = useSelector(state => state.slots);
+  const { currentItem, mode, items } = useSelector(state => state.slots);
+
+  const slotNames = items.map(slot => slot.slot_id);
 
   useEffect(() => {
     if (mode === EDIT_MODE_SLOT) {
@@ -101,6 +103,11 @@ const AddSlot = () => {
             errors.name = "name is required";
           } else if (name.length > maxStringLength) {
             errors.name = "name is too long";
+          } else if (
+            slotNames.includes(nameToId(name)) &&
+            mode !== EDIT_MODE_SLOT
+          ) {
+            errors.name = "name already used";
           } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
             errors.name = "name can only contain numbers and letters";
           }
