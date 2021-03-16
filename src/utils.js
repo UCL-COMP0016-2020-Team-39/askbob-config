@@ -181,6 +181,14 @@ export const validateStory = values => {
     if (!step.type) {
       errors[index] = `step ${index} requires a type`;
     }
+    if (index < steps.length - 1) {
+      console.log("herer");
+      if (step.type === "intent" && steps[index + 1].type === "intent") {
+        errors[
+          index
+        ] = `an intent shouldn't follow another intent at step ${index}`;
+      }
+    }
   });
 
   if (steps[0].type !== "intent") {
@@ -198,10 +206,6 @@ export const validateStory = values => {
   if (errors.steps[0] === "" && errors.steps.length === 1) {
     delete errors.steps;
   }
-
-  // if (errors) {
-  //   setErrorText(Object.values(errors)[0]);
-  // }
 
   return errors;
 };
