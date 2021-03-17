@@ -1,9 +1,4 @@
-import { v4 } from "uuid";
-import {
-  EDIT_MODE_SKILL,
-  EDIT_MODE_SLOT,
-  EDIT_MODE_STORY,
-} from "./actions/types";
+import { EDIT_MODE_SLOT } from "./actions/types";
 export const nameToId = name => {
   return name
     .trim()
