@@ -11,19 +11,29 @@ export const nameToId = name => {
     .replace(/[^(A-Z)|(a-z)|(0-9)]+/g, "_");
 };
 
+const validateString = (name, items, mode, EDIT_MODE) => {
+  const maxStringLength = 80;
+  if (!name || !name.trim()) {
+    return "name is required";
+  } else if (name.length > maxStringLength) {
+    return "name is too long";
+  } else if (items.includes(nameToId(name)) && mode !== EDIT_MODE) {
+    return "name already used";
+  } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
+    return "name can only contain numbers and letters";
+  } else {
+    return "";
+  }
+};
 export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
   let errors = { name: "", examples: [""] };
   const maxStringLength = 80;
   const { name, examples } = values;
 
-  if (!name || !name.trim()) {
-    errors.name = "name is required";
-  } else if (name.length > maxStringLength) {
-    errors.name = "name is too long";
-  } else if (itemNames.includes(nameToId(name)) && mode !== EDIT_MODE) {
-    errors.name = "name already used";
-  } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
-    errors.name = "name can only contain numbers and letters";
+  const nameErrors = validateString(name, itemNames, mode, EDIT_MODE);
+
+  if (nameErrors) {
+    errors.name = nameErrors;
   }
 
   if (!examples || examples.length === 0) {
@@ -175,7 +185,6 @@ export const validateStory = values => {
       errors[index] = `step ${index} requires a type`;
     }
     if (index < steps.length - 1) {
-      console.log("herer");
       if (step.type === "intent" && steps[index + 1].type === "intent") {
         errors[
           index

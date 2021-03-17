@@ -45,7 +45,6 @@ const AddStory = () => {
 
   useEffect(() => {
     const errors = validateStory({ description, steps });
-    console.log(errors);
     if (Object.values(errors).length > 0) {
       setErrorText(Object.values(errors)[0]);
     } else {
