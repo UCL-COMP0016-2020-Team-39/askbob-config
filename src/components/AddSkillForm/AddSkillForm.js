@@ -23,8 +23,11 @@ const AddSkill = () => {
   const [intent, setIntent] = useState("");
   const [actions, setActions] = useState([{ type: "response", action_id: "" }]);
 
-  const { currentItem, mode } = useSelector(state => state.skills);
+  const { currentItem, mode, items: skills } = useSelector(
+    state => state.skills
+  );
 
+  const skillDescriptions = skills.map(skill => skill.description);
   const intents = useSelector(state => state.intents.items);
   const responses = useSelector(state => state.responses.items);
 
@@ -77,14 +80,18 @@ const AddSkill = () => {
         enableReinitialize={true}
         onSubmit={handleSubmit}
         validate={values => {
-          const errors = validateSkill(values);
+          const errors = validateSkill(
+            values,
+            skillDescriptions,
+            mode,
+            EDIT_MODE_SKILL
+          );
           setError(Object.values(errors)[0]);
           return errors;
         }}
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>
-            <p className={classes.errorText}>{error}</p>
             <label htmlFor='description'>Description</label>
             <div className={classes.formGroup}>
               <FormTextField
@@ -111,22 +118,13 @@ const AddSkill = () => {
                   {values.actions.map((action, index) => (
                     <div key={index} className={classes.formGroup}>
                       <div className={classes.selectGroup}>
-                        <Select
-                          value={values.actions[index].type}
-                          onChange={e =>
-                            setActions(prev =>
-                              prev.map((action, i) => {
-                                console.log(i, index, action, e.target.value);
-                                return i !== index
-                                  ? action
-                                  : { type: e.target.value, action_id: "" };
-                              })
-                            )
-                          }
-                        >
-                          <MenuItem value='response'>response</MenuItem>
-                          <MenuItem value='custom'>custom</MenuItem>
-                        </Select>
+                        <FormSelect
+                          name={`actions.${index}.type`}
+                          id={`actions.${index}.type`}
+                          menuItems={[{ id: "response" }, { id: "custom" }]}
+                          menuValue='id'
+                          menuText='id'
+                        />
                         {values.actions[index].type === "response" ? (
                           <FormSelect
                             name={`actions.${index}.action_id`}
@@ -185,6 +183,7 @@ const AddSkill = () => {
                 {mode === EDIT_MODE_SKILL ? "Edit Skill" : "Add Skill"}
               </Button>
             </div>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Form>
         )}
       </Formik>

@@ -1,4 +1,3 @@
-import { EDIT_MODE_SLOT } from "./actions/types";
 export const nameToId = name => {
   return name
     .trim()
@@ -6,30 +5,29 @@ export const nameToId = name => {
     .replace(/[^(A-Z)|(a-z)|(0-9)]+/g, "_");
 };
 
-const validateString = (name, items, mode, EDIT_MODE) => {
+const validateString = (str, name, items, mode, EDIT_MODE) => {
   const maxStringLength = 80;
-  if (!name || !name.trim()) {
-    return "name is required";
-  } else if (name.length > maxStringLength) {
-    return "name is too long";
-  } else if (items.includes(nameToId(name)) && mode !== EDIT_MODE) {
-    return "name already used";
-  } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
-    return "name can only contain numbers and letters";
+  if (!str || !str.trim()) {
+    return `${name} is required`;
+  } else if (str.length > maxStringLength) {
+    return `${name} is too long`;
+  } else if (items.includes(nameToId(str)) && mode !== EDIT_MODE) {
+    return `${name} already used`;
+  } else if (!str.match(/^[0-9a-zA-Z ]+$/)) {
+    return `${name} can only contain numbers and letters`;
   } else {
     return "";
   }
 };
+
 export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
   let errors = { name: "", examples: [""] };
   const maxStringLength = 80;
   const { name, examples } = values;
 
-  const nameErrors = validateString(name, itemNames, mode, EDIT_MODE);
+  const nameErrors = validateString(name, "name", itemNames, mode, EDIT_MODE);
 
-  if (nameErrors) {
-    errors.name = nameErrors;
-  }
+  errors.name = nameErrors;
 
   if (!examples || examples.length === 0) {
     errors.examples = "examples are required";
@@ -53,23 +51,26 @@ export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
   return { ...errors };
 };
 
-export const validateSkill = values => {
+export const validateSkill = (values, skillNames, mode, EDIT_MODE) => {
   let errors = {
     description: "",
     intent: "",
-    actions: "",
+    actions: [{}],
   };
+
+  const maxStringLength = 80;
 
   const { description, intent, actions } = values;
 
-  const maxStringLength = 80;
-  if (!description || !description.trim()) {
-    errors.description = "description is required";
-  } else if (description.length > maxStringLength) {
-    errors.description = "description is too long";
-  } else if (!description.match(/^[0-9a-zA-Z ]+$/)) {
-    errors.description = "description can only contain numbers and letters";
-  }
+  const descriptionErrors = validateString(
+    description,
+    "description",
+    skillNames,
+    mode,
+    EDIT_MODE
+  );
+
+  errors.description = descriptionErrors;
 
   if (!intent) {
     errors.intent = "intent required";
@@ -79,16 +80,20 @@ export const validateSkill = values => {
     errors.actionsList = "actions are required";
   } else {
     actions.forEach((action, index) => {
-      if (!action && !action?.index?.action_id) {
-        errors.actions = `action ${index + 1} is required`;
-      } else if (action?.action_id.trim().length < 1) {
-        errors.actions = `action ${index + 1} is required`;
+      if (!action?.action_id || !action?.action_id.trim()) {
+        errors.actions[index] = {
+          action_id: `action ${index + 1} is required`,
+        };
       } else if (!action.action_id.match(/^[0-9a-zA-Z_ ]+$/)) {
-        errors.actions = `action ${
-          index + 1
-        } can only contain numbers and letters`;
+        errors.actions[index] = {
+          action_id: `action ${
+            index + 1
+          } can only contain numbers, letters or underscores`,
+        };
       } else if (action?.action_id.length > maxStringLength) {
-        errors.actions[index].action_id = `action ${index + 1} is too long`;
+        errors.actions[index] = {
+          action_id: `action ${index + 1} is too long`,
+        };
       }
     });
   }
@@ -101,7 +106,10 @@ export const validateSkill = values => {
     delete errors.intent;
   }
 
-  if (errors.actions === "") {
+  if (
+    errors.actions.length === 1 &&
+    Object.keys(errors.actions[0]).length === 0
+  ) {
     delete errors.actions;
   }
 
@@ -109,21 +117,15 @@ export const validateSkill = values => {
   return { ...errors };
 };
 
-export const validateSlot = (values, mode, slotNames) => {
+export const validateSlot = (values, slotNames, mode, EDIT_MODE) => {
   let errors = { values: [""] };
 
   const maxStringLength = 80;
   const { name, type, min_value, max_value, values: catergories } = values;
-  if (!name || !name.trim()) {
-    errors.name = "name is required";
-  } else if (name.length > maxStringLength) {
-    errors.name = "name is too long";
-  } else if (slotNames.includes(nameToId(name)) && mode !== EDIT_MODE_SLOT) {
-    errors.name = "name already used";
-  } else if (!name.match(/^[0-9a-zA-Z ]+$/)) {
-    errors.name = "name can only contain numbers and letters";
-  }
 
+  const nameErrors = validateString(name, "name", slotNames, mode, EDIT_MODE);
+
+  errors.name = nameErrors;
   if (type === "float") {
     if (!min_value || !min_value.trim() || isNaN(min_value)) {
       errors.min_value = "min value should be a number";
@@ -159,18 +161,20 @@ export const validateSlot = (values, mode, slotNames) => {
   return { ...errors };
 };
 
-export const validateStory = values => {
+export const validateStory = (values, descriptionNames, mode, EDIT_MODE) => {
   const errors = { description: "", steps: [""] };
-  const maxStringLength = 80;
 
   const { description, steps } = values;
-  if (!description || !description.trim()) {
-    errors.description = "description is required";
-  } else if (description.length > maxStringLength) {
-    errors.description = "description is too long";
-  } else if (!description.match(/^[0-9a-zA-Z ]+$/)) {
-    errors.description = "description can only contain numbers and letters";
-  }
+
+  const descriptionErrors = validateString(
+    description,
+    "description",
+    descriptionNames,
+    mode,
+    EDIT_MODE
+  );
+
+  errors.description = descriptionErrors;
 
   steps.forEach((step, index) => {
     if (!step.step_id) {

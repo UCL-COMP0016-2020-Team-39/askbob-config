@@ -36,6 +36,9 @@ export default makeStyles(theme => ({
     "&> *": {
       flex: "1",
     },
+    "& :nth-child(1)": {
+      marginRight: "1rem",
+    },
   },
   typeSelect: {
     marginRight: "1rem",

@@ -88,7 +88,9 @@ const AddSlot = () => {
         }}
         enableReinitialize={true}
         onSubmit={handleSubmit}
-        validate={values => validateSlot(values, mode, slotNames)}
+        validate={values =>
+          validateSlot(values, slotNames, mode, EDIT_MODE_SLOT)
+        }
       >
         {({ values, isSubmitting, errors }) => (
           <Form className={classes.root}>
