@@ -37,7 +37,7 @@ const AddStory = () => {
 
   const intents = useSelector(state => state.intents.items);
   const responses = useSelector(state => state.responses.items);
-  const storyDescriptions = stories.map(story => story.description);
+
   useEffect(() => {
     if (mode === EDIT_MODE_STORY) {
       setDescription(currentItem.description);
@@ -46,6 +46,7 @@ const AddStory = () => {
   }, [mode, currentItem]);
 
   useEffect(() => {
+    const storyDescriptions = stories.map(story => story.description);
     const errors = validateStory(
       { description, steps },
       storyDescriptions,
@@ -57,12 +58,18 @@ const AddStory = () => {
     } else {
       setErrorText("");
     }
-  }, [description, steps]);
+  }, [description, steps, mode, stories]);
 
   const handleSubmit = e => {
     e.preventDefault();
+    const storyDescriptions = stories.map(story => story.description);
 
-    const errors = validateStory({ description, steps });
+    const errors = validateStory(
+      { description, steps },
+      storyDescriptions,
+      mode,
+      EDIT_MODE_STORY
+    );
 
     if (Object.values(errors).length > 0) {
       setErrorText(Object.values(errors)[0]);
