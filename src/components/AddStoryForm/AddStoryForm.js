@@ -25,11 +25,11 @@ import { nameToId, validateStory } from "../../utils";
 const AddStory = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState({});
   const [description, setDescription] = useState("");
   const [steps, setSteps] = useState([
     { id: v4(), type: "intent", step_id: "" },
   ]);
-  const [errorText, setErrorText] = useState("error");
 
   const { currentItem, mode, items: stories } = useSelector(
     state => state.stories
@@ -53,11 +53,7 @@ const AddStory = () => {
       mode,
       EDIT_MODE_STORY
     );
-    if (Object.values(errors).length > 0) {
-      setErrorText(Object.values(errors)[0]);
-    } else {
-      setErrorText("");
-    }
+    setErrors(errors);
   }, [description, steps, mode, stories]);
 
   const handleSubmit = e => {
@@ -70,13 +66,11 @@ const AddStory = () => {
       mode,
       EDIT_MODE_STORY
     );
+    setErrors(errors);
 
     if (Object.values(errors).length > 0) {
-      setErrorText(Object.values(errors)[0]);
       return;
     }
-
-    setErrorText("");
 
     const story_id = nameToId(description);
 
@@ -107,7 +101,6 @@ const AddStory = () => {
     <section className='card'>
       <h2>{mode === EDIT_MODE_STORY ? "Edit Story" : "Add Story"}</h2>
       <form className={classes.root} onSubmit={e => handleSubmit(e)}>
-        <p className={classes.errorText}>{errorText}</p>
         <label htmlFor='description'>Description</label>
         <TextField
           name='description'
@@ -118,6 +111,8 @@ const AddStory = () => {
           onChange={e => {
             setDescription(e.target.value);
           }}
+          helperText={errors?.description}
+          error={!!errors?.description}
         />
 
         <label htmlFor='response'>Steps</label>
@@ -125,6 +120,9 @@ const AddStory = () => {
         <ReactSortable list={steps} setList={setSteps} animation={150}>
           {steps.map((step, index) => {
             let options = step.type === "intent" ? intents : responses;
+            const stepsErrors = errors?.steps && errors.steps[index];
+            let stepIdText = stepsErrors ? stepsErrors.step_id : "";
+            console.log(stepIdText);
             return (
               <div className={classes.formGroup} key={step.id}>
                 <span className={classes.handle}>
@@ -157,6 +155,8 @@ const AddStory = () => {
                     <TextField
                       placeholder='Add name of custom action'
                       value={step.step_id}
+                      helperText={stepIdText}
+                      error={!!stepIdText}
                       onChange={e => {
                         setSteps(prev =>
                           prev.map(p => {
@@ -173,35 +173,40 @@ const AddStory = () => {
                       }}
                     />
                   ) : (
-                    <Select
-                      value={step.step_id}
-                      className={classes.storyName}
-                      onChange={e => {
-                        setSteps(prev =>
-                          prev.map(p => {
-                            if (p.id === step.id) {
-                              return {
-                                ...p,
-                                step_id: e.target.value,
-                              };
-                            }
-                            return p;
-                          })
-                        );
-                      }}
-                    >
-                      {options.map(option => {
-                        const id =
-                          step.type === "intent"
-                            ? option.intent_id
-                            : option.response_id;
-                        return (
-                          <MenuItem key={id} value={id}>
-                            {option.name}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
+                    <>
+                      <TextField
+                        select
+                        helperText={stepIdText}
+                        error={!!stepIdText}
+                        className={classes.storyName}
+                        value={step.step_id}
+                        onChange={e => {
+                          setSteps(prev =>
+                            prev.map(p => {
+                              if (p.id === step.id) {
+                                return {
+                                  ...p,
+                                  step_id: e.target.value,
+                                };
+                              }
+                              return p;
+                            })
+                          );
+                        }}
+                      >
+                        {options.map(option => {
+                          const id =
+                            step.type === "intent"
+                              ? option.intent_id
+                              : option.response_id;
+                          return (
+                            <MenuItem key={id} value={id}>
+                              {option.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </TextField>
+                    </>
                   )}
                 </div>
                 <IconButton
@@ -243,7 +248,7 @@ const AddStory = () => {
         </div>
         <br />
         <br />
-        <pre>{JSON.stringify(steps, null, 2)}</pre>
+        <pre>{JSON.stringify(errors, null, 2)}</pre>
       </form>
     </section>
   );
