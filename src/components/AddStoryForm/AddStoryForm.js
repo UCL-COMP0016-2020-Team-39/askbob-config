@@ -122,7 +122,12 @@ const AddStory = () => {
 
         <label htmlFor='response'>Steps</label>
 
-        <ReactSortable list={steps} setList={setSteps} animation={150}>
+        <ReactSortable
+          list={steps}
+          setList={setSteps}
+          animation={150}
+          handle={".handle"}
+        >
           {steps.map((step, index) => {
             let options = step.type === "intent" ? intents : responses;
             const stepsErrors = errors?.steps && errors.steps[index];
@@ -130,7 +135,7 @@ const AddStory = () => {
             return (
               <div className={classes.formGroup} key={step.id}>
                 <span className={classes.handle}>
-                  <OpenWith />
+                  <OpenWith className='handle' />
                 </span>
                 <div className={classes.selectGroup}>
                   <Select
