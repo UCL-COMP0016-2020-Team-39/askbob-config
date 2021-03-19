@@ -64,6 +64,19 @@ const Home = () => {
       return { ...skill, actions };
     });
 
+    let formattedStories = stories.map(story => ({
+      ...story,
+      steps: story.steps.map(step => {
+        if (step.type === "intent") {
+          return step;
+        }
+        return {
+          type: "action",
+          step_id: step.step_id,
+        };
+      }),
+    }));
+
     let formattedResponses = responses.map(response => {
       const formattedResponse = {
         ...response,
@@ -85,7 +98,7 @@ const Home = () => {
       regexes,
       responses: formattedResponses,
       skills: formatedskills,
-      stories,
+      stories: formattedStories,
     };
     const entries = Object.entries(json);
     entries.forEach(prop => {
