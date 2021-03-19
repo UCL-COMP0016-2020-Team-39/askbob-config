@@ -33,6 +33,7 @@ export default makeStyles(theme => ({
     alignItems: "center",
     "& *": {
       flex: "1",
+      maxHeight: "30px",
     },
   },
   storyType: {

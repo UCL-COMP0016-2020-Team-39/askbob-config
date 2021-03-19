@@ -45,7 +45,7 @@ const AddStory = () => {
     }
   }, [mode, currentItem]);
 
-  useEffect(() => {
+  const validate = () => {
     const storyDescriptions = stories.map(story => story.description);
     const errors = validateStory(
       { description, steps },
@@ -54,7 +54,7 @@ const AddStory = () => {
       EDIT_MODE_STORY
     );
     setErrors(errors);
-  }, [description, steps, mode, stories]);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -100,7 +100,12 @@ const AddStory = () => {
   return (
     <section className='card'>
       <h2>{mode === EDIT_MODE_STORY ? "Edit Story" : "Add Story"}</h2>
-      <form className={classes.root} onSubmit={e => handleSubmit(e)}>
+      <form
+        className={classes.root}
+        onSubmit={e => handleSubmit(e)}
+        onBlur={validate}
+        onChange={validate}
+      >
         <label htmlFor='description'>Description</label>
         <TextField
           name='description'
@@ -122,7 +127,6 @@ const AddStory = () => {
             let options = step.type === "intent" ? intents : responses;
             const stepsErrors = errors?.steps && errors.steps[index];
             let stepIdText = stepsErrors ? stepsErrors.step_id : "";
-            console.log(stepIdText);
             return (
               <div className={classes.formGroup} key={step.id}>
                 <span className={classes.handle}>

@@ -161,15 +161,17 @@ export const validateSlot = (values, slotNames, mode, EDIT_MODE) => {
   return { ...errors };
 };
 
-export const validateStory = (values, descriptionNames, mode, EDIT_MODE) => {
-  const errors = { description: "", steps: [""] };
+export const validateStory = (values, storyDescriptions, mode, EDIT_MODE) => {
+  const errors = { description: "", steps: [{}] };
 
   const { description, steps } = values;
+
+  const maxStringLength = 80;
 
   const descriptionErrors = validateString(
     description,
     "description",
-    descriptionNames,
+    storyDescriptions,
     mode,
     EDIT_MODE
   );
@@ -177,34 +179,39 @@ export const validateStory = (values, descriptionNames, mode, EDIT_MODE) => {
   errors.description = descriptionErrors;
 
   steps.forEach((step, index) => {
-    if (!step.step_id) {
-      errors[index] = `step ${index} requires an id`;
-    }
-    if (!step.type) {
-      errors[index] = `step ${index} requires a type`;
+    if (!step.step_id || !step.step_id.trim()) {
+      errors.steps[index] = { step_id: `id is required` };
+    } else if (!step.step_id.match(/^[0-9a-zA-Z_ ]+$/)) {
+      errors.steps[index] = {
+        step_id: `id can only contain numbers, letters and underscores`,
+      };
+    } else if (step.step_id.length > maxStringLength) {
+      errors.steps[index] = { step_id: "id is too long" };
     }
     if (index < steps.length - 1) {
       if (step.type === "intent" && steps[index + 1].type === "intent") {
-        errors[
-          index
-        ] = `an intent shouldn't follow another intent at step ${index}`;
+        errors.steps[index] = {
+          step_id: `an intent shouldn't follow another intent`,
+        };
       }
     }
   });
 
   if (steps[0].type !== "intent") {
-    errors.steps[0] = "story must start with an intent";
+    errors.steps[0] = { step_id: "story must start with an intent" };
   }
 
   if (steps.length > 0 && steps[steps.length - 1].type === "intent") {
-    errors.steps[0] = "story must not end with an intent";
+    errors.steps[steps.length - 1] = {
+      step_id: "story must not end with an intent",
+    };
   }
 
   if (errors.description === "") {
     delete errors.description;
   }
 
-  if (errors.steps[0] === "" && errors.steps.length === 1) {
+  if (errors.steps.length === 1 && Object.keys(errors.steps[0]).length === 0) {
     delete errors.steps;
   }
 
