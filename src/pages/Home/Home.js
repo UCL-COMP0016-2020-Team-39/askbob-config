@@ -63,12 +63,17 @@ const Home = () => {
   const classes = UseStyles();
 
   useEffect(() => {
+    let actions = [];
     let formatedskills = skills.map(skill => {
-      let actions = skill.actions.map(action => action.action_id);
+      let actions = skill.actions.map(({ type, action_id }) => {
+        if (type === "custom") {
+          actions.push(action_id);
+        }
+        return action_id;
+      });
       return { ...skill, actions };
     });
 
-    let actions = [];
     let formattedStories = stories.map(story => ({
       ...story,
       steps: story.steps.map(({ type, step_id }) => {
