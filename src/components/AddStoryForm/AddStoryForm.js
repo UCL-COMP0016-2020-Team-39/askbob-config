@@ -252,7 +252,6 @@ const AddStory = () => {
         </div>
         <br />
         <br />
-        <pre>{JSON.stringify(errors, null, 2)}</pre>
       </form>
     </section>
   );
