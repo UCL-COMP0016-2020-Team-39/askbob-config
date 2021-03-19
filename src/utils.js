@@ -127,13 +127,23 @@ export const validateSlot = (values, slotNames, mode, EDIT_MODE) => {
 
   errors.name = nameErrors;
   if (type === "float") {
-    if (!min_value || !min_value.trim() || isNaN(min_value)) {
+    if (
+      min_value === null ||
+      min_value === undefined ||
+      !min_value.trim() ||
+      isNaN(min_value)
+    ) {
       errors.min_value = "min value should be a number";
     } else if (min_value < 0 || min_value > 1) {
       errors.min_value = "min value should be between than 1 and 0";
     }
 
-    if (!max_value || !max_value.trim() || isNaN(max_value.trim())) {
+    if (
+      max_value === null ||
+      max_value === undefined ||
+      !max_value.trim() ||
+      isNaN(max_value.trim())
+    ) {
       errors.max_value = "max value should be a number";
     } else if (max_value < 0 || max_value > 1) {
       errors.max_value = "max value should be between than 1 and 0";
@@ -143,17 +153,16 @@ export const validateSlot = (values, slotNames, mode, EDIT_MODE) => {
   if (type === "catergorical") {
     catergories.forEach((catergory, index) => {
       if (!catergory || !catergory.trim()) {
-        errors.values[index] = `catergory ${index + 1} is required`;
+        errors.values[index] = `value ${index + 1} is required`;
       } else if (catergory.length > maxStringLength) {
-        errors.values[index] = `catergory ${index + 1} is too long`;
-      } else if (!catergory.match(/^[0-9a-zA-Z ]+$/)) {
-        errors.values[
-          index
-        ] = `catergory ${index} can only contain numbers and letters`;
+        errors.values[index] = `value ${index + 1} is too long`;
       }
     });
   }
 
+  if (!errors.name) {
+    delete errors.name;
+  }
   if (errors.values[0] === "" && errors.values.length === 1) {
     delete errors.values;
   }
