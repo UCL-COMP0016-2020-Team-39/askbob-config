@@ -8,7 +8,7 @@ import {
 import { EDIT_MODE_SKILL } from "../../actions/types";
 
 import { Formik, Form, FieldArray } from "formik";
-import { Button, IconButton, MenuItem, Select } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 import useStyles from "./styles";
 import { FormSelect, FormTextField } from "../";
@@ -19,7 +19,6 @@ const AddSkill = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [description, setDescription] = useState("");
-  const [error, setError] = useState("");
   const [intent, setIntent] = useState("");
   const [actions, setActions] = useState([{ type: "response", action_id: "" }]);
 
@@ -86,7 +85,6 @@ const AddSkill = () => {
             mode,
             EDIT_MODE_SKILL
           );
-          setError(Object.values(errors)[0]);
           return errors;
         }}
       >
