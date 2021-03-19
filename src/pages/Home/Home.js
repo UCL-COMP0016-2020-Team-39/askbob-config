@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { TextField, Button, Link, Checkbox, Grid } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+
 import UseStyles from "./styles";
 import { Slots, AddSlotForm } from "../../components";
 
@@ -37,6 +39,8 @@ const FormCheckBox = ({ name, ...props }) => {
 const Home = () => {
   const [show, setShow] = useState(true);
   const [data, setData] = useState("");
+
+  const [showAlert, setShowAlert] = useState(true);
 
   const [pluginName, setPluginName] = useState("");
   const [entities, setEntities] = useState([]);
@@ -127,6 +131,12 @@ const Home = () => {
     stories,
   ]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 5000);
+  });
+
   const validate = () => {
     let error = "";
 
@@ -150,6 +160,20 @@ const Home = () => {
 
   return (
     <section className='section'>
+      {showAlert && (
+        <Alert
+          severity='info'
+          className={classes.alert}
+          onL={() => {
+            console.log("helloe", this);
+            setTimeout(() => {
+              this.style = { display: "none " };
+            }, 3000);
+          }}
+        >
+          This App works offline!
+        </Alert>
+      )}
       <div className='card'>
         <h2>Welcome</h2>
         <p className={classes.errorText}>{errorText}</p>
