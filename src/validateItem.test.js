@@ -1,10 +1,4 @@
-import {
-  nameToId,
-  validateItem,
-  validateSkill,
-  validateSlot,
-  validateStory,
-} from "./utils";
+import { nameToId, validateItem } from "./utils";
 
 it("nameToId return a lowercase string with only letters, numbers and underscores", () => {
   expect(nameToId(" A b  !C ")).toBe("a_b_c");
