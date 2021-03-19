@@ -1,6 +1,6 @@
 import React from "react";
 import { WithForm, Items } from "../../components";
-
+import { Typography } from "@material-ui/core";
 import {
   addIntent,
   updateIntent,
@@ -150,8 +150,15 @@ const AddIntent = () => {
   return (
     <section className='section'>
       <WithForm {...addIntentProps} />
+      <div
+        style={{ background: "#ddf", padding: "0.5rem", marginBottom: "1rem" }}
+      >
+        <Typography variant='body2'>
+          It is best to use as many examples as possible in your intents. Five
+          is the recommended amount.
+        </Typography>
+      </div>
       <Items {...intentListProps} />
-
       <WithForm {...addSynonymProps} />
       <Items {...synonymListProps} />
 
