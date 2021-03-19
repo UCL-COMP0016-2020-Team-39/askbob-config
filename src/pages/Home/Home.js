@@ -68,18 +68,24 @@ const Home = () => {
       return { ...skill, actions };
     });
 
+    let actions = [];
     let formattedStories = stories.map(story => ({
       ...story,
-      steps: story.steps.map(step => {
-        if (step.type === "intent") {
-          return step;
+      steps: story.steps.map(({ type, step_id }) => {
+        if (type === "intent") {
+          return { type, step_id };
+        }
+        if (!step_id.startsWith("utter_")) {
+          actions.push(step_id);
         }
         return {
           type: "action",
-          step_id: step.step_id,
+          step_id,
         };
       }),
     }));
+
+    actions = [...new Set(actions)];
 
     let formattedResponses = responses.map(response => {
       const formattedResponse = {
@@ -96,6 +102,7 @@ const Home = () => {
       plugin: pluginName,
       entities,
       slots,
+      actions,
       intents,
       synonyms,
       lookups,
@@ -161,16 +168,7 @@ const Home = () => {
   return (
     <section className='section'>
       {showAlert && (
-        <Alert
-          severity='info'
-          className={classes.alert}
-          onL={() => {
-            console.log("helloe", this);
-            setTimeout(() => {
-              this.style = { display: "none " };
-            }, 3000);
-          }}
-        >
+        <Alert severity='info' className={classes.alert}>
           This App works offline!
         </Alert>
       )}
