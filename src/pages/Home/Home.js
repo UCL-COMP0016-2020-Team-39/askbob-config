@@ -4,7 +4,7 @@ import { TextField, Button, Link, Checkbox, Grid } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import UseStyles from "./styles";
-import { Slots, AddSlotForm } from "../../components";
+import { Slots, AddSlotForm, PluginDataForm } from "../../components";
 
 const pluginDataKey = "AskBobPluginData";
 
@@ -26,35 +26,6 @@ const getPluginData = () => {
       author: "",
     };
   }
-};
-const entityNames = [
-  "CARDINAL",
-  "DATE",
-  "EVENT",
-  "FAC",
-  "GPE",
-  "LANGUAGE",
-  "LAW",
-  "LOC",
-  "MONEY",
-  "NORP",
-  "ORDINAL",
-  "ORG",
-  "PERCENT",
-  "PERSON",
-  "PRODUCT",
-  "QUANTITY",
-  "TIME",
-  "WORK_OF_ART",
-];
-
-const FormCheckBox = ({ name, ...props }) => {
-  return (
-    <>
-      <Checkbox value={name} {...props}></Checkbox>
-      <label>{name}</label>
-    </>
-  );
 };
 
 const Home = () => {
@@ -166,12 +137,13 @@ const Home = () => {
   ]);
 
   useEffect(() => {
-    localStorage.setItem(pluginDataKey, JSON.stringify(pluginData));
-  }, [pluginData]);
-  useEffect(() => {
-    setTimeout(() => {
+    const hideAlert = () => {
       setShowAlert(false);
-    }, 5000);
+    };
+
+    setTimeout(hideAlert, 5000);
+
+    return () => clearTimeout(hideAlert);
   });
 
   const validate = () => {
@@ -185,6 +157,10 @@ const Home = () => {
 
     return error;
   };
+
+  useEffect(() => {
+    localStorage.setItem(pluginDataKey, JSON.stringify(pluginData));
+  }, [pluginData]);
 
   const handleSubmit = () => {
     const error = validate();
@@ -202,90 +178,15 @@ const Home = () => {
           This App works offline!
         </Alert>
       )}
-      <form
-        className='card'
-        onChange={validate}
-        onSubmit={e => {
-          e.preventDefault();
-          validate();
-        }}
-      >
-        <h2>Welcome</h2>
-        <p className={classes.errorText}>{errorText}</p>
+      <PluginDataForm
+        pluginData={pluginData}
+        setPluginData={setPluginData}
+        validate={validate}
+        entities={entities}
+        setEntities={setEntities}
+        errorText={errorText}
+      />
 
-        <label htmlFor='pluginName'>Plugin Name</label>
-        <div className={classes.formGroup}>
-          <TextField
-            id='pluginName'
-            value={pluginData.plugin}
-            onChange={e => {
-              setPluginData(prev => ({ ...prev, plugin: e.target.value }));
-            }}
-          ></TextField>
-        </div>
-
-        <label htmlFor='Description'>Description</label>
-        <div className={classes.formGroup}>
-          <TextField
-            id='Description'
-            value={pluginData.description}
-            onChange={e => {
-              setPluginData(prev => ({ ...prev, description: e.target.value }));
-            }}
-          ></TextField>
-        </div>
-
-        <label htmlFor='Author'>Author</label>
-        <div className={classes.formGroup}>
-          <TextField
-            id='Author'
-            value={pluginData.author}
-            onChange={e => {
-              setPluginData(prev => ({ ...prev, author: e.target.value }));
-            }}
-          ></TextField>
-        </div>
-        <label>Entities</label>
-
-        <Grid
-          container
-          direction='row'
-          alignItems='flex-end'
-          justify='flex-end'
-          spacing={2}
-        >
-          {entityNames.map((entityName, index) => {
-            return (
-              <Grid
-                item
-                xs={6}
-                sm={4}
-                md={3}
-                key={index}
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <FormCheckBox
-                  name={entityName}
-                  onChange={e => {
-                    const value = e.target.value;
-                    if (entities.includes(value)) {
-                      setEntities(prev =>
-                        prev.filter(entity => entity !== value)
-                      );
-                    } else {
-                      setEntities(prev => [...prev, value]);
-                    }
-                  }}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </form>
       <AddSlotForm />
       <Slots />
       <div className='card'>

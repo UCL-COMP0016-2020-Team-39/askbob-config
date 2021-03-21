@@ -13,3 +13,5 @@ export { default as AddSlotForm } from "./AddSlotForm/AddSlotForm";
 
 export { default as FormTextField } from "./FormTextField/FormTextField";
 export { default as FormSelect } from "./FormSelect/FormSelect";
+
+export { default as PluginDataForm } from "./PluginDataForm/PluginDataForm";
