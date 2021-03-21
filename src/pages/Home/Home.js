@@ -6,6 +6,27 @@ import { Alert } from "@material-ui/lab";
 import UseStyles from "./styles";
 import { Slots, AddSlotForm } from "../../components";
 
+const pluginDataKey = "AskBobPluginData";
+
+const getPluginData = () => {
+  try {
+    console.log(localStorage.getItem(pluginDataKey));
+    const pluginData = JSON.parse(localStorage.getItem(pluginDataKey));
+    return (
+      pluginData || {
+        plugin: "",
+        description: "",
+        author: "",
+      }
+    );
+  } catch (err) {
+    return {
+      plugin: "",
+      description: "",
+      author: "",
+    };
+  }
+};
 const entityNames = [
   "CARDINAL",
   "DATE",
@@ -42,7 +63,8 @@ const Home = () => {
 
   const [showAlert, setShowAlert] = useState(true);
 
-  const [pluginName, setPluginName] = useState("");
+  const [pluginData, setPluginData] = useState(getPluginData());
+
   const [entities, setEntities] = useState([]);
 
   const [errorText, setErrorText] = useState("");
@@ -104,7 +126,7 @@ const Home = () => {
     });
 
     const json = {
-      plugin: pluginName,
+      ...pluginData,
       entities,
       slots,
       actions,
@@ -131,7 +153,7 @@ const Home = () => {
     const fileDownloadUrl = URL.createObjectURL(blob);
     setDownloadLink(fileDownloadUrl);
   }, [
-    pluginName,
+    pluginData,
     entities,
     slots,
     intents,
@@ -144,6 +166,9 @@ const Home = () => {
   ]);
 
   useEffect(() => {
+    localStorage.setItem(pluginDataKey, JSON.stringify(pluginData));
+  }, [pluginData]);
+  useEffect(() => {
     setTimeout(() => {
       setShowAlert(false);
     }, 5000);
@@ -152,7 +177,7 @@ const Home = () => {
   const validate = () => {
     let error = "";
 
-    if (pluginName && !pluginName.match(/^[a-z+A-Z]+$/)) {
+    if (pluginData?.plugin && !pluginData?.plugin.match(/^[a-z|A-Z|0-9|_]+$/)) {
       error = "plugin name can only contain letters";
     }
 
@@ -177,7 +202,14 @@ const Home = () => {
           This App works offline!
         </Alert>
       )}
-      <div className='card'>
+      <form
+        className='card'
+        onChange={validate}
+        onSubmit={e => {
+          e.preventDefault();
+          validate();
+        }}
+      >
         <h2>Welcome</h2>
         <p className={classes.errorText}>{errorText}</p>
 
@@ -185,16 +217,35 @@ const Home = () => {
         <div className={classes.formGroup}>
           <TextField
             id='pluginName'
-            data-testid='pluginInput'
-            value={pluginName}
+            value={pluginData.plugin}
             onChange={e => {
-              setPluginName(e.target.value);
-              validate();
+              setPluginData(prev => ({ ...prev, plugin: e.target.value }));
             }}
-            onBlur={() => validate()}
           ></TextField>
         </div>
-        <label htmlFor='pluginName'>Entities</label>
+
+        <label htmlFor='Description'>Description</label>
+        <div className={classes.formGroup}>
+          <TextField
+            id='Description'
+            value={pluginData.description}
+            onChange={e => {
+              setPluginData(prev => ({ ...prev, description: e.target.value }));
+            }}
+          ></TextField>
+        </div>
+
+        <label htmlFor='Author'>Author</label>
+        <div className={classes.formGroup}>
+          <TextField
+            id='Author'
+            value={pluginData.author}
+            onChange={e => {
+              setPluginData(prev => ({ ...prev, author: e.target.value }));
+            }}
+          ></TextField>
+        </div>
+        <label>Entities</label>
 
         <Grid
           container
@@ -234,7 +285,7 @@ const Home = () => {
             );
           })}
         </Grid>
-      </div>
+      </form>
       <AddSlotForm />
       <Slots />
       <div className='card'>
