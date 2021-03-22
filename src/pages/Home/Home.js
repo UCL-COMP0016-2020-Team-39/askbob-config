@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { TextField, Button, Link, Checkbox, Grid } from "@material-ui/core";
+import { Button, Link } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import UseStyles from "./styles";
