@@ -74,7 +74,7 @@ const WithForm = ({
           name,
           examples,
         }}
-        enableReinitfvalidateialize={true}
+        enableReinitialize={true}
         onSubmit={handleSubmit}
         validate={values => validateItem(values, itemNames, mode, EDIT_MODE)}
       >
