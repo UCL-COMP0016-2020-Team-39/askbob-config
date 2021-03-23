@@ -34,19 +34,15 @@ const FormCheckBox = ({ name, ...props }) => {
 const PluginDataForm = ({
   pluginData,
   setPluginData,
-  validate,
   entities,
   setEntities,
-  errorText,
 }) => {
   return (
     <>
       <form
         className='card'
-        onChange={validate}
         onSubmit={e => {
           e.preventDefault();
-          validate();
         }}
       >
         <h2>Welcome</h2>
@@ -57,8 +53,6 @@ const PluginDataForm = ({
             id='pluginName'
             value={pluginData.plugin}
             fullWidth
-            helperText={errorText}
-            error={!!errorText}
             onChange={e => {
               setPluginData(prev => ({ ...prev, plugin: e.target.value }));
             }}

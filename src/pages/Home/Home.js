@@ -37,7 +37,6 @@ const Home = () => {
 
   const [entities, setEntities] = useState([]);
 
-  const [errorText, setErrorText] = useState("");
   const [downloadLink, setDownloadLink] = useState("");
 
   const intents = useSelector(state => state.intents.items);
@@ -145,28 +144,11 @@ const Home = () => {
     return () => clearTimeout(hideAlert);
   });
 
-  const validate = () => {
-    let error = "";
-
-    if (pluginData?.plugin && !pluginData?.plugin.match(/^[a-z|A-Z|0-9|_]+$/)) {
-      error = "plugin name can only contain letters";
-    }
-
-    setErrorText(error);
-
-    return error;
-  };
-
   useEffect(() => {
     localStorage.setItem(pluginDataKey, JSON.stringify(pluginData));
   }, [pluginData]);
 
   const handleSubmit = () => {
-    const error = validate();
-    if (error) {
-      return;
-    }
-
     downloadTag.current.click();
   };
 
@@ -180,10 +162,8 @@ const Home = () => {
       <PluginDataForm
         pluginData={pluginData}
         setPluginData={setPluginData}
-        validate={validate}
         entities={entities}
         setEntities={setEntities}
-        errorText={errorText}
       />
 
       <AddSlotForm />
