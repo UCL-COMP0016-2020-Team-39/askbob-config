@@ -50,7 +50,6 @@ const PluginDataForm = ({
         }}
       >
         <h2>Welcome</h2>
-        <p>{errorText}</p>
 
         <label htmlFor='pluginName'>Plugin Name</label>
         <div>
@@ -58,6 +57,8 @@ const PluginDataForm = ({
             id='pluginName'
             value={pluginData.plugin}
             fullWidth
+            helperText={errorText}
+            error={!!errorText}
             onChange={e => {
               setPluginData(prev => ({ ...prev, plugin: e.target.value }));
             }}
