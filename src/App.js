@@ -1,7 +1,6 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Home, AddIntent, AddResponse, AddSkill, AddStory } from "./pages";
 import { Navbar } from "./components";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +12,12 @@ import { loadResponses, storeResponses } from "./actions/responsesActions";
 import { loadSkills, storeSkills } from "./actions/skillsActions";
 import { loadStories, storeStories } from "./actions/storiesActions";
 import { loadSlots, storeSlots } from "./actions/slotsActions";
+
+const Home = lazy(() => import("./pages/Home/Home.js"));
+const AddIntent = lazy(() => import("./pages/AddIntent/AddIntent.js"));
+const AddResponse = lazy(() => import("./pages/AddResponse/AddResponse.js"));
+const AddSkill = lazy(() => import("./pages/AddSkill/AddSkill.js"));
+const AddStory = lazy(() => import("./pages/AddStory/AddStory.js"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -82,14 +87,16 @@ const App = () => {
       <div className='container'>
         <Navbar links={links} className='mb-2' />
         <main className='mt-3'>
-          <Switch>
-            <Route path='/' exact component={Home}></Route>
-            <Route path='/intents' exact component={AddIntent}></Route>
-            <Route path='/responses' exact component={AddResponse}></Route>
-            <Route path='/skills' exact component={AddSkill}></Route>
-            <Route path='/stories' component={AddStory}></Route>
-            <Route path='*' component={Home}></Route>
-          </Switch>
+          <Suspense fallback={<div style={{ color: "white" }}>Loading...</div>}>
+            <Switch>
+              <Route path='/' exact component={Home}></Route>
+              <Route path='/intents' exact component={AddIntent}></Route>
+              <Route path='/responses' exact component={AddResponse}></Route>
+              <Route path='/skills' exact component={AddSkill}></Route>
+              <Route path='/stories' component={AddStory}></Route>
+              <Route path='*' component={Home}></Route>
+            </Switch>
+          </Suspense>
         </main>
       </div>
     </Router>
