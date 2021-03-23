@@ -10,7 +10,6 @@ const pluginDataKey = "AskBobPluginData";
 
 const getPluginData = () => {
   try {
-    console.log(localStorage.getItem(pluginDataKey));
     const pluginData = JSON.parse(localStorage.getItem(pluginDataKey));
     return (
       pluginData || {
