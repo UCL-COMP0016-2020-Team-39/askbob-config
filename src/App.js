@@ -1,7 +1,6 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Home, AddIntent, AddResponse, AddSkill, AddStory } from "./pages";
 import { Navbar } from "./components";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -13,6 +12,13 @@ import { loadResponses, storeResponses } from "./actions/responsesActions";
 import { loadSkills, storeSkills } from "./actions/skillsActions";
 import { loadStories, storeStories } from "./actions/storiesActions";
 import { loadSlots, storeSlots } from "./actions/slotsActions";
+
+const { Home, AddIntent, AddResponse, AddSkill, AddStory } = lazy(() =>
+  import("./pages").then(obj => {
+    console.log(obj);
+    return obj;
+  })
+);
 
 const App = () => {
   const dispatch = useDispatch();
