@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { IconButton } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 
@@ -54,7 +54,10 @@ const Slot = ({
   return (
     <div className='card'>
       <header className={classes.header}>
-        <h2 className={classes.title}>{`Slot: ${name}`}</h2>
+        <Typography
+          className={classes.title}
+          variant='h5'
+        >{`Slot: ${name}`}</Typography>
         <div className={classes.buttons}>
           <IconButton
             size='small'
@@ -72,25 +75,51 @@ const Slot = ({
           </IconButton>
         </div>
       </header>
-      <h4>Influence Conversation: {influence_conversation} </h4>
-      <h4>Type: {type}</h4>
+      <Typography className={classes.title} variant='h6'>
+        Influence Conversation
+      </Typography>
+      <Typography className={classes.title} variant='body2'>
+        {influence_conversation}
+      </Typography>
+
+      <Typography className={classes.title} variant='h6'>
+        Type
+      </Typography>
+
+      <Typography className={classes.title} variant='body2'>
+        {type}
+      </Typography>
+
       {min_value !== undefined && (
         <>
-          <h4>Min Value</h4>
-          <p>{min_value}</p>
+          <Typography className={classes.title} variant='h6'>
+            Min Value
+          </Typography>
+          <Typography className={classes.title} variant='h6'>
+            {min_value}
+          </Typography>
         </>
       )}
       {max_value !== undefined && (
         <>
-          <h4>Max Value</h4>
-          <p>{max_value}</p>
+          <Typography className={classes.title} variant='h6'>
+            Max Value
+          </Typography>
+          <Typography className={classes.title} variant='h6'>
+            {max_value}
+          </Typography>
         </>
       )}
       {values !== undefined && (
         <>
-          <h4>Values</h4>
+          <Typography className={classes.title} variant='h6'>
+            Values
+          </Typography>
+
           {values.map((value, index) => (
-            <p key={index}>{value}</p>
+            <Typography key={index} className={classes.title} variant='body2'>
+              {value}
+            </Typography>
           ))}
         </>
       )}
