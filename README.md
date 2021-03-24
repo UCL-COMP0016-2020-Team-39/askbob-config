@@ -16,14 +16,14 @@ sufficient, this should help.
 
 https://create-react-app.dev/docs/deployment/
 
-## How to deploy Local Deployment
+## How to deploy locally Deployment
 
 ### Get node and npm
 
 Install node and npm at this website - https://nodejs.org/en/ The latest version
 should work but if not install node version 14.15.0 and npm 6.14.5 Install
 
-### install dependencies
+### Install Dependencies
 
 At the base directory, type this command:
 
@@ -59,7 +59,7 @@ serve -s build
 
 Congratulations! Your app should be running now
 
-# Run in development if serve isn’t working
+# Run in development
 
 If you want to run in development mode type this command in the command line:
 
