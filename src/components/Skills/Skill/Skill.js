@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { IconButton } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSkill } from "../../../actions/skillsActions";
@@ -39,7 +39,9 @@ const Skill = ({ id, description, intent, actions, ...skillProps }) => {
   return (
     <div className='card'>
       <header className={classes.header}>
-        <h2> {description}</h2>
+        <Typography variant='h6' className={classes.title}>
+          Skill: {description}
+        </Typography>
         <div className={classes.buttons}>
           <IconButton
             size='small'
@@ -57,18 +59,33 @@ const Skill = ({ id, description, intent, actions, ...skillProps }) => {
           </IconButton>
         </div>
       </header>
-      <h2>intent</h2>
-      <h4>{intentName}</h4>
-      <h2>Actions</h2>
+
+      <Typography variant='h6' className={classes.title}>
+        Intent
+      </Typography>
+      <Typography variant='body2' className={classes.title}>
+        {intentName}
+      </Typography>
+      <Typography variant='h6' className={classes.title}>
+        Actions
+      </Typography>
       {actions.map((action, index) => {
         if (action.type === "response") {
           const responseData = responses.find(
             r => r.response_id === action.action_id
           );
           const responseName = responseData && responseData.name;
-          return <h4 key={index}>{responseName}</h4>;
+          return (
+            <Typography variant='body2' className={classes.title} key={index}>
+              {responseName}
+            </Typography>
+          );
         }
-        return <h4 key={index}>{action.action_id}</h4>;
+        return (
+          <Typography variant='body2' className={classes.title} key={index}>
+            {action.action_id}
+          </Typography>
+        );
       })}
     </div>
   );

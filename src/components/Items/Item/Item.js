@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 import useStyles from "./styles";
@@ -35,7 +35,9 @@ const Item = ({
   return (
     <div className='card'>
       <header className={classes.header}>
-        <h2 className={classes.title}>{`${itemName}: ${name}`}</h2>
+        <Typography className={classes.title} variant='h5'>
+          {`${itemName}: ${name}`}
+        </Typography>
         <div className={classes.buttons}>
           <IconButton
             size='small'
@@ -53,9 +55,13 @@ const Item = ({
           </IconButton>
         </div>
       </header>
-      <h4>Examples</h4>
+      <Typography className={classes.title} variant='h6'>
+        Examples
+      </Typography>
       {examples.map((example, index) => (
-        <p key={index}>{example}</p>
+        <Typography key={index} className={classes.title} variant='body2'>
+          {example}
+        </Typography>
       ))}
     </div>
   );

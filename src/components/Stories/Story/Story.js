@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { IconButton } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import { Clear, Edit } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteStory } from "../../../actions/storiesActions";
@@ -33,7 +33,7 @@ const Story = ({ id, description, steps, ...storyProps }) => {
   return (
     <div className='card'>
       <header className={classes.header}>
-        <h2> {description}</h2>
+        <Typography variant='h5'> {description}</Typography>
         <div className={classes.buttons}>
           <IconButton
             size='small'
@@ -51,16 +51,16 @@ const Story = ({ id, description, steps, ...storyProps }) => {
           </IconButton>
         </div>
       </header>
-      <h2>Steps</h2>
+      <Typography variant='h6'>Steps</Typography>
       {steps.map(step => {
         let data = intents.find(i => i.intent_id === step.step_id);
         data = data ?? responses.find(r => r.response_id === step.step_id);
         let name = data?.name ?? step.step_id;
         return (
           <div key={step.id}>
-            <p>
+            <Typography variant='body2'>
               type: {step.type}, name: {name}
-            </p>
+            </Typography>
           </div>
         );
       })}
