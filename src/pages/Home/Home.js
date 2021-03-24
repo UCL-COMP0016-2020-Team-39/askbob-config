@@ -178,7 +178,7 @@ const Home = () => {
             }}
             aria-label='show json'
           >
-            Show json
+            {show ? "Hide JSON" : "Show JSON"}
           </Button>
         </div>
         <div className={classes.formGroup}>
