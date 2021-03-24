@@ -76,6 +76,7 @@ const AddSlot = () => {
 
   return (
     <section className='card'>
+      <div id='slot_target'></div>
       <h2>{mode === EDIT_MODE_SLOT ? "Edit Slot" : "Add Slot"}</h2>
       <Formik
         initialValues={{
