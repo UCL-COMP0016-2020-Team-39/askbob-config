@@ -9,6 +9,31 @@ Users can also fill in details about the form such as a description and a name.
 
 State is managed by redux is stored in local storage.
 
+# Scripts
+
+Node and npm must be installed for these scripts to work. To install node and
+npm, follow the steps in the how to deploy section
+
+To install dependencies, type
+
+```bash
+./scripts/install.sh
+```
+
+To run the install commands To build the production /build folder, type
+
+```bash
+./scripts/build.sh
+```
+
+To deploy the actual app, type
+
+```bash
+./scripts/serve.sh
+```
+
+To run the app locally at localhost:5000
+
 # How to deploy
 
 Here is a website that explains how to deploy a React app. If this guide isn't
