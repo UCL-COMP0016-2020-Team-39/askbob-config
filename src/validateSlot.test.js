@@ -39,8 +39,8 @@ it("validateSlot return empty name error message", () => {
 });
 
 it("validateSlot return name too long error message on long name string", () => {
-  const name =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, molestias iure saepe facilis qui, necessitatibus consequatur ducimus deserunt doloribus veniam natus quos repellendus. Dolores consectetur vitae laborum porro ab unde minima enim a natus! Hic quod, natus maxime ea consectetur, voluptatum quasi ipsam laudantium in velit impedit dolorem blanditiis, animi neque minima modi incidunt similique odit. Facilis quod alias molestias, doloremque voluptates rerum ea sunt hic unde nostrum sapiente quam saepe obcaecati a. Iure mollitia veritatis omnis quidem dolorum molestiae.";
+  const name = `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`;
+
   const values = {
     name,
     influence_conversation: "true",
@@ -250,8 +250,7 @@ it("validateSlot should return 'value 2 is required'", () => {
 });
 
 it("validateSlot should return 'value 2 is too long'", () => {
-  const value2 =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit Accusantium molestias iure saepe facilis qui necessitatibus consequatur ducimus deserunt doloribus veniam natus quos repellendus Dolores consectetur vitae laborum porro ab unde minima enim a natus Hic quod natus maxime ea consectetur voluptatum quasi ipsam laudantium in velit impedit dolorem blanditiis animi neque minima modi incidunt similique odit Facilis quod alias molestias doloremque voluptates rerum ea sunt hic unde nostrum sapiente quam saepe obcaecati a Iure mollitia veritatis omnis quidem dolorum molestiae";
+  const value2 = `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`;
 
   const values = {
     name: "id4",
@@ -270,147 +269,3 @@ it("validateSlot should return 'value 2 is too long'", () => {
     values: ["", "value 2 is too long"],
   });
 });
-/*
-it("validateSlot should return 'id can only contain numbers and letters'", () => {
-  const values = {
-    name: "name",
-    steps: [
-      {
-        type: "intent",
-        step_id: "greet",
-      },
-      {
-        type: "custom",
-        step_id: "''!//",
-      },
-    ],
-  };
-
-  const itemNames = ["id", "id2", "id3"];
-  const mode = "add";
-  const EDIT_MODE = "edit";
-
-  const errors1 = validateSlot(values, itemNames, mode, EDIT_MODE);
-
-  expect(errors1).toEqual({
-    steps: [
-      {},
-      { step_id: "id can only contain numbers, letters and underscores" },
-    ],
-  });
-});
-/*
-it("validateSlot returns 'id is too long' error message", () => {
-  const step_id =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit Accusantium molestias iure saepe facilis qui necessitatibus consequatur ducimus deserunt doloribus veniam natus quos repellendus Dolores consectetur vitae laborum porro ab unde minima enim a natus Hic quod natus maxime ea consectetur voluptatum quasi ipsam laudantium in velit impedit dolorem blanditiis animi neque minima modi incidunt similique odit Facilis quod alias molestias doloremque voluptates rerum ea sunt hic unde nostrum sapiente quam saepe obcaecati a Iure mollitia veritatis omnis quidem dolorum molestiae";
-  const values = {
-    name: "name",
-    steps: [
-      {
-        type: "intent",
-        step_id: "greet",
-      },
-      {
-        type: "custom",
-        step_id,
-      },
-    ],
-  };
-  const itemNames = ["id", "id2", "id3"];
-  const mode = "add";
-  const EDIT_MODE = "edit";
-
-  const errors = validateSlot(values, itemNames, mode, EDIT_MODE);
-
-  expect(errors).toEqual({
-    steps: [{}, { step_id: "id is too long" }],
-  });
-});
-
-it("validateSlot returns 'an intent shouldn't follow another intent'", () => {
-  const values = {
-    name: "name",
-    steps: [
-      {
-        type: "intent",
-        step_id: "greet",
-      },
-      {
-        type: "intent",
-        step_id: "greet",
-      },
-      {
-        type: "custom",
-        step_id: "fetch_weather",
-      },
-    ],
-  };
-  const itemNames = ["id", "id2", "id3"];
-  const mode = "add";
-  const EDIT_MODE = "edit";
-
-  const errors = validateSlot(values, itemNames, mode, EDIT_MODE);
-
-  expect(errors).toEqual({
-    steps: [{ step_id: "an intent shouldn't follow another intent" }],
-  });
-});
-
-it("validateSlot returns 'story must start with an intent", () => {
-  const values = {
-    name: "name",
-    steps: [
-      {
-        type: "custom",
-        step_id: "fetch_weather",
-      },
-      {
-        type: "intent",
-        step_id: "greet",
-      },
-      {
-        type: "custom",
-        step_id: "fetch_weather",
-      },
-    ],
-  };
-  const itemNames = ["id", "id2", "id3"];
-  const mode = "add";
-  const EDIT_MODE = "edit";
-
-  const errors = validateSlot(values, itemNames, mode, EDIT_MODE);
-
-  expect(errors).toEqual({
-    steps: [{ step_id: "story must start with an intent" }],
-  });
-});
-
-it("validateSlot returns 'story must not end with an intent'", () => {
-  const values = {
-    name: "name",
-    steps: [
-      {
-        type: "intent",
-        step_id: "greet",
-      },
-      {
-        type: "custom",
-        step_id: "fetch_weather",
-      },
-      {
-        type: "intent",
-        step_id: "greet",
-      },
-    ],
-  };
-  const itemNames = ["id", "id2", "id3"];
-  const mode = "add";
-  const EDIT_MODE = "edit";
-
-  const errors = validateSlot(values, itemNames, mode, EDIT_MODE);
-
-  expect(errors).toEqual({
-    steps: [{}, undefined, { step_id: "story must not end with an intent" }],
-  });
-});
-*/

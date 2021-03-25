@@ -6,7 +6,7 @@ export const nameToId = name => {
 };
 
 const validateString = (str, name, items, mode, EDIT_MODE) => {
-  const maxStringLength = 80;
+  const maxStringLength = 750;
   if (!str || !str.trim()) {
     return `${name} is required`;
   } else if (str.length > maxStringLength) {
@@ -22,7 +22,7 @@ const validateString = (str, name, items, mode, EDIT_MODE) => {
 
 export const validateItem = (values, itemNames, mode, EDIT_MODE) => {
   let errors = { name: "", examples: [""] };
-  const maxStringLength = 80;
+  const maxStringLength = 750;
   const { name, examples } = values;
 
   const nameErrors = validateString(name, "name", itemNames, mode, EDIT_MODE);
@@ -58,7 +58,7 @@ export const validateSkill = (values, skillNames, mode, EDIT_MODE) => {
     actions: [{}],
   };
 
-  const maxStringLength = 80;
+  const maxStringLength = 750;
 
   const { description, intent, actions } = values;
 
@@ -120,7 +120,7 @@ export const validateSkill = (values, skillNames, mode, EDIT_MODE) => {
 export const validateSlot = (values, slotNames, mode, EDIT_MODE) => {
   let errors = { values: [""] };
 
-  const maxStringLength = 80;
+  const maxStringLength = 750;
   const { name, type, min_value, max_value, values: catergories } = values;
 
   const nameErrors = validateString(name, "name", slotNames, mode, EDIT_MODE);
@@ -175,7 +175,7 @@ export const validateStory = (values, storyDescriptions, mode, EDIT_MODE) => {
 
   const { description, steps } = values;
 
-  const maxStringLength = 80;
+  const maxStringLength = 750;
 
   const descriptionErrors = validateString(
     description,
